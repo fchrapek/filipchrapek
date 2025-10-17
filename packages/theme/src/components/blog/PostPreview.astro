@@ -4,11 +4,14 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	post: CollectionEntry<"post">;
+	post: CollectionEntry<"post"> | CollectionEntry<"artykul">;
 	withDesc?: boolean;
 };
 
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
+
+// Determine the base path based on collection
+const basePath = post.collection === "artykul" ? "/artykuly/" : "/posts/";
 ---
 
 <FormattedDate
@@ -17,7 +20,7 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 />
 <Tag>
 	{post.data.draft && <span class="post-preview__draft-label">(Draft) </span>}
-	<a class="post-preview__link" href={`/posts/${post.id}/`}>
+	<a class="post-preview__link" href={`${basePath}${post.id}/`}>
 		{post.data.title}
 	</a>
 </Tag>

@@ -122,7 +122,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 					<ul class="tags-section__list">
 						{uniqueTags.map((tag) => (
 							<li>
-								<a class="tags-section__tag" href={`/tags/${tag}/`}>
+								<a class="tags-section__tag" href={`/tagi/${tag}/`}>
 									<span aria-hidden="true">#</span>
 									<span class="sr-only">View all posts with the tag</span>
 									{tag}
@@ -131,7 +131,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 						))}
 					</ul>
 					<span class="tags-section__view-all">
-						<a class="tags-section__view-all" href="/tags/">
+						<a class="tags-section__view-all" href="/tagi/">
 							View all <span aria-hidden="true">→</span>
 							<span class="sr-only">blog tags</span>
 						</a>

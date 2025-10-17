@@ -4,12 +4,15 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	note: CollectionEntry<"note">;
+	note: CollectionEntry<"note"> | CollectionEntry<"notatka">;
 	isPreview?: boolean | undefined;
 };
 
 const { as: Tag = "div", note, isPreview = false } = Astro.props;
 const { Content } = await render(note);
+
+// Determine the base path based on collection
+const basePath = note.collection === "notatka" ? "/notatki/" : "/notes/";
 ---
 
 <article
@@ -19,7 +22,7 @@ const { Content } = await render(note);
 	<Tag class="section__title" class:list={{ "section__title--small": isPreview }}>
 		{
 			isPreview ? (
-				<a href={`/notes/${note.id}/`} style="text-decoration: underline; text-underline-offset: 2px">
+				<a href={`${basePath}${note.id}/`} style="text-decoration: underline; text-underline-offset: 2px">
 					{note.data.title}
 				</a>
 			) : (
