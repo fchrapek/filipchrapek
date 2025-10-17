@@ -9,3 +9,7 @@ cmds = ["pnpm build:en"]
 
 [start]
 cmd = "cd packages/site-en && pnpm preview --host 0.0.0.0 --port 3000"
+
+[staticAssets]
+# Tell Nixpacks where the built static files are located
+dir = "packages/site-en/dist"
