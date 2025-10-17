@@ -56,15 +56,4 @@ const tag = defineCollection({
 	}),
 });
 
-const page = defineCollection({
-	loader: glob({ base: "./src/content", pattern: "**/pages/**/*.{md,mdx}" }),
-	schema: z.object({
-		title: z.string(),
-		description: z.string(),
-		pinnedPostsTitle: z.string().optional(),
-		postsTitle: z.string().optional(),
-		notesTitle: z.string().optional(),
-	}),
-});
-
-export const collections = { post, note, tag, page };
+export const collections = { post, note, tag };

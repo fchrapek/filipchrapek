@@ -1,0 +1,30 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+  description: "Samouczek, generalista, wiecznie ciekawy freelancer",
+  title: "O mnie",
+};
+---
+
+<PageLayout meta={meta}>
+  <h1
+    class="section__title section__title--large"
+    style="margin-block-end: var(--space-12)"
+  >
+    O mnie
+  </h1>
+  <div class="prose prose--sm">
+    <p>Samouczek, generalista, wiecznie ciekawy freelancer.</p>
+    <p>
+      Od lat skupiam się na web developmencie, designie we wszystkich smakach 
+      i produktywności bez 'guru' bzdur.
+    </p>
+
+    <p>
+      Skontaktuj się ze mną: <a href="mailto:hello@filipchrapek.com" target="_blank"
+        >hello@filipchrapek.com</a
+      >
+    </p>
+  </div>
+</PageLayout>
