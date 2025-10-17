@@ -1,0 +1,28 @@
+/* ============================================
+   PAGINATOR COMPONENT
+   ============================================ */
+
+.paginator {
+	display: flex;
+	align-items: center;
+	gap: var(--space-16);
+	margin-block-start: var(--space-32);
+}
+
+.paginator__link {
+	padding-block: var(--space-2);
+	color: var(--color-text);
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: var(--color-accent);
+	}
+
+	&--prev {
+		margin-inline-end: auto;
+	}
+
+	&--next {
+		margin-inline-start: auto;
+	}
+}

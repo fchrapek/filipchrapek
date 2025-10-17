@@ -1,0 +1,39 @@
+/* ============================================
+   POST PREVIEW COMPONENT
+   ============================================ */
+
+
+.post-preview__date {
+	min-width: 7.5rem;
+	font-weight: var(--font-semibold);
+	color: var(--color-gray-600);
+
+	html[data-theme="dark"] & {
+		color: var(--color-gray-400);
+	}
+}
+
+.post-preview__draft-label {
+	color: var(--color-red-500);
+}
+
+.post-preview__link {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-color: transparent;
+	transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+
+	&:hover {
+		text-decoration-color: var(--color-link);
+		text-decoration-thickness: 2px;
+	}
+}
+
+.post-preview__description {
+	font-style: italic;
+	display: -webkit-box;
+	line-clamp: 3;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}

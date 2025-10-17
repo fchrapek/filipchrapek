@@ -1,0 +1,46 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+import FormattedDate from "@/components/FormattedDate.astro";
+import type { HTMLTag, Polymorphic } from "astro/types";
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
+	note: CollectionEntry<"note">;
+	isPreview?: boolean | undefined;
+};
+
+const { as: Tag = "div", note, isPreview = false } = Astro.props;
+const { Content } = await render(note);
+---
+
+<article
+	class:list={[isPreview && "note-preview"]}
+	data-pagefind-body={isPreview ? false : true}
+>
+	<Tag class="section__title" class:list={{ "section__title--small": isPreview }}>
+		{
+			isPreview ? (
+				<a href={`/notes/${note.id}/`} style="text-decoration: underline; text-underline-offset: 2px">
+					{note.data.title}
+				</a>
+			) : (
+				<>{note.data.title}</>
+			)
+		}
+	</Tag>
+	<FormattedDate
+		dateTimeOptions={{
+			hour: "2-digit",
+			minute: "2-digit",
+			year: "2-digit",
+			month: "2-digit",
+			day: "2-digit",
+		}}
+		date={note.data.publishDate}
+	/>
+	<div
+		class="note-content prose prose--sm"
+		class:list={{ "note-content--preview": isPreview }}
+	>
+		<Content />
+	</div>
+</article>

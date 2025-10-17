@@ -1,0 +1,70 @@
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
+
+function removeDupsAndLowerCase(array: string[]) {
+	return [...new Set(array.map((str) => str.toLowerCase()))];
+}
+
+const titleSchema = z.string().max(100);
+
+const baseSchema = z.object({
+	title: titleSchema,
+});
+
+const artykul = defineCollection({
+	loader: glob({ base: "./src/content/artykul", pattern: "**/*.{md,mdx}" }),
+	schema: ({ image }) =>
+		baseSchema.extend({
+			description: z.string(),
+			coverImage: z
+				.object({
+					alt: z.string(),
+					src: image(),
+				})
+				.optional(),
+			draft: z.boolean().default(false),
+			ogImage: z.string().optional(),
+			tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+			publishDate: z
+				.string()
+				.or(z.date())
+				.transform((val) => new Date(val)),
+			updatedDate: z
+				.string()
+				.optional()
+				.transform((str) => (str ? new Date(str) : undefined)),
+			pinned: z.boolean().default(false),
+		}),
+});
+
+const notatka = defineCollection({
+	loader: glob({ base: "./src/content/notatka", pattern: "**/*.{md,mdx}" }),
+	schema: baseSchema.extend({
+		description: z.string().optional(),
+		publishDate: z
+			.string()
+			.datetime({ offset: true }) // Ensures ISO 8601 format with offsets allowed (e.g. "2024-01-01T00:00:00Z" and "2024-01-01T00:00:00+02:00")
+			.transform((val) => new Date(val)),
+	}),
+});
+
+const tag = defineCollection({
+	loader: glob({ base: "./src/content/tag", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		title: titleSchema.optional(),
+		description: z.string().optional(),
+	}),
+});
+
+const page = defineCollection({
+	loader: glob({ base: "./src/content", pattern: "**/pages/**/*.{md,mdx}" }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		pinnedPostsTitle: z.string().optional(),
+		postsTitle: z.string().optional(),
+		notesTitle: z.string().optional(),
+	}),
+});
+
+export const collections = { artykul, notatka, tag, page };

@@ -1,0 +1,52 @@
+/* ============================================
+   COLOR TOKENS
+   ============================================ */
+
+:root {
+	/* Base colors */
+	--color-bg: oklch(98.48% 0 0);
+	--color-text: oklch(26.99% 0.0096 235.05);
+	--color-link: oklch(55.44% 0.0431 185.69);
+	--color-accent: oklch(55.27% 0.195 19.06);
+	--color-accent-2: oklch(18.15% 0 0);
+	--color-quote: oklch(55.27% 0.195 19.06);
+
+	/* Semantic grays */
+	--color-gray-100: oklch(98% 0 0);
+	--color-gray-200: oklch(95% 0 0);
+	--color-gray-300: oklch(88% 0 0);
+	--color-gray-400: oklch(70% 0 0);
+	--color-gray-500: oklch(50% 0 0);
+	--color-gray-600: oklch(40% 0 0);
+	--color-gray-700: oklch(30% 0 0);
+	--color-gray-800: oklch(20% 0 0);
+
+	/* Zinc colors for UI elements */
+	--color-zinc-100: oklch(97% 0 0);
+	--color-zinc-200: oklch(94% 0 0);
+	--color-zinc-300: oklch(87% 0 0);
+	--color-zinc-400: oklch(68% 0 0);
+	--color-zinc-500: oklch(48% 0 0);
+	--color-zinc-700: oklch(28% 0 0);
+	--color-zinc-800: oklch(18% 0 0);
+
+	/* Admonition colors */
+	--color-blue-400: oklch(65% 0.15 240);
+	--color-lime-500: oklch(70% 0.15 130);
+	--color-purple-400: oklch(65% 0.15 290);
+	--color-orange-400: oklch(70% 0.15 50);
+	--color-red-500: oklch(60% 0.20 25);
+}
+
+/* Dark theme */
+html[data-theme="dark"] {
+	--color-bg: oklch(23.64% 0.0045 248);
+	--color-text: oklch(83.54% 0 264);
+	--color-link: oklch(70.44% 0.1133 349);
+	--color-accent: oklch(70.91% 0.1415 163.7);
+	--color-accent-2: oklch(94.66% 0 0);
+	--color-quote: oklch(94.8% 0.106 136.49);
+
+	--color-gray-600: oklch(70% 0 0);
+	--color-gray-400: oklch(60% 0 0);
+}

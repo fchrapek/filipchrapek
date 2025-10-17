@@ -1,0 +1,74 @@
+/* ============================================
+   MASTHEAD COMPONENT (Post Header)
+   ============================================ */
+
+
+.masthead__cover {
+	margin-block-end: var(--space-16);
+	aspect-ratio: 16 / 9;
+}
+
+.masthead__draft-label {
+	font-size: var(--text-base);
+	color: var(--color-red-500);
+}
+
+.masthead__title {
+	font-size: var(--text-2xl);
+	font-weight: var(--font-semibold);
+	color: var(--color-accent-2);
+}
+
+.masthead__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-3) var(--space-8);
+}
+
+.masthead__date {
+	font-weight: var(--font-semibold);
+}
+
+.masthead__updated {
+	padding: var(--space-1) var(--space-8);
+	background-color: color-mix(in srgb, var(--color-quote) 5%, transparent);
+	color: var(--color-quote);
+	border-radius: 0.5rem;
+}
+
+.masthead__updated-date {
+	margin-inline-start: var(--space-1);
+}
+
+.masthead__tags {
+	margin-block-start: var(--space-8);
+}
+
+.masthead__tags-icon {
+	display: inline-block;
+	width: 1.5rem;
+	height: 1.5rem;
+	vertical-align: middle;
+}
+
+.masthead__tag {
+	display: contents;
+}
+
+.masthead__tag-link {
+	display: inline-block;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-color: transparent;
+	transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+
+	&::before {
+		content: '#';
+	}
+
+	&:hover {
+		text-decoration-color: var(--color-link);
+		text-decoration-thickness: 2px;
+	}
+}

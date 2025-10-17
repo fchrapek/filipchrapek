@@ -1,0 +1,17 @@
+{
+	"name": "site-en",
+	"type": "module",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"postbuild": "pagefind --site dist",
+		"preview": "astro preview",
+		"check": "astro check"
+	},
+	"devDependencies": {
+		"@iconify-json/mdi": "^1.2.2"
+	}
+}

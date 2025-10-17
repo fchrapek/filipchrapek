@@ -1,0 +1,47 @@
+/* ============================================
+   SOCIAL LIST COMPONENT
+   ============================================ */
+
+.social-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: var(--space-16);
+}
+
+.social-list__label {
+	margin: 0;
+}
+
+.social-list__items {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	gap: var(--space-16);
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	@media (min-width: 40rem) {
+		flex: initial;
+	}
+}
+
+.social-list__item {
+	display: flex;
+}
+
+.social-list__link {
+	display: inline-block;
+	color: var(--color-text);
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: var(--color-link);
+	}
+}
+
+.social-list__icon {
+	width: 2rem;
+	height: 2rem;
+}

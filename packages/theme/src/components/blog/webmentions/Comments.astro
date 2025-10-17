@@ -1,0 +1,87 @@
+---
+import { Image } from "astro:assets";
+import type { WebmentionsChildren } from "@/types";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	mentions: WebmentionsChildren[];
+}
+
+const { mentions } = Astro.props;
+
+const validComments = ["mention-of", "in-reply-to"];
+
+const comments = mentions.filter(
+	(mention) => validComments.includes(mention["wm-property"]) && mention.content?.text,
+);
+---
+
+{
+	!!comments.length && (
+		<div>
+			<p class="webmentions-comments__count">
+				<strong>{comments.length}</strong> Mention{comments.length > 1 ? "s" : ""}
+			</p>
+			<ul class="webmentions-comments__list" role="list">
+				{comments.map((mention) => (
+					<li class="webmentions-comments__item p-comment h-cite">
+						{mention.author?.photo && mention.author.photo !== "" ? (
+							mention.author.url && mention.author.url !== "" ? (
+								<a
+									class="webmentions-comments__avatar-link u-author"
+									href={mention.author.url}
+									rel="noreferrer"
+									target="_blank"
+									title={mention.author.name}
+								>
+									<Image
+										alt={mention.author?.name}
+										class="webmentions-comments__avatar u-photo"
+										height={48}
+										src={mention.author?.photo}
+										width={48}
+									/>
+								</a>
+							) : (
+								<Image
+									alt={mention.author?.name}
+									class="webmentions-comments__avatar u-photo"
+									height={48}
+									src={mention.author?.photo}
+									width={48}
+								/>
+							)
+						) : null}
+						<div class="webmentions-comments__content">
+							<div class="webmentions-comments__header p-author h-card">
+								<p class="webmentions-comments__author p-name">
+									{mention.author?.name}
+								</p>
+								<a
+									aria-labelledby="cmt-source"
+									class="webmentions-comments__source-link u-url"
+									href={mention.url}
+									rel="noreferrer"
+									target="_blank"
+								>
+									<span class="sr-only" id="cmt-source">
+										Visit the source of this webmention
+									</span>
+									<Icon
+										aria-hidden="true"
+										class="webmentions-comments__source-icon"
+										focusable="false"
+										name="mdi:open-in-new"
+									/>
+								</a>
+							</div>
+							<p class="webmentions-comments__text">
+								{mention.content?.text}
+							</p>
+						</div>
+					</li>
+				))}
+			</ul>
+		</div>
+	)
+}

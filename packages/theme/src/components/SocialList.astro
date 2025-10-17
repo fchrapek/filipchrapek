@@ -1,0 +1,42 @@
+---
+import { Icon } from "astro-icon/components";
+
+/** 
+	Uses https://www.astroicon.dev/getting-started/
+	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
+	Only installed pack is: @iconify-json/mdi
+*/
+const socialLinks: {
+	friendlyName: string;
+	isWebmention?: boolean;
+	link: string;
+	name: string;
+}[] = [
+	{
+		friendlyName: "Github",
+		link: "https://github.com/chrismwilliams/astro-cactus",
+		name: "mdi:github",
+	},
+];
+---
+
+<div class="social-list">
+	<p class="social-list__label">Find me on</p>
+	<ul class="social-list__items">
+		{
+			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
+				<li class="social-list__item">
+					<a
+						class="social-list__link"
+						href={link}
+						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
+						target="_blank"
+					>
+						<Icon aria-hidden="true" class="social-list__icon" focusable="false" name={name} />
+						<span class="sr-only">{friendlyName}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</div>

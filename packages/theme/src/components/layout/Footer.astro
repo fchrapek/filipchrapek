@@ -1,0 +1,25 @@
+---
+import { menuLinks, siteConfig } from "@/site.config";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+	<div class="footer__copyright">
+		&copy; {siteConfig.author}
+		{year}.<span class="footer__site-name">&nbsp;🚀&nbsp;{siteConfig.title}</span>
+	</div>
+	<nav
+		aria-labelledby="footer_links"
+		class="footer__nav"
+	>
+		<p id="footer_links" class="sr-only">More on this site</p>
+		{
+			menuLinks.map((link) => (
+				<a class="footer__nav-link" href={link.path}>
+					{link.title}
+				</a>
+			))
+		}
+	</nav>
+</footer>

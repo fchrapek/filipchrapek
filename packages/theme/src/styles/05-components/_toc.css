@@ -1,0 +1,63 @@
+/* ============================================
+   TABLE OF CONTENTS COMPONENT
+   ============================================ */
+
+.toc {
+	@media (min-width: 64rem) {
+		position: sticky;
+		inset-block-start: var(--space-48);
+		order: 2;
+		flex-basis: 16rem;
+		margin-inline-end: -8rem;
+	}
+}
+
+.toc__summary {
+	font-size: var(--text-lg);
+	font-weight: var(--font-semibold);
+	color: var(--color-accent-2);
+	cursor: pointer;
+
+	&::marker {
+		transition: color 0.2s ease;
+	}
+
+	&:hover::marker {
+		color: var(--color-accent);
+	}
+}
+
+.toc__nav {
+	margin-inline-start: var(--space-16);
+
+	@media (min-width: 64rem) {
+		width: 100%;
+	}
+}
+
+.toc__list {
+	margin-block-start: var(--space-16);
+	list-style: none;
+	padding: 0;
+}
+
+.toc__item {
+	margin-block: var(--space-8);
+}
+
+.toc__link {
+	color: var(--color-text);
+	text-decoration: none;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: var(--color-accent);
+	}
+}
+
+.toc__sublist {
+	margin-inline-start: var(--space-16);
+	margin-block-start: var(--space-8);
+	list-style: none;
+	padding: 0;
+}
