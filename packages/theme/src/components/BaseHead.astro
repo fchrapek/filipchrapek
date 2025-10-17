@@ -12,6 +12,16 @@ const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+
+// Determine RSS feed paths based on site language
+const isPolish = siteConfig.lang === "pl-PL";
+const blogRssPath = isPolish ? "/rss.xml" : "/rss.xml";
+const notesRssPath = isPolish ? "/notatki/rss.xml" : "/notes/rss.xml";
+
+// Automatic hreflang for EN ↔ PL sites
+const alternateSite = isPolish 
+  ? { lang: "en-GB", url: "https://filipchrapek.com" }
+  : { lang: "pl-PL", url: "https://filipchrapek.pl" };
 ---
 
 <meta charset="utf-8" />
@@ -35,6 +45,11 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
 
+{/* Hreflang tags for multilingual SEO */}
+<link rel="alternate" hreflang={siteConfig.lang} href={canonicalURL.href} />
+<link rel="alternate" hreflang={alternateSite.lang} href={`${alternateSite.url}${Astro.url.pathname}`} />
+<link rel="alternate" hreflang="x-default" href={canonicalURL.href} />
+
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
 <meta content={description} name="description" />
@@ -47,6 +62,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content={canonicalURL} property="og:url" />
 <meta content={siteConfig.title} property="og:site_name" />
 <meta content={siteConfig.ogLocale} property="og:locale" />
+<meta content={isPolish ? "en_GB" : "pl_PL"} property="og:locale:alternate" />
 <meta content={socialImageURL} property="og:image" />
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />
@@ -70,8 +86,8 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <link href="/sitemap-index.xml" rel="sitemap" />
 
 {/* RSS auto-discovery */}
-<link href="/rss.xml" title="Blog" rel="alternate" type="application/rss+xml" />
-<link href="/notes/rss.xml" title="Notes" rel="alternate" type="application/rss+xml" />
+<link href={blogRssPath} title="Blog" rel="alternate" type="application/rss+xml" />
+<link href={notesRssPath} title="Notes" rel="alternate" type="application/rss+xml" />
 
 {/* Webmentions */}
 {

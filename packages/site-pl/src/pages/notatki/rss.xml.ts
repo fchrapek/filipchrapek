@@ -3,7 +3,7 @@ import rss from "@astrojs/rss";
 import { siteConfig } from "@/site.config";
 
 export const GET = async () => {
-	const notes = await getCollection("note");
+	const notes = await getCollection("notatka");
 
 	return rss({
 		title: siteConfig.title,
@@ -12,7 +12,7 @@ export const GET = async () => {
 		items: notes.map((note) => ({
 			title: note.data.title,
 			pubDate: note.data.publishDate,
-			link: `notes/${note.id}/`,
+			link: `notatki/${note.id}/`,
 		})),
 	});
 };

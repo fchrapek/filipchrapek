@@ -4,11 +4,12 @@ import { type CollectionEntry, render } from "astro:content";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
+import StructuredData from "@/components/StructuredData.astro";
 
 import BaseLayout from "./Base.astro";
 
 interface Props {
-	post: CollectionEntry<"post">;
+	post: CollectionEntry<"post"> | CollectionEntry<"artykul">;
 }
 
 const { post } = Astro.props;
@@ -27,6 +28,7 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 		title,
 	}}
 >
+	<StructuredData post={post} type="article" />
 	<article class="blog-post" data-pagefind-body>
 		<div id="blog-hero" class="blog-post__hero"><Masthead content={post} readingTime={readingTime} /></div>
 		<div class="blog-post__container">
