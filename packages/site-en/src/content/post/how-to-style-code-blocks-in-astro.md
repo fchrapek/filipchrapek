@@ -2,7 +2,7 @@
 title: Write your code like a decent human being – how Astro Expressive Code makes your snippets beautiful
 description: "Have you ever looked at your fresh block of code and wanted to gouge your freaking eyes out? Yeah, me neither. I've been using Astro Expressive Code, cause I'm not an idiot."
 publishDate: "30 June 2025"
-tags: ["astro", "expressive code", "presentation", "code"]
+tags: ["astro", "expressive-code", "presentation", "code"]
 ---
 
 Have you ever looked at a block of code and wanted to gouge your freaking eyes out?
@@ -15,9 +15,11 @@ If you're still presenting your code like an ape with just the basic styling, th
 
 BUT, worry no more, cause today I'll show you how with just a couple of lines of code you can stop being one (an idiot, I mean).
 
+![Don't be an idiot](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOW56aWpiMHBpMWx3YWxzMzJmZDU1ZGZ5M2h2Y3c5YnE1ZGJ6cGFvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/pVDt8O8GIqDLenIsQe/giphy.gif)
+
 ## Introducing Astro Expressive Code
 
-The beauty of Expressive Code is that it's built specifically for Astro and gives you professional-looking code blocks with minimal setup. Line numbers, syntax highlighting, line markers, titles – all of that jazz works out of the box.
+The beauty of Expressive Code is that it integrates seamlessly with Astro and gives you professional-looking code blocks with minimal setup. Line numbers, syntax highlighting, line markers, titles – all of that jazz works out of the box.
 
 **Let's make your code look pretty in no time!**
 
@@ -143,6 +145,8 @@ pnpm dev
 ## The result
 
 Your code blocks will look professional, readable, and actually pleasant to look at. No more ugly, unstyled code that makes people want to close the tab.
+
+![Professional doggo](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzhqaW90ejNya29wNmZlNnp6emdwZHh0MGR5aGh5MHJuejA2MXFiZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fbyGEE9mlqDyE/giphy.gif)
 
 Expressive Code handles:
 - **Syntax highlighting** for dozens of languages

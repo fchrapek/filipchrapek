@@ -1,7 +1,7 @@
 ---
 title: Be cool and (un)productive with Notion and why I stopped using it
 description: "Deadlines are piling up, and you need a perfect tool to organize your life because you're a hot mess? Let's jump into Notion and do freaking nothing!"
-publishDate: "5 October 2025"
+publishDate: "5 September 2025"
 tags: ["notion", "productivity", "obsidian"]
 ---
 
@@ -28,6 +28,8 @@ Ah, yes—guilty.
 I can't count the hours wasted on either polishing the perfect tool/system/whatever or searching for the best template, only to use it for a couple of days and then find out I don't really like it (a usual scenario when using other folks' templates) or realizing that my perfect tool needs further adjusting to be more PERFECT.
 
 Obviously, the cycle has no end.
+
+![Just stop it](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOW12Y2lla21pdWI3am5jY3g0cWxkZmN2M202Y3ZscnBxZ3gya240NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1zSz5MVw4zKg0/giphy.gif)
 
 As a person who likes to experiment and always looks for improvements, making whatever tool faster, more efficient, and more ✨productive✨, I was easily lost with the possible options (or stuck scrolling through all the available templates, as there is a template for pretty much everything).
 
@@ -78,6 +80,8 @@ The difference is that all of the choices aren't dumped on your face all at once
 :::tip[Start simple]
 With tools like Obsidian, start with the basics and only add complexity when you actually need it. Not when you think it looks cool.
 :::
+
+![Keep it simple](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzI5OThsNWJuYjg4ODMwcXB1enp0dmQzbWN4bjhuZXM5OHhmNGU0ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ewfnrL0YatfyQHuZNa/giphy.gif)
 
 ## Good bye Notion
 

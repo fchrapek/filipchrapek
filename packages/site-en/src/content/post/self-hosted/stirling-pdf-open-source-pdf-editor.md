@@ -1,13 +1,18 @@
 ---
 title: "Stirling-PDF – (almost) perfect tool for editing those damn PDFs that won't let you edit them"
 description: "Stirling-PDF is an open-source tool that does (almost) everything you might need with PDFs. It's pretty, responsive, and local. In short, it's very nice. And boom, another middle finger goes to Adobe (bleh)."
-publishDate: "16 October 2025"
-tags: ["pdf", "self-hosted", "open source"]
+publishDate: "5 October 2025"
+tags: ["pdf", "self-hosted", "open-source"]
 ---
 
 ## Stirling-PDF is awesome
 
-[Stirling-PDF](https://stirlingpdf.io/) is an open-source tool that does (almost) everything you might need with PDFs. It's pretty, responsive, and local. In short, it's very nice. And boom, another middle finger goes to Adobe (bleh).
+[Stirling-PDF](https://stirlingpdf.io/) is an open-source tool that does (almost) everything you might need with PDFs. It's pretty, responsive, and local. In short, it's very nice.
+
+And boom, another middle finger goes to Adobe (bleh).
+
+![Go away Adobe](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2RhcjJucmRyMWN0cjd6ZzdraHpndGt4OHEwd3BhaGU4a282eHNhMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l4Fsly71gEOtGvLQA/giphy.gif)
+
 ### What Stirling-PDF can do
 
 **Basic operations:**
@@ -40,13 +45,13 @@ Unfortunately, the most useful feature for me, which is **editing existing PDF t
 I can't count how many times I had to quickly fix a typo or some invoice data. In those moments, I still have to reach for other tools or (what I do most often) export to Word, fix it, and generate a PDF from scratch.
 ## Self-hosted Stirling-PDF on your VPS
 
-The moment you break free from the chains placed by a greedy, crappy shared hosting provider is undoubtedly a breakthrough moment in a person's life.
+The moment you break free from the chains imposed by a greedy, crappy shared hosting provider is undoubtedly a breakthrough moment in a person's life.
 
 Suddenly, the entire virtual world stands open before you, and the only limit is your imagination. You feel adrenaline rushing through your veins, and in the distance, you hear the siren song of Linux commands. Time to put on gloves, take off your pants, and type the secret, elven runes `ssh`...
 
 3 hours and 88 commands later, you close the terminal, go for a walk, and consider becoming a mobile massage therapist.
 
-:)
+![Normal Linux experience](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnVnN2tyYWNvMTJjNHNlb3N6dm1tbWkwNDE1bGlzbTE1ODRuNnFlaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Wq4XuPC9gFzR6/giphy.gif)
 
 This hilarious, almost comically genius insertion above has nothing to do with reality, and if you can just read and have seen a terminal at least once, you'll handle it no problem (especially now, when you basically don't even have to read because an LLM does everything for you).
 
@@ -75,12 +80,11 @@ Make sure your VPS has Docker installed, and let's get started.
 **Step by step:**
 
 1. Log into your server via `ssh`
-2. Create a directory `mkdir -p ~/stirling-pdf` and navigate to it `cd ~/stirling-pdf`
+2. Create a directory and navigate to it: `mkdir -p ~/stirling-pdf && cd ~/stirling-pdf`
 3. Create `docker-compose` file with `nano docker-compose.yml`
 4. Paste the config:
 
 ```yml
-version: '3.3'
 services:
   stirling-pdf:
     image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
@@ -95,7 +99,7 @@ services:
       - ./pipeline:/pipeline/
 
     environment:
-      - DOCKER_ENABLE_SECURITY=false
+      - DOCKER_ENABLE_SECURITY=false  # Disables authentication - only use on private networks
       - DISABLE_ADDITIONAL_FEATURES=false
       - LANGS=en_GB,pl_PL
     restart: unless-stopped
@@ -146,7 +150,7 @@ docker compose up -d
 Now you can access Stirling via: `http://your-server-ip:40116`
 
 :::tip[ ]
-If you're using Stirling only locally (to integrate with other apps on the same server), you don't need to open any external ports. Docker containers can see each other by name, so you can use `http://stirling-pdf:8080` instead of localhost.
+If you're using Stirling only locally (to integrate with other apps on the same server), you don't need to open any external ports. Docker containers on the same network can communicate by container name, so other containers can use `http://stirling-pdf:8080` to access it.
 :::
 
 ## Summary
