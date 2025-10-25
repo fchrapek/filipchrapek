@@ -23,11 +23,10 @@
 .header__logo-link {
 	display: inline-flex;
 	align-items: center;
-	filter: grayscale(1);
-	transition: filter 0.2s ease;
+	transition: opacity 0.2s ease;
 
 	&:hover {
-		filter: grayscale(0);
+		opacity: 0.8;
 	}
 
 	@media (min-width: 40rem) {
@@ -50,13 +49,23 @@
 	}
 }
 
-.header__title {
-	font-size: var(--text-xl);
-	font-weight: var(--font-bold);
+.header__profile {
+	width: 2rem;
+	height: 2rem;
+	margin-inline-end: var(--space-12);
+	border-radius: 50%;
+	object-fit: cover;
 
 	@media (min-width: 40rem) {
-		font-size: var(--text-2xl);
+		width: 3rem;
+		height: 3rem;
 	}
+}
+
+.header__title {
+	font-size: var(--fluid-text-h3);
+	line-height: var(--leading-h3);
+	font-weight: var(--font-medium);
 }
 
 .header__nav {
@@ -116,7 +125,7 @@
 	}
 
 	&[aria-current="page"] {
-		font-weight: var(--font-semibold);
+		font-weight: var(--font-medium);
 	}
 }
 

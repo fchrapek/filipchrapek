@@ -27,8 +27,9 @@ body {
 	padding-block-start: var(--space-64);
 	background-color: var(--color-bg);
 	color: var(--color-text);
-	font-family: var(--font-mono);
-	font-size: var(--text-sm);
+	font-family: var(--font-sans);
+	font-size: var(--fluid-text-base);
+	line-height: var(--leading-base);
 	font-weight: var(--font-normal);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

@@ -120,7 +120,7 @@
 
 .webmentions-comments__author {
 	margin-block: 0;
-	font-weight: var(--font-semibold);
+	font-weight: var(--font-medium);
 	color: var(--color-accent-2);
 	display: -webkit-box;
 	line-clamp: 1;

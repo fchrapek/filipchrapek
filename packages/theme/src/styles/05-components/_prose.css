@@ -31,7 +31,7 @@
 	& h6 {
 		position: relative;
 		color: var(--color-accent-2);
-		font-weight: var(--font-semibold);
+		font-weight: var(--font-medium);
 		line-height: var(--leading-tight);
 		margin-block-start: 1.5em;
 		margin-block-end: 0.5em;
@@ -58,15 +58,18 @@
 	}
 
 	& h1 {
-		font-size: var(--text-3xl);
+		font-size: var(--fluid-text-h1);
+		line-height: var(--leading-h1);
 	}
 
 	& h2 {
-		font-size: var(--text-2xl);
+		font-size: var(--fluid-text-h2);
+		line-height: var(--leading-h2);
 	}
 
 	& h3 {
-		font-size: var(--text-xl);
+		font-size: var(--fluid-text-h3);
+		line-height: var(--leading-h3);
 	}
 
 	/* Paragraphs */
@@ -76,14 +79,14 @@
 
 	/* Strong */
 	& strong {
-		font-weight: var(--font-bold);
+		font-weight: var(--font-medium);
 		color: var(--color-text);
 	}
 
 	/* Code */
 	& code {
 		font-family: var(--font-mono);
-		font-size: var(--text-sm);
+		font-size: var(--fluid-text-small);
 		color: var(--color-text);
 		border: 1px dotted #666;
 		border-radius: 2px;
@@ -132,7 +135,7 @@
 	& thead th {
 		padding: 0.5em;
 		text-align: start;
-		font-weight: var(--font-bold);
+		font-weight: var(--font-medium);
 		color: var(--color-accent-2);
 	}
 
@@ -200,7 +203,7 @@
 /* Prose size variants */
 .prose--sm {
 	& code {
-		font-size: var(--text-sm);
+		font-size: var(--fluid-text-small);
 		font-weight: var(--font-normal);
 	}
 }

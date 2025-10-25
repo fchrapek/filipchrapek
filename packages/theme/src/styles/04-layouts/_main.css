@@ -12,8 +12,9 @@
 
 .section__title {
 	margin-block-end: var(--space-24);
-	font-size: var(--text-xl);
-	font-weight: var(--font-semibold);
+	font-size: var(--fluid-text-h2);
+	line-height: var(--leading-h2);
+	font-weight: var(--font-medium);
 	color: var(--color-accent-2);
 
 	& a {
@@ -22,11 +23,13 @@
 }
 
 .section__title--large {
-	font-size: var(--text-2xl);
+	font-size: var(--fluid-text-h1);
+	line-height: var(--leading-h1);
 }
 
 .section__title--small {
-	font-size: var(--text-base);
+	font-size: var(--fluid-text-base);
+	line-height: var(--leading-base);
 }
 
 /* List layouts */

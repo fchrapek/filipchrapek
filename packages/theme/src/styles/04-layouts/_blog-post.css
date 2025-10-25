@@ -42,7 +42,7 @@
 	background-color: var(--color-zinc-200);
 	border: 2px solid transparent;
 	border-radius: 9999px;
-	font-size: var(--text-3xl);
+	font-size: var(--fluid-text-h1);
 	cursor: pointer;
 	opacity: 0;
 	transform: translateY(7rem);

@@ -2,28 +2,46 @@
    TYPOGRAPHY TOKENS
    ============================================ */
 
+@font-face {
+	font-family: "Switzer";
+	src: url("/src/assets/Switzer-Variable.woff2") format("woff2-variations");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Switzer";
+	src: url("/src/assets/Switzer-VariableItalic.woff2") format("woff2-variations");
+	font-weight: 100 900;
+	font-style: italic;
+	font-display: swap;
+}
+
 :root {
 	/* Font families */
-	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-sans: "Switzer", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-	/* Font sizes */
-	--text-xs: 0.75rem;      /* 12px */
-	--text-sm: 0.875rem;     /* 14px */
-	--text-base: 1rem;       /* 16px */
-	--text-lg: 1.125rem;     /* 18px */
-	--text-xl: 1.25rem;      /* 20px */
-	--text-2xl: 1.5rem;      /* 24px */
-	--text-3xl: 1.875rem;    /* 30px */
-	--text-4xl: 2.25rem;     /* 36px */
+	/* Font sizes (static) */
+	--text-display: 3.375rem;  /* 54px */
+	--text-h1: 2.5rem;         /* 40px */
+	--text-h2: 2rem;           /* 32px */
+	--text-h3: 1.5rem;         /* 24px */
+	--text-h4: 1.25rem;        /* 20px */
+	--text-h5: 1.125rem;       /* 18px */
+	--text-base: 1rem;         /* 16px */
+	--text-small: 0.875rem;    /* 14px */
 
 	/* Line heights */
-	--leading-none: 1;
-	--leading-tight: 1.25;
-	--leading-snug: 1.375;
-	--leading-normal: 1.5;
-	--leading-relaxed: 1.625;
-	--leading-loose: 2;
+	--leading-display: 1.1;
+	--leading-h1: 1.1;
+	--leading-h2: 1.2;
+	--leading-h3: 1.3;
+	--leading-h4: 1.4;
+	--leading-h5: 1.5;
+	--leading-base: 1.5;
+	--leading-small: 1.5;
 
 	/* Font weights */
 	--font-normal: 400;

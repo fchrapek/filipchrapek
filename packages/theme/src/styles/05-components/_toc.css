@@ -13,8 +13,9 @@
 }
 
 .toc__summary {
-	font-size: var(--text-lg);
-	font-weight: var(--font-semibold);
+	font-size: var(--fluid-text-h4);
+	line-height: var(--leading-h4);
+	font-weight: var(--font-medium);
 	color: var(--color-accent-2);
 	cursor: pointer;
 
