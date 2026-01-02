@@ -3,61 +3,63 @@
    ============================================ */
 
 .tags-section {
-	margin-block-start: var(--space-400);
+  margin-block-start: var(--space-md);
 }
 
 .tags-section__title {
-	display: flex;
-	align-items: center;
-	gap: var(--space-100);
-	margin-block-end: var(--space-200);
-	font-size: var(--fluid-text-h4);
-	line-height: var(--leading-h4);
-	font-weight: var(--font-medium);
-	color: var(--color-accent-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-block-end: var(--space-sm);
+  font-size: var(--fluid-text-h4);
+  line-height: var(--leading-h4);
+  font-weight: var(--font-medium);
+  color: var(--color-accent-2);
 }
 
 .tags-section__icon {
-	width: 1.5rem;
-	height: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .tags-section__list {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--space-100);
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .tags-section__tag {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-decoration: underline;
-	text-underline-offset: 2px;
-	text-decoration-color: transparent;
-	transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition:
+    text-decoration-color 0.2s ease,
+    text-decoration-thickness 0.2s ease;
 
-	&:hover {
-		text-decoration-color: var(--color-link);
-		text-decoration-thickness: 2px;
-	}
+  &:hover {
+    text-decoration-color: var(--color-link);
+    text-decoration-thickness: 2px;
+  }
 }
 
 .tags-section__view-all {
-	display: block;
-	margin-block-start: var(--space-200);
-	color: var(--color-text);
-	text-decoration: none;
-	transition: color 0.2s ease;
+  display: block;
+  margin-block-start: var(--space-sm);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
 
-	&:hover {
-		color: var(--color-link);
-	}
+  &:hover {
+    color: var(--color-link);
+  }
 
-	@media (min-width: 40rem) {
-		text-align: end;
-	}
+  @media (min-width: 40rem) {
+    text-align: end;
+  }
 }

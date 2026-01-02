@@ -3,56 +3,56 @@
    ============================================ */
 
 .theme-switcher {
-	position: fixed;
-	top: var(--space-200);
-	right: var(--space-200);
-	z-index: 100;
-	display: none;
-	align-items: center;
-	gap: var(--space-100);
-	padding: var(--space-100) var(--space-150);
-	background-color: color-mix(in srgb, var(--color-bg) 90%, transparent);
-	border: 1px solid var(--color-gray-300);
-	border-radius: 0.5rem;
-	backdrop-filter: blur(8px);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background-color: color-mix(in srgb, var(--color-bg) 90%, transparent);
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.5rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-	@media (min-width: 64rem) {
-		display: flex;
-	}
+  @media (min-width: 64rem) {
+    display: flex;
+  }
 
-	html[data-theme="dark"] & {
-		border-color: var(--color-gray-700);
-	}
+  html[data-theme="dark"] & {
+    border-color: var(--color-gray-700);
+  }
 }
 
 .theme-switcher__label {
-	font-size: var(--fluid-text-small);
-	font-weight: var(--font-medium);
-	color: var(--color-text);
+  font-size: var(--fluid-text-small);
+  font-weight: var(--font-medium);
+  color: var(--color-text);
 }
 
 .theme-switcher__select {
-	padding: var(--space-50) var(--space-100);
-	font-family: var(--font-sans);
-	font-size: var(--fluid-text-small);
-	color: var(--color-text);
-	background-color: var(--color-bg);
-	border: 1px solid var(--color-gray-400);
-	border-radius: 0.25rem;
-	cursor: pointer;
-	transition: border-color 0.2s ease;
+  padding: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fluid-text-small);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-gray-400);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
 
-	&:hover {
-		border-color: var(--color-accent-2);
-	}
+  &:hover {
+    border-color: var(--color-accent-2);
+  }
 
-	&:focus {
-		outline: 2px solid var(--color-accent-2);
-		outline-offset: 2px;
-	}
+  &:focus {
+    outline: 2px solid var(--color-accent-2);
+    outline-offset: 2px;
+  }
 
-	html[data-theme="dark"] & {
-		border-color: var(--color-gray-600);
-	}
+  html[data-theme="dark"] & {
+    border-color: var(--color-gray-600);
+  }
 }

@@ -3,62 +3,62 @@
    ============================================ */
 
 .toc {
-	@media (min-width: 64rem) {
-		position: sticky;
-		inset-block-start: var(--space-600);
-		order: 2;
-		flex-basis: 16rem;
-		margin-inline-end: -8rem;
-	}
+  @media (min-width: 64rem) {
+    position: sticky;
+    inset-block-start: var(--space-lg);
+    order: 2;
+    flex-basis: 16rem;
+    margin-inline-end: -8rem;
+  }
 }
 
 .toc__summary {
-	font-size: var(--fluid-text-h4);
-	line-height: var(--leading-h4);
-	font-weight: var(--font-medium);
-	color: var(--color-accent-2);
-	cursor: pointer;
+  font-size: var(--fluid-text-h4);
+  line-height: var(--leading-h4);
+  font-weight: var(--font-medium);
+  color: var(--color-accent-2);
+  cursor: pointer;
 
-	&::marker {
-		transition: color 0.2s ease;
-	}
+  &::marker {
+    transition: color 0.2s ease;
+  }
 
-	&:hover::marker {
-		color: var(--color-accent);
-	}
+  &:hover::marker {
+    color: var(--color-accent);
+  }
 }
 
 .toc__nav {
-	margin-inline-start: var(--space-200);
+  margin-inline-start: var(--space-sm);
 
-	@media (min-width: 64rem) {
-		width: 100%;
-	}
+  @media (min-width: 64rem) {
+    width: 100%;
+  }
 }
 
 .toc__list {
-	margin-block-start: var(--space-200);
-	list-style: none;
-	padding: 0;
+  margin-block-start: var(--space-sm);
+  list-style: none;
+  padding: 0;
 }
 
 .toc__item {
-	margin-block: var(--space-100);
+  margin-block: var(--space-xs);
 }
 
 .toc__link {
-	color: var(--color-text);
-	text-decoration: none;
-	transition: color 0.2s ease;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
 
-	&:hover {
-		color: var(--color-accent);
-	}
+  &:hover {
+    color: var(--color-accent);
+  }
 }
 
 .toc__sublist {
-	margin-inline-start: var(--space-200);
-	margin-block-start: var(--space-100);
-	list-style: none;
-	padding: 0;
+  margin-inline-start: var(--space-sm);
+  margin-block-start: var(--space-xs);
+  list-style: none;
+  padding: 0;
 }

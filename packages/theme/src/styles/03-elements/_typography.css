@@ -9,83 +9,83 @@ h3,
 h4,
 h5,
 h6 {
-	color: var(--color-accent-2);
-	font-weight: var(--font-medium);
+  color: var(--color-accent-2);
+  font-weight: var(--font-medium);
 }
 
 h1 {
-	font-size: var(--fluid-text-h1);
-	line-height: var(--leading-h1);
+  font-size: var(--fluid-text-h1);
+  line-height: var(--leading-h1);
 }
 
 h2 {
-	font-size: var(--fluid-text-h2);
-	line-height: var(--leading-h2);
+  font-size: var(--fluid-text-h2);
+  line-height: var(--leading-h2);
 }
 
 h3 {
-	font-size: var(--fluid-text-h3);
-	line-height: var(--leading-h3);
+  font-size: var(--fluid-text-h3);
+  line-height: var(--leading-h3);
 }
 
 h4 {
-	font-size: var(--fluid-text-h4);
-	line-height: var(--leading-h4);
+  font-size: var(--fluid-text-h4);
+  line-height: var(--leading-h4);
 }
 
 h5 {
-	font-size: var(--fluid-text-h5);
-	line-height: var(--leading-h5);
+  font-size: var(--fluid-text-h5);
+  line-height: var(--leading-h5);
 }
 
 /* Links */
 a {
-	color: var(--color-text);
-	text-decoration: none;
-	transition: color 0.2s ease;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
 
-	&:hover {
-		color: var(--color-link);
-	}
+  &:hover {
+    color: var(--color-link);
+  }
 }
 
 /* Strong */
 strong {
-	font-weight: var(--font-medium);
+  font-weight: var(--font-medium);
 }
 
 /* Code */
 code {
-	font-family: var(--font-mono);
-	font-size: var(--fluid-text-small);
+  font-family: var(--font-mono);
+  font-size: var(--fluid-text-small);
 }
 
 /* Blockquote */
 blockquote {
-	color: var(--color-quote);
-	border-inline-start: 2px solid var(--color-quote);
-	padding-inline-start: var(--space-200);
-	font-style: italic;
+  color: var(--color-quote);
+  border-inline-start: 2px solid var(--color-quote);
+  padding-inline-start: var(--space-sm);
+  font-style: italic;
 }
 
 /* Keyboard */
 kbd {
-	font-family: var(--font-mono);
-	font-size: var(--fluid-text-small);
-	padding: var(--space-50) var(--space-200);
-	border: 1px solid var(--color-gray-400);
-	border-radius: 0.25rem;
-	background-color: var(--color-gray-100);
+  font-family: var(--font-mono);
+  font-size: var(--fluid-text-small);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-gray-400);
+  border-radius: 0.25rem;
+  background-color: var(--color-gray-100);
 
-	html[data-theme="dark"] & {
-		background-color: var(--color-text);
-		color: var(--color-bg);
-	}
+  html[data-theme="dark"] & {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+  }
 }
 
 /* Horizontal rule */
 hr {
-	border: none;
-	border-block-start: 1px dashed var(--color-gray-400);
-	margin-block: var(--space-300);
+  border: none;
+  border-block-start: 1px dashed var(--color-gray-400);
+  margin-block: var(--space-md);
 }
