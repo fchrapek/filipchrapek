@@ -16,9 +16,9 @@
 
   @media (min-width: 40rem) {
     display: grid;
-    grid-template-columns: 4fr 8fr;
+    grid-template-columns: repeat(12, 1fr);
     align-items: center;
-    gap: var(--space-md);
+    column-gap: var(--space-sm);
   }
 }
 
@@ -29,6 +29,10 @@
   html[data-theme="dark"] & {
     color: var(--color-gray-400);
   }
+
+  @media (min-width: 40rem) {
+    grid-column: 1 / 4;
+  }
 }
 
 .post-preview__main {
@@ -36,6 +40,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem; /* 24px */
+
+  @media (min-width: 40rem) {
+    grid-column: 5 / 13;
+  }
 }
 
 .post-preview__title {
