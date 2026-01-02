@@ -17,11 +17,11 @@
 		"check": "astro check"
 	},
 	"dependencies": {
-		"@astrojs/markdown-remark": "^6.3.7",
-		"@astrojs/mdx": "4.3.6",
-		"@astrojs/rss": "4.0.12",
+		"@astrojs/markdown-remark": "^6.3.10",
+		"@astrojs/mdx": "4.3.13",
+		"@astrojs/rss": "4.0.14",
 		"@astrojs/sitemap": "3.6.0",
-		"astro": "5.14.1",
+		"astro": "5.16.6",
 		"astro-expressive-code": "^0.41.3",
 		"astro-icon": "^1.1.5",
 		"astro-robots-txt": "^1.0.0",
@@ -42,7 +42,7 @@
 		"unist-util-visit": "^5.0.0"
 	},
 	"devDependencies": {
-		"@astrojs/check": "^0.9.4",
+		"@astrojs/check": "^0.9.6",
 		"@biomejs/biome": "^2.2.4",
 		"@iconify-json/mdi": "^1.2.2",
 		"@pagefind/default-ui": "^1.4.0",

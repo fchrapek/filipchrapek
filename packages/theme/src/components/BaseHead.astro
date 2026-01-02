@@ -2,6 +2,7 @@
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from "astro:env/client";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
+import { isPolish } from "@/utils/i18n";
 import "@/styles/global.css";
 
 type Props = SiteMeta;
@@ -14,12 +15,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
 
 // Determine RSS feed paths based on site language
-const isPolish = siteConfig.lang === "pl-PL";
-const blogRssPath = isPolish ? "/rss.xml" : "/rss.xml";
-const notesRssPath = isPolish ? "/notatki/rss.xml" : "/notes/rss.xml";
+const isPL = isPolish(siteConfig.lang);
+const blogRssPath = isPL ? "/rss.xml" : "/rss.xml";
+const notesRssPath = isPL ? "/notatki/rss.xml" : "/notes/rss.xml";
 
 // Automatic hreflang for EN ↔ PL sites
-const alternateSite = isPolish 
+const alternateSite = isPL 
   ? { lang: "en-GB", url: "https://filipchrapek.com" }
   : { lang: "pl-PL", url: "https://filipchrapek.pl" };
 ---

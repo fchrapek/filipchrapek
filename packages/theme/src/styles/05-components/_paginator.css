@@ -5,12 +5,12 @@
 .paginator {
 	display: flex;
 	align-items: center;
-	gap: var(--space-16);
-	margin-block-start: var(--space-32);
+	gap: var(--space-200);
+	margin-block-start: var(--space-400);
 }
 
 .paginator__link {
-	padding-block: var(--space-2);
+	padding-block: var(--space-100);
 	color: var(--color-text);
 	transition: color 0.2s ease;
 

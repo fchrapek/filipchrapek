@@ -1,24 +1,24 @@
 ---
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
-import { menuLinks } from "@/site.config";
-import { siteConfig } from "../../site.config";
+import { siteConfig, menuLinks } from "../../site.config";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const classes = className ? `header ${className}` : "header";
 ---
 
-<header class="header" id="main-header">
+<header class={classes} id="main-header">
+
   <div class="header__brand">
     <a
       aria-current={Astro.url.pathname === "/" ? "page" : false}
       class="header__logo-link"
       href="/"
     >
-      <img
-        src="/filipchrapek-profile.jpg"
-        alt="Filip Chrapek profile"
-        class="header__profile"
-        width="48"
-        height="48"
-      />
       <span class="header__title">{siteConfig.title}</span>
     </a>
     <nav aria-label="Main menu" class="header__nav" id="navigation-menu">

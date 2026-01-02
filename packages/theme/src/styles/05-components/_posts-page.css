@@ -5,8 +5,8 @@
 .posts-header {
 	display: flex;
 	align-items: center;
-	gap: var(--space-12);
-	margin-block-end: var(--space-48);
+	gap: var(--space-150);
+	margin-block-end: var(--space-600);
 }
 
 .posts-header__rss {
@@ -21,20 +21,20 @@
 
 .posts-grid {
 	display: grid;
-	gap: var(--space-32);
+	gap: var(--space-400);
 
 	@media (min-width: 40rem) {
 		grid-template-columns: 3fr 1fr;
-		gap: var(--space-32) var(--space-64);
+		gap: var(--space-400) var(--space-800);
 	}
 }
 
 .posts-year-section {
-	margin-block-start: var(--space-64);
+	margin-block-start: var(--space-800);
 }
 
 .posts-year-section__title {
-	margin-block-end: var(--space-24);
+	margin-block-end: var(--space-300);
 	font-size: var(--fluid-text-h4);
 	line-height: var(--leading-h4);
 	font-weight: var(--font-medium);
@@ -44,7 +44,7 @@
 .posts-year-section__list {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-16);
+	gap: var(--space-200);
 	list-style: none;
 	padding: 0;
 }

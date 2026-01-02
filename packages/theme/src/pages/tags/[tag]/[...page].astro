@@ -62,7 +62,7 @@ const paginationProps = {
 		</ul>
 	</nav>
 	<h1 class="section__title section__title--large" style="text-transform: capitalize">{tagMeta?.data.title ?? `Posts about ${tag}`}</h1>
-	<div class="prose prose--sm" style="margin-block-end: var(--space-16)">
+	<div class="prose prose--sm" style="margin-block-end: var(--space-500)">
 		{tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
 		{TagContent && <TagContent />}
 	</div>

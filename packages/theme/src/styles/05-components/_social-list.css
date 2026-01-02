@@ -6,7 +6,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: flex-end;
-	gap: var(--space-16);
+	gap: var(--space-200);
 }
 
 .social-list__label {
@@ -17,7 +17,7 @@
 	display: flex;
 	flex: 1;
 	align-items: center;
-	gap: var(--space-16);
+	gap: var(--space-200);
 	list-style: none;
 	padding: 0;
 	margin: 0;

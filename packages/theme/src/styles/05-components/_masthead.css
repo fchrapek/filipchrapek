@@ -4,7 +4,7 @@
 
 
 .masthead__cover {
-	margin-block-end: var(--space-16);
+	margin-block-end: var(--space-200);
 	aspect-ratio: 16 / 9;
 }
 
@@ -24,7 +24,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: var(--space-3) var(--space-8);
+	gap: var(--space-150) var(--space-100);
 }
 
 .masthead__date {
@@ -32,18 +32,18 @@
 }
 
 .masthead__updated {
-	padding: var(--space-1) var(--space-8);
+	padding: var(--space-50) var(--space-100);
 	background-color: color-mix(in srgb, var(--color-quote) 5%, transparent);
 	color: var(--color-quote);
 	border-radius: 0.5rem;
 }
 
 .masthead__updated-date {
-	margin-inline-start: var(--space-1);
+	margin-inline-start: var(--space-50);
 }
 
 .masthead__tags {
-	margin-block-start: var(--space-8);
+	margin-block-start: var(--space-100);
 }
 
 .masthead__tags-icon {

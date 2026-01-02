@@ -1,0 +1,49 @@
+---
+/**
+ * IndexHero - Special hero component for the index page only
+ * Combines profile image, header, and hero content in a unique layout
+ */
+import ProfileImage from "@/components/ProfileImage.astro";
+import Header from "@/components/layout/Header.astro";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  profileImage: ImageMetadata;
+}
+
+const { profileImage } = Astro.props;
+
+// Get current language
+const lang = getLang(siteConfig.lang);
+
+// i18n content
+const content = {
+  en: {
+    title: "Web dev, design & automation consultant",
+    intro:
+      "<p>Self-taught generalist, perpetually curious freelancer.</p><p>For years now, my professional focus is going to web dev, design of all flavors, and productivity without the 'guru' BS.</p>",
+    profileAlt: "Filip Chrapek",
+  },
+  pl: {
+    title: "Konsultant ds. web devu, designu i automatyzacji",
+    intro:
+      "<p>Samouk-wszystkoogarniacz, generalista, osoba zaciekawiona.</p><p>Skupiam się na web developmencie, designie we wszystkich smakach i produktywności bez kija w tyłku.</p>",
+    profileAlt: "Filip Chrapek",
+  },
+};
+
+const t = content[lang];
+---
+
+<div class="index-hero">
+  <Header class="index-hero__header" />
+  <h1 class="index-hero__title">{t.title}</h1>
+  <ProfileImage
+    class="index-hero__profile-image"
+    src={profileImage}
+    alt={t.profileAlt}
+  />
+  <div class="index-hero__intro" set:html={t.intro} />
+</div>

@@ -4,24 +4,50 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	post: CollectionEntry<"post"> | CollectionEntry<"artykul">;
-	withDesc?: boolean;
+  post: CollectionEntry<"post"> | CollectionEntry<"artykul">;
+  withArrow?: boolean;
 };
 
-const { as: Tag = "div", post, withDesc = false } = Astro.props;
+const { as: Tag = "div", post, withArrow = false } = Astro.props;
 
 // Determine the base path based on collection
 const basePath = post.collection === "artykul" ? "/artykuly/" : "/posts/";
+const postUrl = `${basePath}${post.id}/`;
 ---
 
-<FormattedDate
-	class="post-preview__date"
-	date={post.data.publishDate}
-/>
-<Tag>
-	{post.data.draft && <span class="post-preview__draft-label">(Draft) </span>}
-	<a class="post-preview__link" href={`${basePath}${post.id}/`}>
-		{post.data.title}
-	</a>
-</Tag>
-{withDesc && <q class="post-preview__description">{post.data.description}</q>}
+<a
+  class:list={["post-preview", { "post-preview--with-arrow": withArrow }]}
+  href={postUrl}
+>
+  <FormattedDate class="post-preview__date" date={post.data.publishDate} />
+  <div class="post-preview__main">
+    <Tag class="post-preview__title">
+      {
+        post.data.draft && (
+          <span class="post-preview__draft-label">(Draft) </span>
+        )
+      }
+      {post.data.title}
+    </Tag>
+    {
+      withArrow && (
+        <svg
+          class="post-preview__arrow"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M9 5L16 12L9 19"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      )
+    }
+  </div>
+</a>

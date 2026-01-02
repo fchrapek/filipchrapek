@@ -1,0 +1,104 @@
+/* ============================================
+   MOTHERFUCKING WEBSITE THEME
+   Inspired by https://motherfuckingwebsite.com/
+   ============================================ */
+
+html[data-style-theme="motherfuckingwebsite"] {
+  /* Override color variables */
+  --color-link: #0000ee;
+  --color-link-visited: #551a8b;
+  --color-link-hover: #0000ee;
+
+  /* Override font to browser default serif */
+  * {
+    font-family: serif;
+    opacity: 1;
+  }
+
+  body {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    padding-inline: var(--space-200);
+  }
+
+  /* Reset all headings to use serif font */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* Simplify heading sizes */
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  /* Remove fancy styling */
+  .profile-image {
+    display: none;
+  }
+
+  /* Simplify links */
+  a {
+    color: var(--color-link);
+    text-decoration: underline;
+
+    &:visited {
+      color: var(--color-link-visited);
+    }
+
+    &:hover {
+      color: var(--color-link-hover);
+    }
+  }
+
+  /* Remove rounded corners and fancy effects */
+  * {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Simplify code blocks */
+  code,
+  pre {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+  }
+
+  /* Keep theme switcher visible and functional */
+  .theme-switcher {
+    border-radius: 0.25rem !important;
+  }
+
+  .theme-switcher__select {
+    border-radius: 0 !important;
+  }
+}
+
+/* Dark theme overrides for motherfuckingwebsite theme */
+html[data-theme="dark"][data-style-theme="motherfuckingwebsite"] {
+  /* Override color variables for dark mode */
+  --color-link: #9999ff;
+  --color-link-visited: #cc99ff;
+  --color-link-hover: #9999ff;
+
+  code,
+  pre {
+    background-color: #2d2d2d;
+    border-color: #444;
+  }
+}

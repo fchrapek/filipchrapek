@@ -8,13 +8,13 @@
 }
 
 .blog-post__hero {
-	margin-block-end: var(--space-48);
+	margin-block-end: var(--space-600);
 }
 
 .blog-post__container {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-40);
+	gap: var(--space-500);
 
 	@media (min-width: 64rem) {
 		flex-direction: row;
@@ -30,8 +30,8 @@
 /* Back to top button */
 .back-to-top {
 	position: fixed;
-	inset-inline-end: var(--space-16);
-	inset-block-end: var(--space-32);
+	inset-inline-end: var(--space-200);
+	inset-block-end: var(--space-400);
 	z-index: 90;
 	display: flex;
 	align-items: center;
@@ -62,7 +62,7 @@
 	}
 
 	@media (min-width: 40rem) {
-		inset-inline-end: var(--space-32);
+		inset-inline-end: var(--space-400);
 		width: 3rem;
 		height: 3rem;
 	}

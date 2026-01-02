@@ -1,0 +1,40 @@
+---
+import ProfileImage from "@/components/ProfileImage.astro";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  profileImage: ImageMetadata;
+}
+
+const { profileImage } = Astro.props;
+
+// Get current language
+const lang = getLang(siteConfig.lang);
+
+// i18n content
+const content = {
+  en: {
+    title: "Web dev, design & automation consultant",
+    intro1: "Self-taught generalist, perpetually curious freelancer.",
+    intro2: "For years now, my professional focus is going to web dev, design of all flavors, and productivity without the 'guru' BS.",
+    profileAlt: "Filip Chrapek"
+  },
+  pl: {
+    title: "Konsultant ds. web devu, designu i automatyzacji",
+    intro1: "Samouk-wszystkoogarniacz, generalista, osoba zaciekawiona.",
+    intro2: "Skupiam się na web developmencie, designie we wszystkich smakach i produktywności bez kija w tyłku.",
+    profileAlt: "Filip Chrapek"
+  }
+};
+
+const t = content[lang];
+---
+
+<section class="section">
+  <h1 class="section__title section__title--large">{t.title}</h1>
+  <ProfileImage src={profileImage} alt={t.profileAlt} class="hide-desktop" />
+  <p class="prose">{t.intro1}</p>
+  <p class="prose">{t.intro2}</p>
+</section>

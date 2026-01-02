@@ -3,57 +3,67 @@ import BaseHead from "@/components/BaseHead.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import ThemeProvider from "@/components/ThemeProvider.astro";
+import ThemeSwitcher from "@/components/ThemeSwitcher.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
+import type { ImageMetadata } from "astro";
+import IndexHero from "@/components/IndexHero.astro";
 
 interface Props {
-	meta: SiteMeta;
+  meta: SiteMeta;
+  profileImage?: ImageMetadata;
 }
 
 const {
-	meta: { articleDate, description = siteConfig.description, ogImage, title },
+  meta: { articleDate, description = siteConfig.description, ogImage, title },
+  profileImage,
 } = Astro.props;
+
+const isIndexPage = Astro.url.pathname === "/";
 ---
 
 <html lang={siteConfig.lang}>
-	<head>
-		<BaseHead 
-			articleDate={articleDate} 
-			description={description} 
-			ogImage={ogImage} 
-			title={title}
-		/>
-		{!articleDate && <StructuredData type="website" />}
-	</head>
-	<body>
-		<ThemeProvider />
-		<SkipLink />
-		<Header />
-		<main id="main">
-			<slot />
-		</main>
-		<Footer />
-		<script is:inline type="speculationrules">
-			{
-				"prefetch": [
-					{
-						"where": {
-							"href_matches": "/*"
-						},
-						"eagerness": "immediate"
-					}
-				],
-				"prerender": [
-					{
-						"where": {
-							"href_matches": "/*"
-						},
-						"eagerness": "moderate"
-					}
-				]
-			}
-		</script>
-	</body>
+  <head>
+    <BaseHead
+      articleDate={articleDate}
+      description={description}
+      ogImage={ogImage}
+      title={title}
+    />
+    {!articleDate && <StructuredData type="website" />}
+  </head>
+  <body>
+    <ThemeProvider />
+    <ThemeSwitcher />
+    <SkipLink />
+    <div class="wrapper wrapper--md">
+      {isIndexPage ? <IndexHero profileImage={profileImage} /> : <Header />}
+      <main id="main">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <script is:inline type="speculationrules">
+      {
+        "prefetch": [
+          {
+            "where": {
+              "href_matches": "/*"
+            },
+            "eagerness": "immediate"
+          }
+        ],
+        "prerender": [
+          {
+            "where": {
+              "href_matches": "/*"
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
+  </body>
 </html>

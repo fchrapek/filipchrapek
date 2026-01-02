@@ -7,11 +7,11 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: var(--space-8);
+	gap: var(--space-100);
 	width: 100%;
 	margin-block-start: auto;
-	padding-block-start: var(--space-20);
-	padding-block-end: var(--space-16);
+	padding-block-start: var(--space-250);
+	padding-block-end: var(--space-200);
 	text-align: center;
 	font-size: var(--fluid-text-small);
 	line-height: var(--leading-small);
@@ -28,7 +28,7 @@
 	margin-inline-end: 0;
 
 	@media (min-width: 40rem) {
-		margin-inline-end: var(--space-16);
+		margin-inline-end: var(--space-200);
 	}
 }
 
@@ -38,7 +38,7 @@
 
 .footer__nav {
 	display: flex;
-	gap: var(--space-8);
+	gap: var(--space-100);
 
 	@media (min-width: 40rem) {
 		gap: 0;
@@ -50,7 +50,7 @@
 }
 
 .footer__nav-link {
-	padding: var(--space-8) var(--space-16);
+	padding: var(--space-100) var(--space-200);
 	transition: color 0.2s ease, text-decoration 0.2s ease;
 
 	&:hover {

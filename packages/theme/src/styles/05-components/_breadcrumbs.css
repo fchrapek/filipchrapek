@@ -3,7 +3,7 @@
    ============================================ */
 
 .breadcrumbs {
-	margin-block-end: var(--space-32);
+	margin-block-end: var(--space-400);
 }
 
 .breadcrumbs__list {
@@ -30,5 +30,5 @@
 }
 
 .breadcrumbs__separator {
-	margin-inline: var(--space-8);
+	margin-inline: var(--space-100);
 }

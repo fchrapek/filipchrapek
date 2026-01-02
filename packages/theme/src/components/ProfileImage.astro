@@ -1,0 +1,30 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  src: ImageMetadata;
+  class?: string;
+  alt?: string;
+}
+
+const { 
+  src,
+  class: className,
+  alt = "Profile image"
+} = Astro.props;
+
+// Merge classes: always include profile-image, plus any custom classes
+const classes = className ? `profile-image ${className}` : "profile-image";
+---
+
+<figure class={classes}>
+  <Picture
+    src={src}
+    alt={alt}
+    widths={[200, 400, 600]}
+    sizes="(max-width: 640px) 200px, 400px"
+    formats={['avif', 'webp']}
+    loading="eager"
+  />
+</figure>

@@ -3,10 +3,11 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import SocialList from "@/components/SocialList.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
+import IndexHero from "@/components/IndexHero.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
-
+import profileImage from "../../public/filipchrapek-profile.jpg";
 
 // Posts
 const MAX_POSTS = 10;
@@ -27,53 +28,39 @@ const allNotes = await getCollection("notatka");
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
-<PageLayout meta={{ title: "Home" }}>
-  <section class="section">
-    <h1 class="section__title section__title--large">Konsultant ds. web devu, designu i automatyzacji</h1>
-    <p class="prose">Samouk-wszystkoogarniacz, generalista, osoba zaciekawiona.</p>
-    <p class="prose">Skupiam się na web developmencie, designie we wszystkich smakach i produktywności bez kija w tyłku.</p>
-    <!-- <SocialList /> -->
-  </section>
-  {
-    pinnedPosts.length > 0 && (
-      <section class="section">
-        <h2 class="section__title">Przypięte Artykuły</h2>
-        <ul class="list" role="list">
-          {pinnedPosts.map((p) => (
-            <li class="list-item">
-              <PostPreview post={p} />
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
-  <section class="section">
-    <h2 class="section__title"><a href="/artykuly/">Artykuły</a></h2>
-    <ul class="list" role="list">
-      {
-        allPostsByDate.map((p) => (
-          <li class="list-item">
-            <PostPreview post={p} />
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-  {
-    latestNotes.length > 0 && (
-      <section class="section">
-        <h2 class="section__title">
-          <a href="/notatki/">Notatki</a>
-        </h2>
-        <ul class="list list--spaced" role="list">
-          {latestNotes.map((note) => (
-            <li>
+<PageLayout meta={{ title: "Home" }} profileImage={profileImage}>
+  <div class="index-content">
+    {
+      pinnedPosts.length > 0 && (
+        <section class="index-section">
+          <h2 class="index-section__title">Przypięte Artykuły</h2>
+          <div class="post-list">
+            {pinnedPosts.map((p) => (
+              <PostPreview post={p} withArrow />
+            ))}
+          </div>
+        </section>
+      )
+    }
+    <section class="index-section">
+      <h2 class="index-section__title"><a href="/artykuly/">Artykuły</a></h2>
+      <div class="post-list">
+        {allPostsByDate.map((p) => <PostPreview post={p} withArrow />)}
+      </div>
+    </section>
+    {
+      latestNotes.length > 0 && (
+        <section class="index-section">
+          <h2 class="index-section__title">
+            <a href="/notatki/">Notatki</a>
+          </h2>
+          <div class="post-list post-list--notes">
+            {latestNotes.map((note) => (
               <Note note={note} as="h3" isPreview />
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
 </PageLayout>
