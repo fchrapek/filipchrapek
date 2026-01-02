@@ -1,0 +1,45 @@
+/* ============================================
+   SERVICE ITEM
+   ============================================ */
+
+.service-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-block: var(--space-sm);
+
+  @media (min-width: 40rem) {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: center;
+    column-gap: var(--space-sm);
+  }
+}
+
+.service-item__category {
+  font-size: var(--fluid-text-base);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-h4);
+  color: var(--color-text);
+  margin: 0;
+
+  @media (min-width: 40rem) {
+    grid-column: 1 / 4;
+  }
+}
+
+.service-item__main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  @media (min-width: 40rem) {
+    grid-column: 5 / 13;
+  }
+}
+
+.service-item__title {
+  font-size: var(--fluid-text-base);
+  color: var(--color-text-muted);
+}

@@ -47,6 +47,7 @@
 @import "./05-components/_profile-image.css";
 @import "./05-components/_index-hero.css";
 @import "./05-components/_index-content.css";
+@import "./05-components/_service-item.css";
 
 /* Themes - Alternative style themes */
 @import "./06-themes/_motherfuckingwebsite.css";

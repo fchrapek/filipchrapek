@@ -4,6 +4,7 @@ import SocialList from "@/components/SocialList.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
 import IndexHero from "@/components/IndexHero.astro";
+import ServiceItem from "@/components/ServiceItem.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
@@ -30,6 +31,23 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 
 <PageLayout meta={{ title: "Home" }} profileImage={profileImage}>
   <div class="index-content">
+    <section class="index-section">
+      <h2 class="index-section__title">Services</h2>
+      <div class="post-list">
+        <ServiceItem
+          category="Web Dev"
+          title="Custom websites and web applications"
+        />
+        <ServiceItem
+          category="Design"
+          title="UI/UX design and visual identity"
+        />
+        <ServiceItem
+          category="Consulting"
+          title="Technical consulting and code reviews"
+        />
+      </div>
+    </section>
     {
       pinnedPosts.length > 0 && (
         <section class="index-section">

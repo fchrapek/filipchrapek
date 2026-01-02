@@ -244,3 +244,29 @@ The `.grid` class creates a responsive column grid:
 
 - Mobile frame: 375px
 - Desktop frame: 1440px
+
+---
+
+## CSS Nesting Guidelines
+
+When using CSS nesting with BEM modifiers, use full selectors instead of `&--modifier` syntax:
+
+```css
+/* ✗ Avoid - causes build warnings */
+.component__element {
+  &--modifier {
+    /* styles */
+  }
+}
+
+/* ✓ Preferred - separate selector */
+.component__element {
+  /* base styles */
+}
+
+.component__element--modifier {
+  /* modifier styles */
+}
+```
+
+Pseudo-classes and pseudo-elements (`&:hover`, `&::before`) work correctly with nesting.

@@ -152,25 +152,25 @@
   transition:
     scale 0.2s ease,
     opacity 0.2s ease;
+}
 
-  &--close {
-    scale: 0;
-    opacity: 0;
-    color: var(--color-accent);
+.header__menu-icon--close {
+  scale: 0;
+  opacity: 0;
+  color: var(--color-accent);
 
-    .header__menu-toggle[aria-expanded="true"] & {
-      scale: 1;
-      opacity: 1;
-    }
-  }
-
-  &--open {
+  .header__menu-toggle[aria-expanded="true"] & {
     scale: 1;
     opacity: 1;
+  }
+}
 
-    .header__menu-toggle[aria-expanded="true"] & {
-      scale: 0;
-      opacity: 0;
-    }
+.header__menu-icon--open {
+  scale: 1;
+  opacity: 1;
+
+  .header__menu-toggle[aria-expanded="true"] & {
+    scale: 0;
+    opacity: 0;
   }
 }

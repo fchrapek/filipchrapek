@@ -17,12 +17,12 @@
   &:hover {
     color: var(--color-accent);
   }
+}
 
-  &--prev {
-    margin-inline-end: auto;
-  }
+.paginator__link--prev {
+  margin-inline-end: auto;
+}
 
-  &--next {
-    margin-inline-start: auto;
-  }
+.paginator__link--next {
+  margin-inline-start: auto;
 }

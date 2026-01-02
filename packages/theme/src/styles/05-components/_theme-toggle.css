@@ -32,24 +32,24 @@
   transition:
     scale 0.2s ease,
     opacity 0.2s ease;
+}
 
-  &--sun {
-    scale: 1;
-    opacity: 1;
+.theme-toggle__icon--sun {
+  scale: 1;
+  opacity: 1;
 
-    html[data-theme="dark"] & {
-      scale: 0;
-      opacity: 0;
-    }
-  }
-
-  &--moon {
+  html[data-theme="dark"] & {
     scale: 0;
     opacity: 0;
+  }
+}
 
-    html[data-theme="dark"] & {
-      scale: 1;
-      opacity: 1;
-    }
+.theme-toggle__icon--moon {
+  scale: 0;
+  opacity: 0;
+
+  html[data-theme="dark"] & {
+    scale: 1;
+    opacity: 1;
   }
 }
