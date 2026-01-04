@@ -12,7 +12,9 @@ const { as: Tag = "div", post, withArrow = false } = Astro.props;
 
 // Determine the base path based on collection
 const basePath = post.collection === "artykul" ? "/artykuly/" : "/posts/";
-const postUrl = `${basePath}${post.id}/`;
+// Use only the filename, not the full path (strips folder structure)
+const slug = post.id.split("/").pop();
+const postUrl = `${basePath}${slug}/`;
 ---
 
 <a

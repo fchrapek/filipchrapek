@@ -11,14 +11,13 @@
     color: var(--color-text);
     text-decoration: underline;
     text-underline-offset: 2px;
-    text-decoration-color: transparent;
+    text-decoration-color: var(--color-link);
     transition:
       text-decoration-color 0.2s ease,
       text-decoration-thickness 0.2s ease;
 
     &:hover {
       @media (hover: hover) {
-        text-decoration-color: var(--color-link);
         text-decoration-thickness: 2px;
       }
     }
@@ -31,27 +30,11 @@
   & h4,
   & h5,
   & h6 {
-    position: relative;
     color: var(--color-accent-2);
     font-weight: var(--font-medium);
     line-height: var(--leading-tight);
     margin-block-start: 1.5em;
     margin-block-end: 0.5em;
-
-    &::before {
-      position: absolute;
-      inset-inline-start: -1rem;
-      color: var(--color-gray-600);
-      transition: color 0.2s ease;
-
-      @media (min-width: 40rem) {
-        content: "#";
-      }
-    }
-
-    &:hover::before {
-      color: var(--color-accent);
-    }
 
     & a {
       color: inherit;

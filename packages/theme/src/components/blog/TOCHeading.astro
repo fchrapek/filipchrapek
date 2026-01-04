@@ -2,27 +2,23 @@
 import type { TocItem } from "@/utils/generateToc";
 
 interface Props {
-	heading: TocItem;
+  heading: TocItem;
 }
 
 const {
-	heading: { children, depth, slug, text },
+  heading: { children, depth, slug, text },
 } = Astro.props;
 ---
 
-<li class="toc__item" style={depth > 2 ? "margin-inline-start: 0.5rem" : ""}>
-	<a
-		class="toc__link"
-		style={depth <= 2 ? "margin-block-start: 0.75rem" : "margin-block-start: 0.5rem; font-size: 0.75rem"}
-		href={`#${slug}`}><span aria-hidden="true" style="margin-inline-end: 0.125rem">#</span>{text}</a
-	>
-	{
-		!!children.length && (
-			<ol class="toc__sublist">
-				{children.map((subheading) => (
-					<Astro.self heading={subheading} />
-				))}
-			</ol>
-		)
-	}
+<li class="toc__item" data-depth={depth}>
+  <a class="toc__link" href={`#${slug}`}>{text}</a>
+  {
+    !!children.length && (
+      <ol class="toc__sublist">
+        {children.map((subheading) => (
+          <Astro.self heading={subheading} />
+        ))}
+      </ol>
+    )
+  }
 </li>

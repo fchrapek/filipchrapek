@@ -1,7 +1,8 @@
 ---
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
-import { siteConfig, menuLinks } from "../../site.config";
+import { siteConfig, menuLinks } from "@/site.config";
+import { getLang } from "@/utils/i18n";
 
 interface Props {
   class?: string;
@@ -9,10 +10,11 @@ interface Props {
 
 const { class: className } = Astro.props;
 const classes = className ? `header ${className}` : "header";
+const lang = getLang(siteConfig.lang);
+const openMenuLabel = lang === "pl" ? "Otwórz menu" : "Open main menu";
 ---
 
 <header class={classes} id="main-header">
-
   <div class="header__brand">
     <a
       aria-current={Astro.url.pathname === "/" ? "page" : false}
@@ -45,7 +47,7 @@ const classes = className ? `header ${className}` : "header";
       id="toggle-navigation-menu"
       type="button"
     >
-      <span class="sr-only">Open main menu</span>
+      <span class="sr-only">{openMenuLabel}</span>
       <svg
         aria-hidden="true"
         class="header__menu-icon header__menu-icon--open"

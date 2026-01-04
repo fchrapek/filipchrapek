@@ -88,7 +88,7 @@ export async function getStaticPaths() {
   return posts
     .filter(({ data }) => !data.ogImage)
     .map((post) => ({
-      params: { slug: post.id },
+      params: { slug: post.id.split("/").pop() },
       props: {
         pubDate: post.data.updatedDate ?? post.data.publishDate,
         title: post.data.title,

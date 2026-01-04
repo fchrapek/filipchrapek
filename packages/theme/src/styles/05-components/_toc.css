@@ -3,6 +3,8 @@
    ============================================ */
 
 .toc {
+  font-size: var(--fluid-text-small);
+
   @media (min-width: 64rem) {
     position: sticky;
     inset-block-start: var(--space-lg);
@@ -13,23 +15,37 @@
 }
 
 .toc__summary {
-  font-size: var(--fluid-text-h4);
-  line-height: var(--leading-h4);
+  font-size: var(--fluid-text-base);
+  line-height: var(--leading-normal);
   font-weight: var(--font-medium);
   color: var(--color-accent-2);
   cursor: pointer;
+  list-style: none;
 
-  &::marker {
-    transition: color 0.2s ease;
+  &::-webkit-details-marker {
+    display: none;
   }
 
-  &:hover::marker {
+  &::before {
+    content: "▸";
+    display: inline-block;
+    margin-inline-end: var(--space-xs);
+    transition: transform 0.2s ease;
+  }
+
+  details[open] > &::before {
+    transform: rotate(90deg);
+  }
+
+  &:hover {
     color: var(--color-accent);
   }
 }
 
 .toc__nav {
   margin-inline-start: var(--space-sm);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: 1px solid var(--color-gray-300);
 
   @media (min-width: 64rem) {
     width: 100%;
@@ -43,13 +59,21 @@
 }
 
 .toc__item {
-  margin-block: var(--space-xs);
+  &[data-depth="2"] {
+    margin-block-start: var(--space-xs);
+  }
+
+  &[data-depth="3"],
+  &[data-depth="4"] {
+    margin-block-start: 0.25rem;
+    margin-inline-start: var(--space-sm);
+  }
 }
 
 .toc__link {
-  color: var(--color-text);
+  color: var(--color-text-muted);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.15s ease;
 
   &:hover {
     color: var(--color-accent);
@@ -57,8 +81,7 @@
 }
 
 .toc__sublist {
-  margin-inline-start: var(--space-sm);
-  margin-block-start: var(--space-xs);
+  margin-block-start: 0.25rem;
   list-style: none;
   padding: 0;
 }

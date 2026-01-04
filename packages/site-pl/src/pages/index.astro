@@ -29,7 +29,7 @@ const allNotes = await getCollection("notatka");
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
-<PageLayout meta={{ title: "Home" }} profileImage={profileImage}>
+<PageLayout meta={{ title: "Strona główna" }} profileImage={profileImage}>
   <div class="index-content">
     <section class="index-section">
       <h2 class="index-section__title">Usługi</h2>

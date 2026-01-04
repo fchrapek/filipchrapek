@@ -9,17 +9,19 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = (async ({ paginate }) => {
-	const allPosts = await getAllPosts();
-	const sortedPosts = allPosts.sort(collectionDateSort);
-	const uniqueTags = getUniqueTags(sortedPosts);
+  const allPosts = await getAllPosts();
+  const sortedPosts = allPosts.sort(collectionDateSort);
+  const uniqueTags = getUniqueTags(sortedPosts);
 
-	return uniqueTags.flatMap((tag) => {
-		const postsWithTag = sortedPosts.filter((post) => post.data.tags.includes(tag));
-		return paginate(postsWithTag, {
-			pageSize: 10,
-			params: { tag },
-		});
-	});
+  return uniqueTags.flatMap((tag) => {
+    const postsWithTag = sortedPosts.filter((post) =>
+      post.data.tags.includes(tag),
+    );
+    return paginate(postsWithTag, {
+      pageSize: 10,
+      params: { tag },
+    });
+  });
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
@@ -31,49 +33,59 @@ const tagMeta = await getTagMeta(tag);
 const TagContent = tagMeta ? (await render(tagMeta)).Content : null;
 
 const meta = {
-	description: tagMeta?.data.description ?? `View all posts with the tag - ${tag}`,
-	title: tagMeta?.data.title ?? `Posts about ${tag}`,
+  description:
+    tagMeta?.data.description ?? `Zobacz wszystkie artykuły z tagiem - ${tag}`,
+  title: tagMeta?.data.title ?? `Artykuły o ${tag}`,
 };
 
 const paginationProps = {
-	...(page.url.prev && {
-		prevUrl: {
-			text: "← Previous Tags",
-			url: page.url.prev,
-		},
-	}),
-	...(page.url.next && {
-		nextUrl: {
-			text: "Next Tags →",
-			url: page.url.next,
-		},
-	}),
+  ...(page.url.prev && {
+    prevUrl: {
+      text: "← Poprzednie",
+      url: page.url.prev,
+    },
+  }),
+  ...(page.url.next && {
+    nextUrl: {
+      text: "Następne →",
+      url: page.url.next,
+    },
+  }),
 };
 ---
 
 <PageLayout meta={meta}>
-	<nav class="breadcrumbs" aria-label="Breadcrumbs">
-		<ul class="breadcrumbs__list">
-			<li class="breadcrumbs__item">
-				<a class="breadcrumbs__link" href="/tagi/">Tagi</a>
-				<Icon aria-hidden="true" name="mdi:chevron-right" class="breadcrumbs__separator" />
-			</li>
-			<li aria-current="page"><span aria-hidden="true">#</span>{tag}</li>
-		</ul>
-	</nav>
-	<h1 class="section__title section__title--large" style="text-transform: capitalize">{tagMeta?.data.title ?? `Posts about ${tag}`}</h1>
-	<div class="prose prose--sm" style="margin-block-end: var(--space-500)">
-		{tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
-		{TagContent && <TagContent />}
-	</div>
-	<ul class="list">
-		{
-			page.data.map((p) => (
-				<li class="list-item">
-					<PostPreview as="h2" post={p} />
-				</li>
-			))
-		}
-	</ul>
-	<Pagination {...paginationProps} />
+  <nav class="breadcrumbs" aria-label="Breadcrumbs">
+    <ul class="breadcrumbs__list">
+      <li class="breadcrumbs__item">
+        <a class="breadcrumbs__link" href="/tagi/">Tagi</a>
+        <Icon
+          aria-hidden="true"
+          name="mdi:chevron-right"
+          class="breadcrumbs__separator"
+        />
+      </li>
+      <li aria-current="page"><span aria-hidden="true">#</span>{tag}</li>
+    </ul>
+  </nav>
+  <h1
+    class="section__title section__title--large"
+    style="text-transform: capitalize"
+  >
+    {tagMeta?.data.title ?? `Artykuły o ${tag}`}
+  </h1>
+  <div class="prose prose--sm" style="margin-block-end: var(--space-500)">
+    {tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
+    {TagContent && <TagContent />}
+  </div>
+  <ul class="list">
+    {
+      page.data.map((p) => (
+        <li class="list-item">
+          <PostPreview as="h2" post={p} />
+        </li>
+      ))
+    }
+  </ul>
+  <Pagination {...paginationProps} />
 </PageLayout>
