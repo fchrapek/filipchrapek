@@ -12,7 +12,7 @@
 .header__brand {
   display: flex;
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     flex-direction: column;
   }
 }
@@ -26,7 +26,7 @@
     opacity: 0.8;
   }
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     position: relative;
     display: inline-block;
   }
@@ -37,7 +37,7 @@
   height: 2.5rem;
   margin-inline-end: var(--space-sm);
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     position: absolute;
     inset-inline-start: -4.5rem;
     width: 3rem;
@@ -53,7 +53,7 @@
   border-radius: 50%;
   object-fit: cover;
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     width: 3rem;
     height: 3rem;
   }
@@ -84,7 +84,7 @@
     z-index: 50;
   }
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     position: static;
     display: flex;
     flex-direction: row;
@@ -116,7 +116,7 @@
     text-decoration-color: currentColor;
   }
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     padding-block: 0;
     padding-inline: var(--space-sm);
   }
@@ -136,7 +136,7 @@
   border: none;
   border-radius: 0.375rem;
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     visibility: hidden;
     display: none;
   }

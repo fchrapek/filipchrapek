@@ -4,36 +4,43 @@
 
 /* Hide on mobile, show on desktop */
 .hide-mobile {
-	display: none;
+  display: none;
 
-	@media (min-width: 80rem) {
-		display: block;
-	}
+  @media (--xl) {
+    display: block;
+  }
 }
 
 /* Show on mobile, hide on desktop */
 .hide-desktop {
-	display: block;
+  display: block;
 
-	@media (min-width: 80rem) {
-		display: none;
-	}
+  @media (--xl) {
+    display: none;
+  }
 }
 
 /* Always hidden */
 .hidden {
-	display: none;
+  display: none;
 }
 
 /* Screen reader only */
 .sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Reset list styles */
+.list-reset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

@@ -16,7 +16,7 @@
   border-radius: 0.5rem;
   backdrop-filter: blur(8px);
 
-  @media (min-width: 64rem) {
+  @media (--lg) {
     display: flex;
   }
 

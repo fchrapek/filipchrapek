@@ -33,14 +33,14 @@
 }
 
 /* Tablet: 8 columns */
-@media (min-width: 40rem) {
+@media (--sm) {
   .grid {
     grid-template-columns: repeat(8, 1fr);
   }
 }
 
 /* Desktop: 12 columns, 24px gap */
-@media (min-width: 64rem) {
+@media (--lg) {
   .grid {
     grid-template-columns: repeat(12, 1fr);
     gap: 1.5rem; /* 24px */
@@ -71,7 +71,7 @@
 }
 
 /* Tablet spans (8 col grid) */
-@media (min-width: 40rem) {
+@media (--sm) {
   .col-sm-1 {
     grid-column: span 1;
   }
@@ -99,7 +99,7 @@
 }
 
 /* Desktop spans (12 col grid) */
-@media (min-width: 64rem) {
+@media (--lg) {
   .col-lg-1 {
     grid-column: span 1;
   }
@@ -143,7 +143,7 @@
    ---------------------------------------- */
 
 /* Desktop start positions */
-@media (min-width: 64rem) {
+@media (--lg) {
   .col-start-1 {
     grid-column-start: 1;
   }

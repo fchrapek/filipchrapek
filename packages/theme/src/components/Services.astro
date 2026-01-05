@@ -1,0 +1,27 @@
+---
+import ServiceItem from "./ServiceItem.astro";
+import { translations } from "@/i18n/translations";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
+import { content } from "@/data/content";
+
+const lang = getLang(siteConfig.lang);
+const t = translations[lang];
+const { services } = content;
+---
+
+<section class="services">
+  <h2 class="services__title">{t.sections.services}</h2>
+  <ul class="services__list list-reset">
+    {
+      services.map((service) => (
+        <li class="services__item">
+          <h3 class="services__item-title">{service.title}</h3>
+          <p class="services__item-description text--dimmed">
+            {service.description}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</section>

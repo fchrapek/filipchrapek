@@ -1,0 +1,36 @@
+---
+import PostPreview from "./blog/PostPreview.astro";
+import { getAllPosts } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+import { translations } from "@/i18n/translations";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
+
+interface Props {
+  maxPosts?: number;
+}
+
+const { maxPosts = 3 } = Astro.props;
+
+const allPosts = await getAllPosts();
+const pinnedPosts = allPosts
+  .sort(collectionDateSort)
+  .filter((p) => p.data.pinned)
+  .slice(0, maxPosts);
+
+const lang = getLang(siteConfig.lang);
+const t = translations[lang];
+---
+
+{
+  pinnedPosts.length > 0 && (
+    <section class="index-section">
+      <h2 class="index-section__title">{t.sections.pinnedPosts}</h2>
+      <div class="post-list">
+        {pinnedPosts.map((post) => (
+          <PostPreview post={post} withArrow />
+        ))}
+      </div>
+    </section>
+  )
+}

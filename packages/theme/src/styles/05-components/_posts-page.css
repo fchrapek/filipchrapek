@@ -23,7 +23,7 @@
   display: grid;
   gap: var(--space-md);
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     grid-template-columns: 3fr 1fr;
     gap: var(--space-md) var(--space-xl);
   }

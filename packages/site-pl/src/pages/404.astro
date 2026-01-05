@@ -1,20 +1,19 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import { translations } from "@/i18n/translations";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
 
-const meta = {
-  description: "Ups! Wygląda na to, że ta strona zaginęła!",
-  title: "Ups! Strona nie znaleziona!",
-};
+const lang = getLang(siteConfig.lang);
+const t = translations[lang];
 ---
 
-<PageLayout meta={meta}>
+<PageLayout meta={t.notFound.meta}>
   <h1
     class="section__title section__title--large"
-    style="margin-block-end: var(--space-400)"
+    style="margin-block-end: var(--space-md)"
   >
-    404 | Ups, coś poszło nie tak
+    {t.notFound.title}
   </h1>
-  <p style="margin-block-end: var(--space-300)">
-    Użyj nawigacji, żeby wrócić na właściwą stronę
-  </p>
+  <p>{t.notFound.message}</p>
 </PageLayout>

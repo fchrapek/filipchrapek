@@ -7,6 +7,11 @@ import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { Icon } from "astro-icon/components";
+import { translations } from "@/i18n/translations";
+
+const t = translations.pl.pages.tags;
+const pagination = translations.pl.pagination;
+const breadcrumbs = translations.pl.breadcrumbs;
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = await getAllPosts();
@@ -33,21 +38,20 @@ const tagMeta = await getTagMeta(tag);
 const TagContent = tagMeta ? (await render(tagMeta)).Content : null;
 
 const meta = {
-  description:
-    tagMeta?.data.description ?? `Zobacz wszystkie artykuły z tagiem - ${tag}`,
-  title: tagMeta?.data.title ?? `Artykuły o ${tag}`,
+  description: tagMeta?.data.description ?? `${t.viewAllPostsWithTag} - ${tag}`,
+  title: tagMeta?.data.title ?? `${t.postsAbout} ${tag}`,
 };
 
 const paginationProps = {
   ...(page.url.prev && {
     prevUrl: {
-      text: "← Poprzednie",
+      text: pagination.previousTags,
       url: page.url.prev,
     },
   }),
   ...(page.url.next && {
     nextUrl: {
-      text: "Następne →",
+      text: pagination.nextTags,
       url: page.url.next,
     },
   }),
@@ -58,7 +62,7 @@ const paginationProps = {
   <nav class="breadcrumbs" aria-label="Breadcrumbs">
     <ul class="breadcrumbs__list">
       <li class="breadcrumbs__item">
-        <a class="breadcrumbs__link" href="/tagi/">Tagi</a>
+        <a class="breadcrumbs__link" href="/tagi/">{breadcrumbs.tags}</a>
         <Icon
           aria-hidden="true"
           name="mdi:chevron-right"
@@ -72,7 +76,7 @@ const paginationProps = {
     class="section__title section__title--large"
     style="text-transform: capitalize"
   >
-    {tagMeta?.data.title ?? `Artykuły o ${tag}`}
+    {tagMeta?.data.title ?? `${t.postsAbout} ${tag}`}
   </h1>
   <div class="prose prose--sm" style="margin-block-end: var(--space-500)">
     {tagMeta?.data.description && <p>{tagMeta.data.description}</p>}

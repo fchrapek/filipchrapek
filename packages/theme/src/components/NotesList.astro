@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import Note from "./note/Note.astro";
+import { collectionDateSort } from "@/utils/date";
+import { translations } from "@/i18n/translations";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
+
+interface Props {
+  maxNotes?: number;
+}
+
+const { maxNotes = 5 } = Astro.props;
+
+const lang = getLang(siteConfig.lang);
+const t = translations[lang];
+
+const collectionName = lang === "pl" ? "notatka" : "note";
+const allNotes = await getCollection(collectionName);
+const notes = allNotes.sort(collectionDateSort).slice(0, maxNotes);
+---
+
+{
+  notes.length > 0 && (
+    <section class="index-section">
+      <h2 class="index-section__title">
+        <a href={t.sections.notes.href}>{t.sections.notes.title}</a>
+      </h2>
+      <div class="post-list post-list--notes">
+        {notes.map((note) => (
+          <Note note={note} as="h3" isPreview />
+        ))}
+      </div>
+    </section>
+  )
+}

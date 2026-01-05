@@ -14,7 +14,7 @@
   gap: var(--space-xs);
   padding-block: var(--space-sm);
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     align-items: center;
@@ -30,7 +30,7 @@
     color: var(--color-gray-400);
   }
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     grid-column: 1 / 4;
   }
 }
@@ -41,7 +41,7 @@
   justify-content: space-between;
   gap: 1.5rem; /* 24px */
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     grid-column: 5 / 13;
   }
 }

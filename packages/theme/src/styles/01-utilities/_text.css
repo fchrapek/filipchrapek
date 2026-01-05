@@ -1,0 +1,8 @@
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
+
+/* Dimmed text color */
+.text--dimmed {
+  color: var(--color-text-dimmed);
+}

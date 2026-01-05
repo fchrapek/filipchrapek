@@ -1,0 +1,30 @@
+---
+type SpacingSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+
+interface Props {
+  size?: SpacingSize | { mobile: SpacingSize; desktop: SpacingSize };
+  border?: boolean;
+  class?: string;
+}
+
+const { size = "xl", border = false, class: className } = Astro.props;
+
+const isResponsive = typeof size === "object";
+const mobileSize = isResponsive ? size.mobile : size;
+const desktopSize = isResponsive ? size.desktop : size;
+
+const style = isResponsive
+  ? `--separator-size-mobile: var(--space-${mobileSize}); --separator-size-desktop: var(--space-${desktopSize});`
+  : `--separator-size: var(--space-${size});`;
+---
+
+<div
+  class:list={[
+    "separator",
+    { "separator--responsive": isResponsive },
+    { "separator--border": border },
+    className,
+  ]}
+  style={style}
+  aria-hidden="true"
+></div>

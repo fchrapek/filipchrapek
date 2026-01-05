@@ -6,59 +6,70 @@ import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import type { GetStaticPaths, Page } from "astro";
 import { Icon } from "astro-icon/components";
+import { translations } from "@/i18n/translations";
+
+const t = translations.pl.pages.notes;
+const pagination = translations.pl.pagination;
 
 export const getStaticPaths = (async ({ paginate }) => {
-	const MAX_NOTES_PER_PAGE = 10;
-	const allNotes = await getCollection("notatka");
-	return paginate(allNotes.sort(collectionDateSort), { pageSize: MAX_NOTES_PER_PAGE });
+  const MAX_NOTES_PER_PAGE = 10;
+  const allNotes = await getCollection("notatka");
+  return paginate(allNotes.sort(collectionDateSort), {
+    pageSize: MAX_NOTES_PER_PAGE,
+  });
 }) satisfies GetStaticPaths;
 
 interface Props {
-	page: Page<CollectionEntry<"notatka">>;
-	uniqueTags: string[];
+  page: Page<CollectionEntry<"notatka">>;
+  uniqueTags: string[];
 }
 
 const { page } = Astro.props;
 
 const meta = {
-	description: "Przeczytaj moje notatki",
-	title: "Notatki",
+  description: t.meta.description,
+  title: t.meta.title,
 };
 
 const paginationProps = {
-	...(page.url.prev && {
-		prevUrl: {
-			text: "← Poprzednia strona",
-			url: page.url.prev,
-		},
-	}),
-	...(page.url.next && {
-		nextUrl: {
-			text: "Następna strona →",
-			url: page.url.next,
-		},
-	}),
+  ...(page.url.prev && {
+    prevUrl: {
+      text: pagination.previousPage,
+      url: page.url.prev,
+    },
+  }),
+  ...(page.url.next && {
+    nextUrl: {
+      text: pagination.nextPage,
+      url: page.url.next,
+    },
+  }),
 };
 ---
 
 <PageLayout meta={meta}>
-	<section>
-		<div class="notes-header">
-			<h1 class="notes-header__title">Notatki</h1>
-			<a class="notes-header__rss" href="/notatki/rss.xml" target="_blank">
-				<span class="sr-only">RSS feed</span>
-				<Icon aria-hidden="true" class="notes-header__rss-icon" focusable="false" name="mdi:rss" />
-			</a>
-		</div>
-		<ul class="notes-list">
-			{
-				page.data.map((note) => (
-					<li class="">
-						<Note note={note} as="h2" isPreview />
-					</li>
-				))
-			}
-		</ul>
-		<Pagination {...paginationProps} />
-	</section>
+  <section>
+    <div class="notes-header">
+      <h1 class="notes-header__title">{t.title}</h1>
+      <a class="notes-header__rss" href="/notatki/rss.xml" target="_blank">
+        <span class="sr-only">{t.rssFeed}</span>
+        <Icon
+          aria-hidden="true"
+          class="notes-header__rss-icon"
+          focusable="false"
+          name="mdi:rss"
+        />
+      </a>
+    </div>
+    <ul class="notes-list">
+      {
+        page.data.map((note) => (
+          <li class="">
+            <Note note={note} as="h2" isPreview />
+          </li>
+        ))
+      }
+    </ul>
+    <Pagination {...paginationProps} />
+  </section>
 </PageLayout>

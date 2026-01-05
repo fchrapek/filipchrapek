@@ -17,7 +17,7 @@
   font-weight: var(--font-medium);
   color: var(--color-gray-600);
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -26,7 +26,7 @@
 .footer__copyright {
   margin-inline-end: 0;
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     margin-inline-end: var(--space-sm);
   }
 }
@@ -39,7 +39,7 @@
   display: flex;
   gap: var(--space-xs);
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     gap: 0;
 
     & > * + * {
@@ -59,7 +59,7 @@
     text-decoration: underline;
   }
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     padding-block: 0;
   }
 }

@@ -1,0 +1,29 @@
+---
+import PostPreview from "./blog/PostPreview.astro";
+import { getAllPosts } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+import { translations } from "@/i18n/translations";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
+
+interface Props {
+  maxPosts?: number;
+}
+
+const { maxPosts = 10 } = Astro.props;
+
+const allPosts = await getAllPosts();
+const posts = allPosts.sort(collectionDateSort).slice(0, maxPosts);
+
+const lang = getLang(siteConfig.lang);
+const t = translations[lang];
+---
+
+<section class="index-section">
+  <h2 class="index-section__title">
+    <a href={t.sections.posts.href}>{t.sections.posts.title}</a>
+  </h2>
+  <div class="post-list">
+    {posts.map((post) => <PostPreview post={post} withArrow />)}
+  </div>
+</section>

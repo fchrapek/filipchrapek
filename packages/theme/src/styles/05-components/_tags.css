@@ -59,7 +59,7 @@
     color: var(--color-link);
   }
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     text-align: end;
   }
 }

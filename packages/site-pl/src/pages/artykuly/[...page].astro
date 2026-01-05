@@ -7,6 +7,10 @@ import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import type { GetStaticPaths, Page } from "astro";
 import { Icon } from "astro-icon/components";
+import { translations } from "@/i18n/translations";
+
+const t = translations.pl.pages.posts;
+const pagination = translations.pl.pagination;
 
 export const getStaticPaths = (async ({ paginate }) => {
   const MAX_POSTS_PER_PAGE = 10;
@@ -33,21 +37,20 @@ interface Props {
 const { page, uniqueTags, pinnedPosts } = Astro.props;
 
 const meta = {
-  description:
-    "Przeczytaj moją kolekcję artykułów i rzeczy, które mnie interesują",
-  title: "Artykuły",
+  description: t.meta.description,
+  title: t.meta.title,
 };
 
 const paginationProps = {
   ...(page.url.prev && {
     prevUrl: {
-      text: "← Poprzednia strona",
+      text: pagination.previousPage,
       url: page.url.prev,
     },
   }),
   ...(page.url.next && {
     nextUrl: {
-      text: "Następna strona →",
+      text: pagination.nextPage,
       url: page.url.next,
     },
   }),
@@ -59,9 +62,9 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 <PageLayout meta={meta}>
   <div class="posts-header">
-    <h1 class="section__title section__title--large">Artykuły</h1>
+    <h1 class="section__title section__title--large">{t.title}</h1>
     <a class="posts-header__rss" href="/rss.xml" target="_blank">
-      <span class="sr-only">RSS feed</span>
+      <span class="sr-only">{t.rssFeed}</span>
       <Icon
         aria-hidden="true"
         class="posts-header__rss-icon"
@@ -75,7 +78,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
       {
         pinnedPosts.length > 0 && (
           <section class="index-section">
-            <h2 class="index-section__title">Przypięte Artykuły</h2>
+            <h2 class="index-section__title">{t.pinnedPosts}</h2>
             <div class="post-list">
               {pinnedPosts.map((p) => (
                 <PostPreview post={p} withArrow />
@@ -88,7 +91,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
         descYearKeys.map((yearKey) => (
           <section class="index-section">
             <h2 id={`year-${yearKey}`} class="index-section__title">
-              <span class="sr-only">Artykuły z</span>
+              <span class="sr-only">{t.postsIn}</span>
               {yearKey}
             </h2>
             <div class="post-list">
@@ -105,7 +108,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
       !!uniqueTags.length && (
         <aside class="tags-section">
           <h2 class="tags-section__title">
-            Tagi
+            {t.tags}
             <svg
               aria-hidden="true"
               class="tags-section__icon"
@@ -128,9 +131,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
               <li>
                 <a class="tags-section__tag" href={`/tagi/${tag}/`}>
                   <span aria-hidden="true">#</span>
-                  <span class="sr-only">
-                    Zobacz wszystkie artykuły z tagiem
-                  </span>
+                  <span class="sr-only">{t.viewAllPostsWithTag}</span>
                   {tag}
                 </a>
               </li>
@@ -138,8 +139,8 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
           </ul>
           <span class="tags-section__view-all">
             <a class="tags-section__view-all" href="/tagi/">
-              Zobacz wszystkie <span aria-hidden="true">→</span>
-              <span class="sr-only">tagi</span>
+              {t.viewAllTags} <span aria-hidden="true">→</span>
+              <span class="sr-only">{t.viewAllTagsSr}</span>
             </a>
           </span>
         </aside>

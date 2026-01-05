@@ -1,84 +1,20 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import SocialList from "@/components/SocialList.astro";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import Note from "@/components/note/Note.astro";
-import IndexHero from "@/components/IndexHero.astro";
-import ServiceItem from "@/components/ServiceItem.astro";
-import { getAllPosts } from "@/data/post";
+import Services from "@/components/Services.astro";
+import PinnedPosts from "@/components/PinnedPosts.astro";
+import PostsList from "@/components/PostsList.astro";
+import NotesList from "@/components/NotesList.astro";
+import Separator from "@/components/Separator.astro";
 import PageLayout from "@/layouts/Base.astro";
-import { collectionDateSort } from "@/utils/date";
 import profileImage from "../../public/filipchrapek-profile.jpg";
-
-// Posts
-const MAX_POSTS = 10;
-const allPosts = await getAllPosts();
-const allPostsByDate = allPosts
-  .sort(collectionDateSort)
-  .slice(0, MAX_POSTS) as CollectionEntry<"post">[];
-
-// Pinned Posts, set to a max of 3;
-const MAX_PINNED_POSTS = 3;
-const pinnedPosts = allPostsByDate
-  .filter((p) => p.data.pinned)
-  .slice(0, MAX_PINNED_POSTS);
-
-// Notes
-const MAX_NOTES = 5;
-const allNotes = await getCollection("note");
-const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
 <PageLayout meta={{ title: "Home" }} profileImage={profileImage}>
-  <div class="index-content">
-    <section class="index-section">
-      <h2 class="index-section__title">Services</h2>
-      <div class="post-list">
-        <ServiceItem
-          category="Web Dev"
-          title="Custom websites and web applications"
-        />
-        <ServiceItem
-          category="Design"
-          title="UI/UX design and visual identity"
-        />
-        <ServiceItem
-          category="Consulting"
-          title="Technical consulting and code reviews"
-        />
-      </div>
-    </section>
-    {
-      pinnedPosts.length > 0 && (
-        <section class="index-section">
-          <h2 class="index-section__title">Pinned Posts</h2>
-          <div class="post-list">
-            {pinnedPosts.map((p) => (
-              <PostPreview post={p} withArrow />
-            ))}
-          </div>
-        </section>
-      )
-    }
-    <section class="index-section">
-      <h2 class="index-section__title"><a href="/posts/">Posts</a></h2>
-      <div class="post-list">
-        {allPostsByDate.map((p) => <PostPreview post={p} withArrow />)}
-      </div>
-    </section>
-    {
-      latestNotes.length > 0 && (
-        <section class="index-section">
-          <h2 class="index-section__title">
-            <a href="/notes/">Notes</a>
-          </h2>
-          <div class="post-list post-list--notes">
-            {latestNotes.map((note) => (
-              <Note note={note} as="h3" isPreview />
-            ))}
-          </div>
-        </section>
-      )
-    }
-  </div>
+  <Separator size={{ mobile: "2xl", desktop: "xl" }} border />
+  <Services />
+  <Separator size={{ mobile: "2xl", desktop: "xl" }} border />
+  <PinnedPosts />
+  <Separator size={{ mobile: "2xl", desktop: "xl" }} border />
+  <PostsList />
+  <Separator size={{ mobile: "2xl", desktop: "xl" }} border />
+  <NotesList />
 </PageLayout>

@@ -58,8 +58,8 @@
   }
 
   /* Paragraphs */
-  & p {
-    margin-block: 1em;
+  & p + p {
+    margin-block-start: var(--space-md);
   }
 
   /* Strong */
@@ -190,5 +190,12 @@
   & code {
     font-size: var(--fluid-text-small);
     font-weight: var(--font-normal);
+  }
+}
+
+.prose--dimmed {
+  p,
+  li {
+    color: var(--color-text-dimmed);
   }
 }

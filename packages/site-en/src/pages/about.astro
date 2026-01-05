@@ -1,30 +1,16 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import { content } from "@/data/content";
 
-const meta = {
-  description: "I'm a starter theme for Astro.build",
-  title: "About",
-};
+const { about } = content;
 ---
 
-<PageLayout meta={meta}>
+<PageLayout meta={about.meta}>
   <h1
     class="section__title section__title--large"
-    style="margin-block-end: var(--space-400)"
+    style="margin-block-end: var(--space-md)"
   >
-    About
+    {about.title}
   </h1>
-  <div class="prose prose--sm">
-    <p>Self-taught generalist, perpetually curious freelancer.</p>
-    <p>
-      For years now, my professional focus is going to web dev, design of all
-      flavors, and productivity without the 'guru' BS.
-    </p>
-
-    <p>
-      Contact me at <a href="mailto:hello@filipchrapek.com" target="_blank"
-        >hello@filipchrapek.com</a
-      >
-    </p>
-  </div>
+  <div class="prose prose--sm" set:html={about.content} />
 </PageLayout>

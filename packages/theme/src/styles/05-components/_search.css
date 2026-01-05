@@ -52,7 +52,7 @@
     display: flex;
   }
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     width: 83.333333%;
     max-width: 48rem;
     height: max-content;
@@ -71,7 +71,7 @@
   padding: var(--space-md);
   padding-block-start: var(--space-sm);
 
-  @media (min-width: 40rem) {
+  @media (--sm) {
     padding-block-start: var(--space-md);
   }
 }

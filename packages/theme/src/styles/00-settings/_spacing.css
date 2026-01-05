@@ -18,7 +18,7 @@
   --space-4xl: clamp(5rem, 4.39rem + 3.08vw, 7.5rem); /* 80px → 120px */
 }
 
-@media (min-width: 1024px) {
+@media (--lg) {
   :root {
     /* ----------------------------------------
 		   DESKTOP SPACING (1024px → 1440px)

@@ -1,13 +1,19 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import { translations } from "@/i18n/translations";
+import { siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
 
-const meta = {
-	description: "Oops! It looks like this page is lost in space!",
-	title: "Oops! You found a missing page!",
-};
+const lang = getLang(siteConfig.lang);
+const t = translations[lang];
 ---
 
-<PageLayout meta={meta}>
-	<h1 class="section__title section__title--large" style="margin-block-end: var(--space-400)">404 | Oops something went wrong</h1>
-	<p style="margin-block-end: var(--space-300)">Please use the navigation to find your way back</p>
+<PageLayout meta={t.notFound.meta}>
+  <h1
+    class="section__title section__title--large"
+    style="margin-block-end: var(--space-md)"
+  >
+    {t.notFound.title}
+  </h1>
+  <p>{t.notFound.message}</p>
 </PageLayout>

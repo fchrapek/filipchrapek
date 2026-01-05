@@ -6,17 +6,18 @@
   /* Base colors */
   --color-bg: hsl(0, 0%, 98%);
   --color-text: hsl(203, 11.03%, 15%);
+  --color-text-dimmed: hsl(203, 8%, 40%);
   --color-link: var(--color-text);
   --color-accent: var(--color-accent-2);
   --color-accent-2: hsl(0, 0%, 18.15%);
-  --color-quote: var(--color-accent-2);  
+  --color-quote: var(--color-accent-2);
 
   /* Semantic grays */
   --color-gray-100: hsl(0, 0%, 98%);
   --color-gray-200: hsl(0, 0%, 95%);
   --color-gray-300: hsl(0, 0%, 88%);
   --color-gray-400: hsl(0, 0%, 70%);
-  --color-gray-500: hsl(0, 0%, 50%); 
+  --color-gray-500: hsl(0, 0%, 50%);
   --color-gray-600: hsl(0, 0%, 40%);
   --color-gray-700: hsl(0, 0%, 30%);
   --color-gray-800: hsl(0, 0%, 20%);
@@ -33,6 +34,7 @@
 html[data-theme="dark"] {
   --color-bg: hsl(210, 6.03%, 12%);
   --color-text: hsl(0, 0%, 83.54%);
+  --color-text-dimmed: hsl(0, 0%, 65%);
   --color-link: var(--color-text);
   --color-accent: var(--color-accent-2);
   --color-accent-2: hsl(0, 0%, 94.66%);
