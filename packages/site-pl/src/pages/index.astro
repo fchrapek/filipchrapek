@@ -9,11 +9,12 @@ import profileImage from "../../public/filipchrapek-profile.jpg";
 ---
 
 <PageLayout meta={{ title: "Strona główna" }} profileImage={profileImage}>
+  <Separator size={{ mobile: "2xl", desktop: "2xl" }} border />
   <Services />
-  <Separator size={{ mobile: "lg", desktop: "xl" }} border />
-  <PinnedPosts />
-  <Separator size={{ mobile: "lg", desktop: "xl" }} border />
+  <!-- <Separator size={{ mobile: "2xl", desktop: "2xl" }} border /> -->
+  <!-- <PinnedPosts /> -->
+  <Separator size={{ mobile: "2xl", desktop: "2xl" }} border />
   <PostsList />
-  <Separator size={{ mobile: "lg", desktop: "xl" }} border />
+  <Separator size={{ mobile: "2xl", desktop: "2xl" }} border />
   <NotesList />
 </PageLayout>
