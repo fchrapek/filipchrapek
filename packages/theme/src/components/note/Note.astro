@@ -4,46 +4,82 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	note: CollectionEntry<"note"> | CollectionEntry<"notatka">;
-	isPreview?: boolean | undefined;
+  note: CollectionEntry<"note"> | CollectionEntry<"notatka">;
+  isPreview?: boolean | undefined;
 };
 
 const { as: Tag = "div", note, isPreview = false } = Astro.props;
 const { Content } = await render(note);
 
-// Determine the base path based on collection
 const basePath = note.collection === "notatka" ? "/notatki/" : "/notes/";
 ---
 
 <article
-	class:list={[isPreview && "note-preview"]}
-	data-pagefind-body={isPreview ? false : true}
+  class:list={[{ preview: isPreview }]}
+  data-pagefind-body={isPreview ? false : true}
 >
-	<Tag class="section__title" class:list={{ "section__title--small": isPreview }}>
-		{
-			isPreview ? (
-				<a href={`${basePath}${note.id}/`} style="text-decoration: underline; text-underline-offset: 2px">
-					{note.data.title}
-				</a>
-			) : (
-				<>{note.data.title}</>
-			)
-		}
-	</Tag>
-	<FormattedDate
-		dateTimeOptions={{
-			hour: "2-digit",
-			minute: "2-digit",
-			year: "2-digit",
-			month: "2-digit",
-			day: "2-digit",
-		}}
-		date={note.data.publishDate}
-	/>
-	<div
-		class="note-content prose prose--sm"
-		class:list={{ "note-content--preview": isPreview }}
-	>
-		<Content />
-	</div>
+  <Tag class="section-title" class:list={{ "section-title--small": isPreview }}>
+    {
+      isPreview ? (
+        <a href={`${basePath}${note.id}/`} class="title-link">
+          {note.data.title}
+        </a>
+      ) : (
+        <>{note.data.title}</>
+      )
+    }
+  </Tag>
+  <FormattedDate
+    class="text--dimmed"
+    size="sm"
+    dateTimeOptions={{
+      hour: "2-digit",
+      minute: "2-digit",
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+    }}
+    date={note.data.publishDate}
+  />
+  <div
+    class:list={[
+      "content",
+      "prose",
+      "prose--sm",
+      { "content--preview": isPreview, "prose--dimmed": isPreview },
+    ]}
+  >
+    <Content />
+  </div>
 </article>
+
+<style>
+  .preview {
+    display: inline-grid;
+    padding: var(--fluid-space-16-32);
+    border-radius: var(--radius-md);
+    background-color: color-mix(in srgb, var(--color-text) 5%, transparent);
+  }
+
+  .title-link {
+    display: block;
+    margin-block-end: rem(4);
+  }
+
+  .content {
+    max-inline-size: none;
+    margin-block-start: var(--space-sm);
+
+    & > :global(p:last-of-type) {
+      margin-block-end: 0;
+    }
+  }
+
+  .content--preview {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+  }
+</style>

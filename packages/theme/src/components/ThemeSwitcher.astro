@@ -3,69 +3,128 @@ import { getThemesForLang } from "@/config/themes";
 import { siteConfig } from "@/site.config";
 import { getLang } from "@/utils/i18n";
 
-// Get current language from site config
 const lang = getLang(siteConfig.lang);
 const themesForLang = getThemesForLang(lang);
 
-// i18n labels
 const labels = {
-	en: { style: 'Style:' },
-	pl: { style: 'Styl:' },
+  en: { style: "Style:" },
+  pl: { style: "Styl:" },
 };
 ---
 
-<div class="theme-switcher">
-	<label for="theme-select" class="theme-switcher__label">
-		{labels[lang].style}
-	</label>
-	<select id="theme-select" class="theme-switcher__select">
-		{themesForLang.map((theme) => (
-			<option value={theme.id}>{theme.label}</option>
-		))}
-	</select>
+<div class="switcher">
+  <label for="theme-select" class="label">
+    {labels[lang].style}
+  </label>
+  <select id="theme-select" class="select">
+    {
+      themesForLang.map((theme) => (
+        <option value={theme.id}>{theme.label}</option>
+      ))
+    }
+  </select>
 </div>
 
 <script>
-	const THEME_KEY = 'site-style-theme';
+  const THEME_KEY = "site-style-theme";
 
-	function getStoredTheme(): string {
-		return localStorage.getItem(THEME_KEY) || 'default';
-	}
+  function getStoredTheme(): string {
+    return localStorage.getItem(THEME_KEY) || "default";
+  }
 
-	function setStoredTheme(theme: string): void {
-		localStorage.setItem(THEME_KEY, theme);
-	}
+  function setStoredTheme(theme: string): void {
+    localStorage.setItem(THEME_KEY, theme);
+  }
 
-	function applyTheme(theme: string): void {
-		document.documentElement.setAttribute('data-style-theme', theme);
-	}
+  function applyTheme(theme: string): void {
+    document.documentElement.setAttribute("data-style-theme", theme);
+  }
 
-	// Initialize theme on page load
-	const storedTheme = getStoredTheme();
-	applyTheme(storedTheme);
+  const storedTheme = getStoredTheme();
+  applyTheme(storedTheme);
 
-	// Set select value to stored theme
-	const selectElement = document.getElementById('theme-select') as HTMLSelectElement;
-	if (selectElement) {
-		selectElement.value = storedTheme;
+  const selectElement = document.getElementById(
+    "theme-select",
+  ) as HTMLSelectElement;
+  if (selectElement) {
+    selectElement.value = storedTheme;
 
-		// Handle theme change
-		selectElement.addEventListener('change', (e) => {
-			const target = e.target as HTMLSelectElement;
-			const newTheme = target.value;
-			applyTheme(newTheme);
-			setStoredTheme(newTheme);
-		});
-	}
+    selectElement.addEventListener("change", (e) => {
+      const target = e.target as HTMLSelectElement;
+      const newTheme = target.value;
+      applyTheme(newTheme);
+      setStoredTheme(newTheme);
+    });
+  }
 
-	// Apply theme on navigation (for view transitions)
-	document.addEventListener('astro:page-load', () => {
-		const currentTheme = getStoredTheme();
-		applyTheme(currentTheme);
-		
-		const select = document.getElementById('theme-select') as HTMLSelectElement;
-		if (select) {
-			select.value = currentTheme;
-		}
-	});
+  document.addEventListener("astro:page-load", () => {
+    const currentTheme = getStoredTheme();
+    applyTheme(currentTheme);
+
+    const select = document.getElementById("theme-select") as HTMLSelectElement;
+    if (select) {
+      select.value = currentTheme;
+    }
+  });
 </script>
+
+<style>
+  .switcher {
+    position: fixed;
+    inset-block-start: var(--space-sm);
+    inset-inline-end: var(--space-sm);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    background-color: color-mix(in srgb, var(--color-bg) 90%, transparent);
+    backdrop-filter: blur(8px);
+
+    @media (min-width: 64rem) {
+      display: flex;
+    }
+  }
+
+  :global(html[data-theme="dark"]) .switcher {
+    border-color: var(--color-gray-700);
+  }
+
+  .label {
+    color: var(--color-text);
+    font-size: var(--fluid-text-small);
+    font-weight: var(--font-medium);
+  }
+
+  .select {
+    padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-xs);
+    border: 1px solid var(--color-gray-400);
+    border-radius: var(--radius-xs);
+    background-color: var(--color-bg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-xs) center;
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: var(--fluid-text-small);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    appearance: none;
+
+    &:hover {
+      border-color: var(--color-accent-2);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-accent-2);
+      outline-offset: 2px;
+    }
+  }
+
+  :global(html[data-theme="dark"]) .select {
+    border-color: var(--color-gray-600);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+</style>

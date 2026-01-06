@@ -1,27 +1,67 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
-import { getLang } from "@/utils/i18n";
+import { siteConfig } from "@/site.config";
+import DesktopNav from "./DesktopNav.astro";
 
 const year = new Date().getFullYear();
-const lang = getLang(siteConfig.lang);
-const srLabel = lang === "pl" ? "Więcej na stronie" : "More on this site";
 ---
 
 <footer class="footer">
-  <div class="footer__copyright">
+  <div class="copyright">
     &copy; {siteConfig.author}
-    {year}.<span class="footer__site-name"
-      >&nbsp;🚀&nbsp;{siteConfig.title}</span
-    >
+    {year}.<span class="site-name">&nbsp;🚀&nbsp;{siteConfig.title}</span>
   </div>
-  <nav aria-labelledby="footer_links" class="footer__nav">
-    <p id="footer_links" class="sr-only">{srLabel}</p>
-    {
-      menuLinks.map((link) => (
-        <a class="footer__nav-link" href={link.path}>
-          {link.title}
-        </a>
-      ))
-    }
-  </nav>
+  <DesktopNav class="nav" />
 </footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+    inline-size: 100%;
+    margin-block-start: auto;
+    padding-block: var(--space-lg);
+    color: var(--color-gray-600);
+    font-size: var(--fluid-text-small);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-small);
+    text-align: center;
+
+    @media (min-width: 40rem) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .copyright {
+    margin-inline-end: 0;
+
+    @media (min-width: 40rem) {
+      margin-inline-end: var(--space-sm);
+    }
+  }
+
+  .site-name {
+    display: inline-block;
+  }
+
+  .nav {
+    font-size: var(--fluid-text-small);
+
+    :global(.link) {
+      padding-inline: var(--space-sm);
+      color: var(--color-gray-600);
+      font-weight: var(--font-medium);
+      text-decoration: none;
+      text-transform: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--color-text);
+        text-decoration: underline;
+      }
+    }
+  }
+</style>

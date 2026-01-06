@@ -1,106 +1,94 @@
 ---
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
-import { siteConfig, menuLinks } from "@/site.config";
-import { getLang } from "@/utils/i18n";
+import DesktopNav from "./DesktopNav.astro";
+import MobileNav from "./MobileNav.astro";
+import { siteConfig } from "@/site.config";
 
 interface Props {
   class?: string;
 }
 
 const { class: className } = Astro.props;
-const classes = className ? `header ${className}` : "header";
-const lang = getLang(siteConfig.lang);
-const openMenuLabel = lang === "pl" ? "Otwórz menu" : "Open main menu";
 ---
 
-<header class={classes} id="main-header">
-  <div class="header__brand">
+<header class:list={["header", className]} id="main-header">
+  <div class="brand">
     <a
       aria-current={Astro.url.pathname === "/" ? "page" : false}
-      class="header__logo-link"
+      class="logo-link"
       href="/"
     >
-      <span class="header__title">{siteConfig.title}</span>
+      <span class="logo-text">{siteConfig.title}</span>
     </a>
-    <nav aria-label="Main menu" class="header__nav" id="navigation-menu">
-      {
-        menuLinks.map((link) => (
-          <a
-            aria-current={Astro.url.pathname === link.path ? "page" : false}
-            class="header__nav-link"
-            href={link.path}
-          >
-            {link.title}
-          </a>
-        ))
-      }
-    </nav>
+    <DesktopNav class="desktop-nav" />
   </div>
-  <Search />
-  <ThemeToggle />
-  <mobile-button>
-    <button
-      aria-expanded="false"
-      aria-haspopup="menu"
-      class="header__menu-toggle"
-      id="toggle-navigation-menu"
-      type="button"
-    >
-      <span class="sr-only">{openMenuLabel}</span>
-      <svg
-        aria-hidden="true"
-        class="header__menu-icon header__menu-icon--open"
-        fill="none"
-        focusable="false"
-        id="line-svg"
-        stroke="currentColor"
-        stroke-width="1.5"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M3.75 9h16.5m-16.5 6.75h16.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-      <svg
-        aria-hidden="true"
-        class="header__menu-icon header__menu-icon--close"
-        fill="none"
-        focusable="false"
-        id="cross-svg"
-        stroke="currentColor"
-        stroke-width="1.5"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M6 18L18 6M6 6l12 12"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-    </button>
-  </mobile-button>
+  <div class="actions">
+    <Search />
+    <ThemeToggle />
+    <MobileNav class="mobile-nav" />
+  </div>
 </header>
 
-<script>
-  import { toggleClass } from "@/utils/domElement";
+<style>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-end: var(--space-lg);
+  }
 
-  class MobileNavBtn extends HTMLElement {
-    #menuOpen: boolean = false;
+  .brand {
+    display: flex;
 
-    connectedCallback() {
-      const headerEl = document.getElementById("main-header")!;
-      const mobileButtonEl = this.querySelector<HTMLButtonElement>("button");
-
-      mobileButtonEl?.addEventListener("click", () => {
-        if (headerEl) toggleClass(headerEl, "header--menu-open");
-        this.#menuOpen = !this.#menuOpen;
-        mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
-      });
+    @media (min-width: 40rem) {
+      flex-direction: column;
     }
   }
 
-  customElements.define("mobile-button", MobileNavBtn);
-</script>
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    @media (min-width: 40rem) {
+      position: relative;
+      display: inline-block;
+    }
+  }
+
+  .logo-text {
+    font-size: var(--fluid-text-h3);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-h3);
+
+    @media (min-width: 40rem) {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      border-width: 0;
+      white-space: nowrap;
+      clip: rect(0, 0, 0, 0);
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .mobile-nav {
+    @media (min-width: 40rem) {
+      display: none;
+    }
+  }
+</style>

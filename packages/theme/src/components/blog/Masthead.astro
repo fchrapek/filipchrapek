@@ -36,7 +36,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 {
   data.coverImage && (
-    <div class="masthead__cover">
+    <div class="cover">
       <Image
         alt={data.coverImage.alt}
         layout="constrained"
@@ -48,16 +48,12 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     </div>
   )
 }
-{
-  data.draft ? (
-    <span class="masthead__draft-label">{labels[lang].draft}</span>
-  ) : null
-}
-<h1 class="masthead__title">
+{data.draft ? <span class="draft-label">{labels[lang].draft}</span> : null}
+<h1 class="title">
   {data.title}
 </h1>
-<div class="masthead__meta">
-  <p class="masthead__date">
+<div class="meta">
+  <p class="date">
     <FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> /{
       " "
     }
@@ -65,10 +61,10 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   </p>
   {
     data.updatedDate && (
-      <span class="masthead__updated">
+      <span class="updated">
         {labels[lang].updated}
         <FormattedDate
-          class="masthead__updated-date"
+          class="updated-date"
           date={data.updatedDate}
           dateTimeOptions={dateTimeOptions}
         />
@@ -78,10 +74,10 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 </div>
 {
   !!data.tags?.length && (
-    <div class="masthead__tags">
+    <div class="tags">
       <svg
         aria-hidden="true"
-        class="masthead__tags-icon"
+        class="tags-icon"
         fill="none"
         focusable="false"
         stroke="currentColor"
@@ -99,8 +95,8 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
       {data.tags.map((tag, i) => (
         <>
           {/* prettier-ignore */}
-          <span class="masthead__tag">
-						<a class="masthead__tag-link" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">{labels[lang].viewMore}&nbsp;</span>{tag}
+          <span class="tag">
+						<a class="tag-link" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">{labels[lang].viewMore}&nbsp;</span>{tag}
 						</a>{i < data.tags.length - 1 && ", "}
 					</span>
         </>
@@ -108,3 +104,78 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     </div>
   )
 }
+
+<style>
+  .cover {
+    aspect-ratio: 16 / 9;
+    margin-block-end: var(--space-sm);
+  }
+
+  .draft-label {
+    color: var(--color-red-500);
+    font-size: var(--text-base);
+  }
+
+  .title {
+    color: var(--color-accent-2);
+    font-size: var(--fluid-text-h2);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-h2);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm) var(--space-xs);
+  }
+
+  .date {
+    font-weight: var(--font-medium);
+  }
+
+  .updated {
+    padding: var(--space-xs);
+    border-radius: 0.5rem;
+    background-color: color-mix(in srgb, var(--color-quote) 5%, transparent);
+    color: var(--color-quote);
+  }
+
+  :global(.updated-date) {
+    margin-inline-start: var(--space-xs);
+  }
+
+  .tags {
+    margin-block-start: var(--space-xs);
+  }
+
+  .tags-icon {
+    display: inline-block;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    vertical-align: middle;
+  }
+
+  .tag {
+    display: contents;
+  }
+
+  .tag-link {
+    display: inline-block;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 2px;
+    transition:
+      text-decoration-color 0.2s ease,
+      text-decoration-thickness 0.2s ease;
+
+    &::before {
+      content: "#";
+    }
+
+    &:hover {
+      text-decoration-color: var(--color-link);
+      text-decoration-thickness: 2px;
+    }
+  }
+</style>

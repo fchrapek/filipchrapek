@@ -4,20 +4,20 @@
 
 @font-face {
   font-family: "Switzer";
-  src: url("../../assets/fonts/Switzer-Variable.woff2")
-    format("woff2-variations");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+  src: url("../../assets/fonts/Switzer-Variable.woff2")
+    format("woff2-variations");
 }
 
 @font-face {
   font-family: "Switzer";
-  src: url("../../assets/fonts/Switzer-VariableItalic.woff2")
-    format("woff2-variations");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
+  src: url("../../assets/fonts/Switzer-VariableItalic.woff2")
+    format("woff2-variations");
 }
 
 :root {

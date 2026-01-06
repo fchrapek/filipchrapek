@@ -10,31 +10,25 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 
 const { as: Tag = "div", post, withArrow = false } = Astro.props;
 
-// Determine the base path based on collection
 const basePath = post.collection === "artykul" ? "/artykuly/" : "/posts/";
-// Use only the filename, not the full path (strips folder structure)
 const slug = post.id.split("/").pop();
 const postUrl = `${basePath}${slug}/`;
 ---
 
 <a
-  class:list={["post-preview", { "post-preview--with-arrow": withArrow }]}
+  class:list={["preview", { "preview--with-arrow": withArrow }]}
   href={postUrl}
 >
-  <FormattedDate class="post-preview__date" date={post.data.publishDate} />
-  <div class="post-preview__main">
-    <Tag class="post-preview__title">
-      {
-        post.data.draft && (
-          <span class="post-preview__draft-label">(Draft) </span>
-        )
-      }
+  <FormattedDate class="date text--dimmed" date={post.data.publishDate} />
+  <div class="main">
+    <Tag class="title">
+      {post.data.draft && <span class="draft-label">(Draft) </span>}
       {post.data.title}
     </Tag>
     {
       withArrow && (
         <svg
-          class="post-preview__arrow"
+          class="arrow"
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -53,3 +47,63 @@ const postUrl = `${basePath}${slug}/`;
     }
   </div>
 </a>
+
+<style>
+  .preview {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .preview--with-arrow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block: var(--space-sm);
+
+    @media (min-width: 40rem) {
+      display: grid;
+      column-gap: var(--space-sm);
+      grid-template-columns: repeat(12, 1fr);
+    }
+  }
+
+  .preview :global(.date) {
+    @media (min-width: 40rem) {
+      grid-column: 1 / 4;
+    }
+  }
+
+  :global(html[data-theme="dark"]) .preview :global(.date) {
+    color: var(--color-gray-400);
+  }
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    @media (min-width: 40rem) {
+      grid-column: 5 / 13;
+    }
+  }
+
+  .arrow {
+    flex-shrink: 0;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    color: var(--color-gray-400);
+    transition:
+      transform 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .preview:hover .arrow {
+    color: var(--color-text);
+    transform: translateX(4px);
+  }
+
+  .draft-label {
+    color: var(--color-red-500);
+  }
+</style>

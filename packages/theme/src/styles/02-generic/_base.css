@@ -3,10 +3,10 @@
    ============================================ */
 
 html {
-  color-scheme: light dark;
   accent-color: var(--color-accent);
-  scrollbar-gutter: stable;
+  color-scheme: light dark;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 
   &[data-theme="light"] {
     color-scheme: light;
@@ -20,13 +20,13 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-block-size: 100vh;
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--fluid-text-base);
-  line-height: var(--leading-base);
   font-weight: var(--font-normal);
+  line-height: var(--leading-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -46,22 +46,22 @@ body {
 }
 
 [data-astro-image="full-width"] {
-  width: 100%;
+  inline-size: 100%;
 }
 
 [data-astro-image="constrained"] {
-  max-width: 100%;
+  max-inline-size: 100%;
 }
 
 /* Screen reader only */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
+  inline-size: 1px;
+  block-size: 1px;
   margin: -1px;
+  padding: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
   border-width: 0;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
 }

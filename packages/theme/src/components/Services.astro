@@ -1,5 +1,4 @@
 ---
-import ServiceItem from "./ServiceItem.astro";
 import { translations } from "@/i18n/translations";
 import { siteConfig } from "@/site.config";
 import { getLang } from "@/utils/i18n";
@@ -11,17 +10,63 @@ const { services } = content;
 ---
 
 <section class="services">
-  <h2 class="services__title">{t.sections.services}</h2>
-  <ul class="services__list list-reset">
+  <h2 class="title">{t.sections.services}</h2>
+  <ul class="list list-reset">
     {
       services.map((service) => (
-        <li class="services__item">
-          <h3 class="services__item-title">{service.title}</h3>
-          <p class="services__item-description text--dimmed">
-            {service.description}
-          </p>
+        <li class="item">
+          <h3 class="item-title">{service.title}</h3>
+          <p class="item-description text--dimmed">{service.description}</p>
         </li>
       ))
     }
   </ul>
 </section>
+
+<style>
+  .services {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    margin-block-end: var(--space-md);
+    line-height: 1;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block: var(--space-sm);
+
+    @media (min-width: 40rem) {
+      display: grid;
+      column-gap: var(--space-sm);
+      grid-template-columns: repeat(12, 1fr);
+    }
+  }
+
+  .item-title {
+    margin-block-end: var(--space-sm);
+    font-size: var(--fluid-text-base);
+
+    @media (min-width: 40rem) {
+      grid-column: 1 / 4;
+      margin-block-end: 0;
+    }
+  }
+
+  .item-description {
+    margin: 0;
+
+    @media (min-width: 40rem) {
+      grid-column: 5 / 13;
+    }
+  }
+</style>

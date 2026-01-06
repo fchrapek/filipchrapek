@@ -1,6 +1,6 @@
 /* ============================================
    MAIN STYLESHEET
-   Modern CSS Architecture (BEM-like)
+   Modern CSS Architecture
    ============================================ */
 
 /* Settings - Design tokens */
@@ -9,6 +9,7 @@
 @import "./00-settings/_typography.css";
 @import "./00-settings/_spacing.css";
 @import "./00-settings/_fluid.css";
+@import "./00-settings/_radius.css";
 
 /* Utilities - Helper classes */
 @import "./01-utilities/_display.css";
@@ -21,33 +22,12 @@
 /* Elements - Base element styles */
 @import "./03-elements/_typography.css";
 @import "./03-elements/_prose.css";
+@import "./03-elements/_admonition.css";
+@import "./03-elements/_github-card.css";
 
 /* Layouts - Page structure */
 @import "./04-layouts/_grid.css";
-@import "./04-layouts/_header.css";
-@import "./04-layouts/_footer.css";
 @import "./04-layouts/_blog-post.css";
-
-/* Components - Reusable UI components */
-@import "./05-components/_paginator.css";
-@import "./05-components/_theme-toggle.css";
-@import "./05-components/_search.css";
-@import "./05-components/_social-list.css";
-@import "./05-components/_post-preview.css";
-@import "./05-components/_masthead.css";
-@import "./05-components/_admonition.css";
-@import "./05-components/_github-card.css";
-@import "./05-components/_toc.css";
-@import "./05-components/_tags.css";
-@import "./05-components/_posts-page.css";
-@import "./05-components/_webmentions.css";
-@import "./05-components/_notes.css";
-@import "./05-components/_breadcrumbs.css";
-@import "./05-components/_theme-switcher.css";
-@import "./05-components/_profile-image.css";
-@import "./05-components/_index-hero.css";
-@import "./05-components/_separator.css";
-@import "./05-components/_services.css";
 
 /* Themes - Alternative style themes */
 @import "./06-themes/_motherfuckingwebsite.css";

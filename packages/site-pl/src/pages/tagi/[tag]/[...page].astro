@@ -60,20 +60,20 @@ const paginationProps = {
 
 <PageLayout meta={meta}>
   <nav class="breadcrumbs" aria-label="Breadcrumbs">
-    <ul class="breadcrumbs__list">
-      <li class="breadcrumbs__item">
-        <a class="breadcrumbs__link" href="/tagi/">{breadcrumbs.tags}</a>
+    <ul class="breadcrumbs-list">
+      <li class="breadcrumbs-item">
+        <a class="breadcrumbs-link" href="/tagi/">{breadcrumbs.tags}</a>
         <Icon
           aria-hidden="true"
           name="mdi:chevron-right"
-          class="breadcrumbs__separator"
+          class="breadcrumbs-separator"
         />
       </li>
       <li aria-current="page"><span aria-hidden="true">#</span>{tag}</li>
     </ul>
   </nav>
   <h1
-    class="section__title section__title--large"
+    class="section-title section-title--large"
     style="text-transform: capitalize"
   >
     {tagMeta?.data.title ?? `${t.postsAbout} ${tag}`}
@@ -93,3 +93,36 @@ const paginationProps = {
   </ul>
   <Pagination {...paginationProps} />
 </PageLayout>
+
+<style>
+  .breadcrumbs {
+    margin-block-end: var(--space-md);
+  }
+
+  .breadcrumbs-list {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .breadcrumbs-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumbs-link {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-link);
+    }
+  }
+
+  .breadcrumbs-separator {
+    margin-inline: var(--space-xs);
+  }
+</style>

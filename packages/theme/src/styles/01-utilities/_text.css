@@ -2,7 +2,54 @@
    TEXT UTILITIES
    ============================================ */
 
+/* Text sizes */
+.text--small {
+  font-size: var(--fluid-text-small);
+}
+
+.text--large {
+  font-size: var(--fluid-text-h4);
+}
+
 /* Dimmed text color */
 .text--dimmed {
   color: var(--color-text-dimmed);
+}
+
+/* Section titles */
+.section-title {
+  color: var(--color-accent-2);
+  font-size: var(--fluid-text-h3);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-h3);
+}
+
+.section-title--large {
+  font-size: var(--fluid-text-h2);
+  line-height: var(--leading-h2);
+}
+
+.section-title--small {
+  font-size: var(--fluid-text-h4);
+  line-height: var(--leading-h4);
+}
+
+/* Index section */
+.index-section {
+  margin-block-start: var(--space-lg);
+}
+
+.index-section-title {
+  margin-block-end: var(--space-sm);
+  color: var(--color-accent-2);
+  font-size: var(--fluid-text-h4);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-h4);
+}
+
+/* Post list */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }

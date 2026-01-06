@@ -6,11 +6,20 @@ export const content = {
     profileAlt: "Filip Chrapek",
   },
   services: [
-    { title: "Web Dev", description: "Custom websites and web applications" },
-    { title: "Design", description: "UI/UX design and visual identity" },
+    {
+      title: "Web Development",
+      description:
+        "Custom, modern WordPress sites and web applications. Clean code, fast performance, built to last.",
+    },
+    {
+      title: "UX/UI Design",
+      description:
+        "User-centered design in Figma, enhanced with AI tools. Modern interfaces that work.",
+    },
     {
       title: "Consulting",
-      description: "Technical consulting and code reviews",
+      description:
+        "Technical guidance, code reviews, and strategy sessions. Book a call to get started.",
     },
   ],
   about: {

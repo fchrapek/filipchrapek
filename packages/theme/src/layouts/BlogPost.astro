@@ -2,7 +2,6 @@
 import { type CollectionEntry, render } from "astro:content";
 
 import Masthead from "@/components/blog/Masthead.astro";
-import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import { siteConfig } from "@/site.config";
@@ -19,7 +18,7 @@ const { ogImage, title, description, updatedDate, publishDate } = post.data;
 const slug = post.id.split("/").pop();
 const socialImage = ogImage ?? `/og-image/${slug}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
-const { headings, remarkPluginFrontmatter } = await render(post);
+const { remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 
 const lang = getLang(siteConfig.lang);
@@ -36,22 +35,19 @@ const backToTopLabel = lang === "pl" ? "Wróć na górę" : "Back to top";
 >
   <StructuredData post={post} type="article" />
   <article class="blog-post" data-pagefind-body>
-    <div id="blog-hero" class="blog-post__hero">
+    <div id="blog-hero" class="blog-post-hero">
       <Masthead content={post} readingTime={readingTime} />
     </div>
-    <div class="blog-post__container">
-      {!!headings.length && <TOC headings={headings} />}
-      <div class="blog-post__content prose prose--sm">
-        <slot />
-        <WebMentions />
-      </div>
+    <div class="blog-post-content prose prose--sm">
+      <slot />
+      <WebMentions />
     </div>
   </article>
   <button class="back-to-top" data-show="false" id="to-top-btn">
     <span class="sr-only">{backToTopLabel}</span>
     <svg
       aria-hidden="true"
-      class="back-to-top__icon"
+      class="back-to-top-icon"
       fill="none"
       focusable="false"
       stroke="currentColor"

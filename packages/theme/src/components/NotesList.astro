@@ -22,15 +22,23 @@ const notes = allNotes.sort(collectionDateSort).slice(0, maxNotes);
 
 {
   notes.length > 0 && (
-    <section class="index-section">
-      <h2 class="index-section__title">
+    <section class="notes">
+      <h2 class="title">
         <a href={t.sections.notes.href}>{t.sections.notes.title}</a>
       </h2>
-      <div class="post-list post-list--notes">
+      <ul class="post-list post-list--notes list-reset">
         {notes.map((note) => (
-          <Note note={note} as="h3" isPreview />
+          <li>
+            <Note note={note} as="h3" isPreview />
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   )
 }
+
+<style>
+  .title {
+    margin-block-end: var(--space-md);
+  }
+</style>

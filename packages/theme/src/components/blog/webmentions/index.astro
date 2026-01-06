@@ -12,14 +12,40 @@ if (!webMentions.length) return;
 ---
 
 <div class="webmentions">
-	<hr style="border-style: solid" />
-	<h2 class="webmentions__title">Webmentions for this post</h2>
-	<div class="webmentions__sections">
-		<Likes mentions={webMentions} />
-		<Comments mentions={webMentions} />
-	</div>
-	<p class="webmentions__footer">
-		Responses powered by{" "}
-		<a href="https://webmention.io" rel="noreferrer" target="_blank">Webmentions</a>
-	</p>
+  <hr style="border-style: solid" />
+  <h2 class="title">Webmentions for this post</h2>
+  <div class="sections">
+    <Likes mentions={webMentions} />
+    <Comments mentions={webMentions} />
+  </div>
+  <p class="footer">
+    Responses powered by{" "}
+    <a href="https://webmention.io" rel="noreferrer" target="_blank"
+      >Webmentions</a
+    >
+  </p>
 </div>
+
+<style>
+  .webmentions {
+    margin-block-start: var(--space-lg);
+  }
+
+  .title {
+    margin-block-end: var(--space-md);
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .footer {
+    margin-block-start: var(--space-md);
+  }
+</style>

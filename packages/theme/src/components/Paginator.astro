@@ -2,28 +2,55 @@
 import type { PaginationLink } from "@/types";
 
 interface Props {
-	nextUrl?: PaginationLink;
-	prevUrl?: PaginationLink;
+  nextUrl?: PaginationLink;
+  prevUrl?: PaginationLink;
 }
 
 const { nextUrl, prevUrl } = Astro.props;
 ---
 
 {
-	(prevUrl || nextUrl) && (
-		<nav class="paginator">
-			{prevUrl && (
-				<a class="paginator__link paginator__link--prev" href={prevUrl.url}>
-					{prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}
-					{prevUrl.text ? prevUrl.text : "Previous"}
-				</a>
-			)}
-			{nextUrl && (
-				<a class="paginator__link paginator__link--next" href={nextUrl.url}>
-					{nextUrl.srLabel && <span class="sr-only">{nextUrl.srLabel}</span>}
-					{nextUrl.text ? nextUrl.text : "Next"}
-				</a>
-			)}
-		</nav>
-	)
+  (prevUrl || nextUrl) && (
+    <nav class="paginator">
+      {prevUrl && (
+        <a class="link link--prev" href={prevUrl.url}>
+          {prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}
+          {prevUrl.text ? prevUrl.text : "Previous"}
+        </a>
+      )}
+      {nextUrl && (
+        <a class="link link--next" href={nextUrl.url}>
+          {nextUrl.srLabel && <span class="sr-only">{nextUrl.srLabel}</span>}
+          {nextUrl.text ? nextUrl.text : "Next"}
+        </a>
+      )}
+    </nav>
+  )
 }
+
+<style>
+  .paginator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-block-start: var(--space-md);
+  }
+
+  .link {
+    padding-block: var(--space-xs);
+    color: var(--color-text);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  .link--prev {
+    margin-inline-end: auto;
+  }
+
+  .link--next {
+    margin-inline-start: auto;
+  }
+</style>

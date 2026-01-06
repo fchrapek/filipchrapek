@@ -25,7 +25,7 @@ const t = translations[lang];
 {
   pinnedPosts.length > 0 && (
     <section class="index-section">
-      <h2 class="index-section__title">{t.sections.pinnedPosts}</h2>
+      <h2 class="index-section-title">{t.sections.pinnedPosts}</h2>
       <div class="post-list">
         {pinnedPosts.map((post) => (
           <PostPreview post={post} withArrow />

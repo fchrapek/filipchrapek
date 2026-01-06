@@ -6,14 +6,20 @@ export const content = {
     profileAlt: "Filip Chrapek",
   },
   services: [
-    { title: "Web Dev", description: "Strony internetowe i aplikacje webowe" },
     {
-      title: "Design",
-      description: "Projektowanie UI/UX i identyfikacja wizualna",
+      title: "Web Development",
+      description:
+        "Nowoczesne strony WordPress i aplikacje webowe. Czysty kod, szybkie działanie, solidne wykonanie.",
+    },
+    {
+      title: "UX/UI Design",
+      description:
+        "Projektowanie w Figmie z wykorzystaniem AI. Nowoczesne interfejsy, które działają.",
     },
     {
       title: "Konsulting",
-      description: "Konsultacje techniczne i przeglądy kodu",
+      description:
+        "Doradztwo techniczne, przeglądy kodu i sesje strategiczne. Umów się na rozmowę.",
     },
   ],
   about: {

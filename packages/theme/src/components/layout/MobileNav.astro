@@ -1,0 +1,187 @@
+---
+import { menuLinks, siteConfig } from "@/site.config";
+import { getLang } from "@/utils/i18n";
+
+interface Props {
+  class?: string;
+  currentPath?: string;
+}
+
+const { class: className, currentPath = Astro.url.pathname } = Astro.props;
+
+const lang = getLang(siteConfig.lang);
+const openMenuLabel = lang === "pl" ? "Otwórz menu" : "Open main menu";
+
+const filteredLinks = menuLinks.filter(
+  (link) => !(link.path === "/" && currentPath === "/")
+);
+---
+
+<div class:list={["mobile-nav", className]}>
+  <mobile-button>
+    <button
+      aria-expanded="false"
+      aria-haspopup="menu"
+      class="toggle"
+      id="toggle-navigation-menu"
+      type="button"
+    >
+      <span class="sr-only">{openMenuLabel}</span>
+      <svg
+        aria-hidden="true"
+        class="icon icon--open"
+        fill="none"
+        focusable="false"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3.75 9h16.5m-16.5 6.75h16.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+      <svg
+        aria-hidden="true"
+        class="icon icon--close"
+        fill="none"
+        focusable="false"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6 18L18 6M6 6l12 12"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </button>
+  </mobile-button>
+  <nav aria-label="Main menu" class="menu" id="mobile-menu">
+    {
+      filteredLinks.map((link) => (
+        <a
+          aria-current={currentPath === link.path ? "page" : false}
+          class="link"
+          href={link.path}
+        >
+          {link.title}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<script>
+  import { toggleClass } from "@/utils/domElement";
+
+  class MobileNavBtn extends HTMLElement {
+    #menuOpen: boolean = false;
+
+    connectedCallback() {
+      const mobileNavEl = this.closest(".mobile-nav")!;
+      const mobileButtonEl = this.querySelector<HTMLButtonElement>("button");
+
+      mobileButtonEl?.addEventListener("click", () => {
+        if (mobileNavEl) toggleClass(mobileNavEl, "menu-open");
+        this.#menuOpen = !this.#menuOpen;
+        mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
+      });
+    }
+  }
+
+  customElements.define("mobile-button", MobileNavBtn);
+</script>
+
+<style>
+  .mobile-nav {
+    position: relative;
+
+    @media (min-width: 40rem) {
+      display: none;
+    }
+  }
+
+  .toggle {
+    position: relative;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+  }
+
+  .icon {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    inline-size: 100%;
+    block-size: 100%;
+    transform: translate(-50%, -50%);
+    transition:
+      scale 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .icon--close {
+    color: var(--color-accent);
+    opacity: 0;
+    scale: 0;
+
+    .toggle[aria-expanded="true"] & {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  .icon--open {
+    opacity: 1;
+    scale: 1;
+
+    .toggle[aria-expanded="true"] & {
+      opacity: 0;
+      scale: 0;
+    }
+  }
+
+  .menu {
+    position: absolute;
+    inset-block-start: 2.5rem;
+    inset-inline-end: 0;
+    display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in srgb, var(--color-bg) 85%, transparent);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    backdrop-filter: blur(8px);
+
+    .mobile-nav.menu-open & {
+      z-index: 50;
+      display: flex;
+    }
+  }
+
+  .link {
+    padding: var(--space-xs);
+    font-weight: var(--font-medium);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 2px;
+    text-transform: uppercase;
+    transition: text-decoration-color 0.2s ease;
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+
+    &[aria-current="page"] {
+      font-weight: var(--font-semibold);
+    }
+  }
+</style>

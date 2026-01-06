@@ -49,22 +49,22 @@ const paginationProps = {
 
 <PageLayout meta={meta}>
   <section>
-    <div class="notes-header">
-      <h1 class="notes-header__title">{t.title}</h1>
-      <a class="notes-header__rss" href="/notes/rss.xml" target="_blank">
+    <div class="header">
+      <h1 class="title">{t.title}</h1>
+      <a class="rss" href="/notes/rss.xml" target="_blank">
         <span class="sr-only">{t.rssFeed}</span>
         <Icon
           aria-hidden="true"
-          class="notes-header__rss-icon"
+          class="rss-icon"
           focusable="false"
           name="mdi:rss"
         />
       </a>
     </div>
-    <ul class="notes-list">
+    <ul class="list">
       {
         page.data.map((note) => (
-          <li class="">
+          <li>
             <Note note={note} as="h2" isPreview />
           </li>
         ))
@@ -73,3 +73,38 @@ const paginationProps = {
     <Pagination {...paginationProps} />
   </section>
 </PageLayout>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-block-end: var(--space-lg);
+  }
+
+  .title {
+    color: var(--color-accent-2);
+    font-size: var(--fluid-text-h2);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-h2);
+  }
+
+  .rss {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .rss-icon {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-block-start: var(--space-sm);
+    padding: 0;
+    list-style: none;
+  }
+</style>

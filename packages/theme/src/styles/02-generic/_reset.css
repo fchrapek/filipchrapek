@@ -5,19 +5,19 @@
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 * {
-	margin: 0;
+  margin: 0;
 }
 
 html {
-	hanging-punctuation: first last;
+  hanging-punctuation: first last;
 }
 
 body {
-	line-height: var(--leading-normal);
+  line-height: var(--leading-normal);
 }
 
 img,
@@ -25,15 +25,19 @@ picture,
 video,
 canvas,
 svg {
-	display: block;
-	max-width: 100%;
+  display: block;
+  max-inline-size: 100%;
+}
+
+img {
+  block-size: auto;
 }
 
 input,
 button,
 textarea,
 select {
-	font: inherit;
+  font: inherit;
 }
 
 p,
@@ -43,14 +47,14 @@ h3,
 h4,
 h5,
 h6 {
-	overflow-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 button {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 a {
-	color: inherit;
-	text-decoration: inherit;
+  color: inherit;
+  text-decoration: inherit;
 }

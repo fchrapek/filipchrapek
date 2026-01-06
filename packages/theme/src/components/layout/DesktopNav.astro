@@ -1,0 +1,70 @@
+---
+import { menuLinks } from "@/site.config";
+
+interface Props {
+  class?: string;
+  currentPath?: string;
+}
+
+const { class: className, currentPath = Astro.url.pathname } = Astro.props;
+
+const filteredLinks = menuLinks.filter(
+  (link) => !(link.path === "/" && currentPath === "/"),
+);
+---
+
+<nav class:list={["nav", className]}>
+  {
+    filteredLinks.map((link) => (
+      <a
+        aria-current={currentPath === link.path ? "page" : false}
+        class="link"
+        href={link.path}
+      >
+        {link.title}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .nav {
+    display: none !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+
+    @media (min-width: 40rem) {
+      display: flex !important;
+    }
+
+    & > * + * {
+      border-inline-start: 1px solid var(--color-gray-400);
+    }
+  }
+
+  .link {
+    padding-block: 0;
+    padding-inline: 1.5rem;
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    line-height: 1;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 2px;
+    text-transform: uppercase;
+    transition: text-decoration-color 0.2s ease;
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+
+    &:first-child {
+      padding-inline-start: 0;
+    }
+
+    &[aria-current="page"] {
+      font-weight: var(--font-semibold);
+    }
+  }
+</style>

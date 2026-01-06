@@ -4,7 +4,7 @@ import type { WebmentionsChildren } from "@/types";
 import { Icon } from "astro-icon/components";
 
 interface Props {
-	mentions: WebmentionsChildren[];
+  mentions: WebmentionsChildren[];
 }
 
 const { mentions } = Astro.props;
@@ -12,76 +12,162 @@ const { mentions } = Astro.props;
 const validComments = ["mention-of", "in-reply-to"];
 
 const comments = mentions.filter(
-	(mention) => validComments.includes(mention["wm-property"]) && mention.content?.text,
+  (mention) =>
+    validComments.includes(mention["wm-property"]) && mention.content?.text,
 );
 ---
 
 {
-	!!comments.length && (
-		<div>
-			<p class="webmentions-comments__count">
-				<strong>{comments.length}</strong> Mention{comments.length > 1 ? "s" : ""}
-			</p>
-			<ul class="webmentions-comments__list" role="list">
-				{comments.map((mention) => (
-					<li class="webmentions-comments__item p-comment h-cite">
-						{mention.author?.photo && mention.author.photo !== "" ? (
-							mention.author.url && mention.author.url !== "" ? (
-								<a
-									class="webmentions-comments__avatar-link u-author"
-									href={mention.author.url}
-									rel="noreferrer"
-									target="_blank"
-									title={mention.author.name}
-								>
-									<Image
-										alt={mention.author?.name}
-										class="webmentions-comments__avatar u-photo"
-										height={48}
-										src={mention.author?.photo}
-										width={48}
-									/>
-								</a>
-							) : (
-								<Image
-									alt={mention.author?.name}
-									class="webmentions-comments__avatar u-photo"
-									height={48}
-									src={mention.author?.photo}
-									width={48}
-								/>
-							)
-						) : null}
-						<div class="webmentions-comments__content">
-							<div class="webmentions-comments__header p-author h-card">
-								<p class="webmentions-comments__author p-name">
-									{mention.author?.name}
-								</p>
-								<a
-									aria-labelledby="cmt-source"
-									class="webmentions-comments__source-link u-url"
-									href={mention.url}
-									rel="noreferrer"
-									target="_blank"
-								>
-									<span class="sr-only" id="cmt-source">
-										Visit the source of this webmention
-									</span>
-									<Icon
-										aria-hidden="true"
-										class="webmentions-comments__source-icon"
-										focusable="false"
-										name="mdi:open-in-new"
-									/>
-								</a>
-							</div>
-							<p class="webmentions-comments__text">
-								{mention.content?.text}
-							</p>
-						</div>
-					</li>
-				))}
-			</ul>
-		</div>
-	)
+  !!comments.length && (
+    <div>
+      <p class="count">
+        <strong>{comments.length}</strong> Mention
+        {comments.length > 1 ? "s" : ""}
+      </p>
+      <ul class="list" role="list">
+        {comments.map((mention) => (
+          <li class="item p-comment h-cite">
+            {mention.author?.photo && mention.author.photo !== "" ? (
+              mention.author.url && mention.author.url !== "" ? (
+                <a
+                  class="avatar-link u-author"
+                  href={mention.author.url}
+                  rel="noreferrer"
+                  target="_blank"
+                  title={mention.author.name}
+                >
+                  <Image
+                    alt={mention.author?.name}
+                    class="avatar u-photo"
+                    height={48}
+                    src={mention.author?.photo}
+                    width={48}
+                  />
+                </a>
+              ) : (
+                <Image
+                  alt={mention.author?.name}
+                  class="avatar u-photo"
+                  height={48}
+                  src={mention.author?.photo}
+                  width={48}
+                />
+              )
+            ) : null}
+            <div class="content">
+              <div class="header p-author h-card">
+                <p class="author p-name">{mention.author?.name}</p>
+                <a
+                  aria-labelledby="cmt-source"
+                  class="source-link u-url"
+                  href={mention.url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span class="sr-only" id="cmt-source">
+                    Visit the source of this webmention
+                  </span>
+                  <Icon
+                    aria-hidden="true"
+                    class="source-icon"
+                    focusable="false"
+                    name="mdi:open-in-new"
+                  />
+                </a>
+              </div>
+              <p class="text">{mention.content?.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
 }
+
+<style>
+  .count {
+    margin-block-end: 0;
+    color: var(--color-accent-2);
+  }
+
+  .list {
+    margin-block-start: 0;
+    padding-inline-start: 0;
+    list-style: none;
+    border-block-start: 1px solid
+      color-mix(in srgb, var(--color-text) 20%, transparent);
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    margin-block: 0;
+    padding-block: var(--space-sm);
+    border-block-end: 1px solid
+      color-mix(in srgb, var(--color-text) 20%, transparent);
+  }
+
+  .avatar-link {
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 9999px;
+    box-shadow: 0 0 0 2px var(--color-text);
+    transition: box-shadow 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      box-shadow: 0 0 0 4px var(--color-link);
+    }
+  }
+
+  .avatar {
+    inline-size: 3rem;
+    block-size: 3rem;
+    margin-block: 0;
+    border-radius: 9999px;
+  }
+
+  .content {
+    flex: 1 1 auto;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .author {
+    display: -webkit-box;
+    margin-block: 0;
+    overflow: hidden;
+    color: var(--color-accent-2);
+    font-weight: var(--font-medium);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  .source-link {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-link);
+    }
+  }
+
+  .source-icon {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+  }
+
+  .text {
+    margin-block-start: var(--space-sm);
+    margin-block-end: 0;
+    word-break: break-word;
+  }
+</style>

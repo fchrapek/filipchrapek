@@ -16,13 +16,70 @@ const { profileImage } = Astro.props;
 const { hero } = content;
 ---
 
-<div class="index-hero">
-  <Header class="index-hero__header" />
-  <h1 class="index-hero__title">{hero.title}</h1>
-  <ProfileImage
-    class="index-hero__profile-image"
-    src={profileImage}
-    alt={hero.profileAlt}
-  />
-  <div class="index-hero__intro prose prose--dimmed" set:html={hero.intro} />
+<div class="hero">
+  <Header class="header" />
+  <h1 class="title">{hero.title}</h1>
+  <figure class="image">
+    <ProfileImage src={profileImage} alt={hero.profileAlt} />
+  </figure>
+  <div class="intro prose prose--dimmed" set:html={hero.intro} />
 </div>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 40rem) {
+      display: grid;
+      row-gap: 0;
+      column-gap: var(--space-sm);
+      grid-template-columns: repeat(12, 1fr);
+    }
+  }
+
+  .image {
+    display: none;
+
+    @media (min-width: 40rem) {
+      display: block;
+      align-self: stretch;
+      grid-column: 1 / 4;
+      grid-row: 1 / 4;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+
+    :global(picture) {
+      display: block;
+      block-size: 100%;
+    }
+
+    :global(img) {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .hero :global(.header) {
+    @media (min-width: 40rem) {
+      grid-column: 5 / 13;
+    }
+  }
+
+  .title {
+    margin-block-end: var(--fluid-space-24-32);
+
+    @media (min-width: 40rem) {
+      grid-column: 5 / 13;
+    }
+  }
+
+  .intro {
+    @media (min-width: 40rem) {
+      grid-column: 5 / 13;
+    }
+  }
+</style>

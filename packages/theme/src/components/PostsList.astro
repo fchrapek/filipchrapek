@@ -19,11 +19,23 @@ const lang = getLang(siteConfig.lang);
 const t = translations[lang];
 ---
 
-<section class="index-section">
-  <h2 class="index-section__title">
+<section class="posts-list">
+  <h2 class="title">
     <a href={t.sections.posts.href}>{t.sections.posts.title}</a>
   </h2>
-  <div class="post-list">
-    {posts.map((post) => <PostPreview post={post} withArrow />)}
-  </div>
+  <ul class="items list-reset">
+    {
+      posts.map((post) => (
+        <li>
+          <PostPreview post={post} withArrow />
+        </li>
+      ))
+    }
+  </ul>
 </section>
+
+<style>
+  .title {
+    margin-block-end: var(--space-sm);
+  }
+</style>

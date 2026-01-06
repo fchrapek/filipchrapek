@@ -1,42 +1,88 @@
 ---
 import { Icon } from "astro-icon/components";
 
-/** 
-	Uses https://www.astroicon.dev/getting-started/
-	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
-	Only installed pack is: @iconify-json/mdi
-*/
 const socialLinks: {
-	friendlyName: string;
-	isWebmention?: boolean;
-	link: string;
-	name: string;
+  friendlyName: string;
+  isWebmention?: boolean;
+  link: string;
+  name: string;
 }[] = [
-	{
-		friendlyName: "Github",
-		link: "https://github.com/chrismwilliams/astro-cactus",
-		name: "mdi:github",
-	},
+  {
+    friendlyName: "Github",
+    link: "https://github.com/chrismwilliams/astro-cactus",
+    name: "mdi:github",
+  },
 ];
 ---
 
-<div class="social-list">
-	<p class="social-list__label">Find me on</p>
-	<ul class="social-list__items">
-		{
-			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
-				<li class="social-list__item">
-					<a
-						class="social-list__link"
-						href={link}
-						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
-						target="_blank"
-					>
-						<Icon aria-hidden="true" class="social-list__icon" focusable="false" name={name} />
-						<span class="sr-only">{friendlyName}</span>
-					</a>
-				</li>
-			))
-		}
-	</ul>
+<div class="social">
+  <p class="label">Find me on</p>
+  <ul class="items">
+    {
+      socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
+        <li class="item">
+          <a
+            class="link"
+            href={link}
+            rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
+            target="_blank"
+          >
+            <Icon
+              aria-hidden="true"
+              class="icon"
+              focusable="false"
+              name={name}
+            />
+            <span class="sr-only">{friendlyName}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 </div>
+
+<style>
+  .social {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-sm);
+  }
+
+  .label {
+    margin: 0;
+  }
+
+  .items {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: var(--space-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 40rem) {
+      flex: initial;
+    }
+  }
+
+  .item {
+    display: flex;
+  }
+
+  .link {
+    display: inline-block;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-link);
+    }
+  }
+
+  .icon {
+    inline-size: 2rem;
+    block-size: 2rem;
+  }
+</style>
