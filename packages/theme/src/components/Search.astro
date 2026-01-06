@@ -1,5 +1,6 @@
 ---
 // Heavy inspiration taken from Astro Starlight -> https://github.com/withastro/starlight/blob/main/packages/starlight/components/Search.astro
+import "@pagefind/default-ui/css/ui.css";
 import { siteConfig } from "@/site.config";
 import { getLang } from "@/utils/i18n";
 
@@ -179,8 +180,6 @@ const labels = {
 </script>
 
 <style>
-  @import "@pagefind/default-ui/css/ui.css";
-
   .search {
     margin-inline-start: auto;
   }

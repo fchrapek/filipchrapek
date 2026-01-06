@@ -117,10 +117,12 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   }
 
   .title {
+    margin-block-end: var(--space-xs);
     color: var(--color-accent-2);
-    font-size: var(--fluid-text-h2);
+    font-size: var(--fluid-text-h1);
     font-weight: var(--font-medium);
-    line-height: var(--leading-h2);
+    line-height: var(--leading-h1);
+    letter-spacing: -0.02em;
   }
 
   .meta {
@@ -131,7 +133,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   }
 
   .date {
-    font-weight: var(--font-medium);
+    color: var(--color-text-dimmed);
   }
 
   .updated {
