@@ -1,6 +1,6 @@
 ---
-title: "Refreshing Your WordPress Stack"
-description: "DDEV is a Docker-based local development environment that makes WordPress setup consistent and reproducible. This guide shows you how to automate your entire WordPress installation using DDEV hooks."
+title: "Refreshing your WordPress local setup with DDEV"
+description: "DDEV is a Docker-based local development environment that makes WordPress setup consistent and reproducible. Let me show you how you can use it for your local WordPress environment and live happy ever after."
 publishDate: "4 January 2026"
 tags: ["wordpress", "ddev", "docker"]
 ---
@@ -14,9 +14,15 @@ tags: ["wordpress", "ddev", "docker"]
 - **Easy SSL** - HTTPS works out of the box
 - **Multiple PHP versions** - switch easily between projects
 
-![Developer happiness](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXFqMnBhYmRxNnJxOHBxcDVqMXBnOXVrZ2F6Y2RyZnRtaHBkcXFnbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7btNa0RUYa5E7iiQ/giphy.gif)
+:::note[ ]
+I'm not gonna lie, before the AI takeover, using DDEV or Docker alone and dealing with different project config bullshit was giving me nightmares. 
 
-## Initial Setup
+Since I don't have to worry about spending a whole day making the config work for this and that specific project and environment, I'm basically using Docker (with DDEV if it makes sense) for everything.
+:::
+
+![Developer happiness](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTZ6YWtsNnlpZmRxN2phdnhydnl2ZDdqeW1vNzF2aWN0ejBoODQzNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hNmaZtvOzG1pe/giphy.gif)
+
+## Initial setup
 
 ### 1. Install DDEV
 
@@ -31,21 +37,21 @@ choco install ddev
 curl -fsSL https://ddev.com/install.sh | bash
 ```
 
-### 2. Create Your WordPress Project
+### 2. Create your WordPress project
 
 ```bash
 mkdir my-wordpress-project
 cd my-wordpress-project
-ddev config --project-type=wordpress --docroot="" --php-version=8.3
+ddev config --project-type=wordpress --docroot="" --php-version=8.4
 ```
 
 This creates a `.ddev/config.yaml` file with your project configuration.
 
-## The Automation Magic
+## The automation magic
 
 Instead of manually installing WordPress, configuring settings, and installing plugins every time, we automate everything using DDEV's post-start hook.
 
-### Create the Automation File
+### Create the automation file
 
 Create `.ddev/config.wp-setup.yaml` and paste the complete configuration:
 
@@ -194,7 +200,7 @@ hooks:
         fi
 ```
 
-### What This Script Does
+### What this script does
 
 1. Downloads WordPress core files
 2. Installs WordPress with your credentials
@@ -208,7 +214,7 @@ hooks:
 10. Sets up development constants (WP_DEBUG, etc.)
 11. Creates a homepage and sets it as the front page
 
-### Start Your Project
+### Start your project
 
 ```bash
 ddev start
@@ -216,11 +222,11 @@ ddev start
 
 That's it! WordPress is now fully installed and configured.
 
-![It's alive](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2VkYnE5ZGVqNnBxdWVkNnN5cXF0Z3NxNGFuMnV4cTl0bXFxNHBnbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tze1mGedykiuk/giphy.gif)
+![Impressed Michael Scott](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzAyMGp4ejN5enQ5b3N4N2hkenl4Mm16ZndsMzF3Mms4eW5xa3YxZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vptzm88vH0xxbqHtKE/giphy.gif)
 
-## Working with Custom Themes
+## Working with custom themes
 
-### Installing a Theme from Git
+### Installing a theme from Git
 
 Clone your theme on your host machine (not inside the container):
 
@@ -231,7 +237,7 @@ git clone git@github.com:username/your-theme.git
 
 DDEV automatically syncs files between your host and container.
 
-### Auto-Update Themes on Start
+### Auto-update themes on start
 
 Add this section to your hook script to pull theme updates automatically:
 
@@ -245,9 +251,9 @@ if [ -d "wp-content/themes/your-theme/.git" ]; then
 fi
 ```
 
-## Customization Tips
+## Customization tips
 
-### Add Your ACF Pro License
+### Add your ACF Pro license
 
 Replace the empty `ACF_PRO_KEY=""` with your license key:
 
@@ -255,17 +261,16 @@ Replace the empty `ACF_PRO_KEY=""` with your license key:
 ACF_PRO_KEY="your-actual-license-key-here"
 ```
 
-### Install Additional Plugins
+### Install additional plugins
 
 Uncomment or add plugin installation commands:
 
 ```bash
 wp plugin install wordpress-seo --activate --quiet
 wp plugin install query-monitor --activate --quiet
-wp plugin install duplicate-post --activate --quiet
 ```
 
-### Change Default Settings
+### Change default settings
 
 Modify any WordPress options:
 
@@ -274,7 +279,7 @@ wp option update timezone_string 'America/New_York' --quiet
 wp option update date_format 'F j, Y' --quiet
 ```
 
-### Use Environment Variables
+### Use environment variables
 
 For non-interactive automation, set environment variables in `.ddev/config.yaml`:
 
@@ -285,52 +290,23 @@ web_environment:
   - WP_ADMIN_PASS=secure_password_here
 ```
 
-## Testing Your Setup
-
-To test that everything works:
-
-```bash
-# Remove WordPress files
-ddev exec "rm -rf wp-*"
-
-# Restart DDEV (triggers automation)
-ddev restart
-
-# Verify installation
-ddev wp plugin list
-ddev wp theme list
-ddev wp option get blogname
-```
-
 ## Troubleshooting
 
-### ACF Pro Installation Failed
+### ACF Pro installation failed
 
 **Problem:** Free ACF doesn't include Options Pages functionality.
 
 **Solution:** Get an ACF Pro license or remove the ACF installation step if not needed.
 
-### Theme Not Found
-
-**Problem:** Theme not cloned or in wrong directory.
-
-**Solution:** Ensure your theme is in `wp-content/themes/` directory.
-
-### Permission Errors
+### Permission errors
 
 **Problem:** Docker/Mutagen sync issues.
 
 **Solution:** Run `ddev mutagen reset` followed by `ddev restart`.
 
-### Script Runs on Every Start
+## Best practices
 
-**Problem:** Script keeps reinstalling WordPress.
-
-**Solution:** The script only runs if `wp core is-installed` returns false. If WordPress is installed, the script is skipped.
-
-## Best Practices
-
-### Error Handling
+### Error handling
 
 Always add error handling to prevent script failures:
 
@@ -340,7 +316,7 @@ wp plugin install some-plugin --activate --quiet 2>/dev/null || true
 
 The `|| true` ensures the script continues even if a command fails.
 
-### Use Quiet Mode
+### Use quiet mode
 
 Reduce output noise with `--quiet` flags:
 
@@ -348,7 +324,7 @@ Reduce output noise with `--quiet` flags:
 wp option update timezone_string 'Europe/Warsaw' --quiet
 ```
 
-### Check Before Creating
+### Check before creating
 
 Avoid duplicates by checking if resources exist:
 
@@ -357,7 +333,7 @@ NEWS_ID=$(wp term create category News --porcelain 2>/dev/null || \
   wp term list category --slug=news --field=term_id)
 ```
 
-### Version Control
+### Version control
 
 Keep your automation script in version control and share it across projects. Create a template repository with your standard DDEV configuration for instant project setup.
 
@@ -369,8 +345,6 @@ With this automated setup:
 - **Consistency across all environments** - no configuration drift
 - **Easy team onboarding** - one command gets everyone started
 - **No more "works on my machine"** - everyone has identical setups
-
-![Team success](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjRxNWRxNnRxNXRxNXRxNXRxNXRxNXRxNXRxNXRxNXRxNXRxNXRxNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPjzfv0sI2p7fDW/giphy.gif)
 
 ## Resources
 
