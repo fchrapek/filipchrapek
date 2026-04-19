@@ -28,3 +28,6 @@ dist/
 
 # pagefind
 pagefind/
+
+# internal / local-only
+ROADMAP.md

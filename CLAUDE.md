@@ -1,13 +1,46 @@
 # CLAUDE.md
 
-Context for Claude Code working in this repo. `README.md` covers structure, URLs, content collections, deployment, and CSS conventions — don't re-explain them. This file covers what's **not** in README and would otherwise trip you up.
+Single source of truth for this repo — conventions, workflows, and gotchas. Used by both Claude Code and humans.
+
+## Monorepo layout
+
+```
+filipchrapek-sites/
+├── packages/
+│   ├── theme/              # Shared components, layouts, styles, utils, i18n
+│   ├── site-en/            # English site (filipchrapek.com)
+│   └── site-pl/            # Polish site (filipchrapek.pl)
+├── .claude/skills/         # Project-scoped Claude Code skills
+├── docs/SESSION-LOG.md     # Chronological work log
+├── CLAUDE.md               # This file
+├── ROADMAP.md              # Forward-looking plans
+└── pnpm-workspace.yaml
+```
+
+## Setup & common commands
+
+```bash
+pnpm install           # install deps
+pnpm dev:en            # dev EN on port 4321
+pnpm dev:pl            # dev PL on port 4322
+pnpm build:en          # build EN (runs lint:css:fix first, then astro build, then pagefind)
+pnpm build:pl          # build PL
+pnpm lint:css          # stylelint check
+pnpm lint:css:fix      # stylelint autofix
+pnpm check             # astro check (types + diagnostics)
+pnpm format            # biome + prettier + import sort
+```
+
+## URLs
+
+**English (filipchrapek.com)** — `/`, `/about/`, `/posts/`, `/notes/`, `/tags/`
+**Polish (filipchrapek.pl)** — `/`, `/o-mnie/`, `/artykuly/`, `/notatki/`, `/tagi/`
 
 ## Workspace & tooling
 
-- **pnpm workspace** lists only `site-en` and `site-pl`; `packages/theme` is NOT a workspace package — it's pulled in via tsconfig path alias (see below). All shared deps live in the root `package.json`.
+- **pnpm workspace** lists only `site-en` and `site-pl`; `packages/theme` is NOT a workspace package — it's pulled in via tsconfig path alias. All shared deps live in the root `package.json`.
 - **Lint/format stack**: Biome (code + imports), Prettier (non-MD formatting, second pass), stylelint (logical properties + ordering on `.css` and `.astro` via `postcss-html`). No pre-commit hooks — CI or manual only.
 - **Build scripts run `lint:css:fix` first** — CSS auto-fix happens before `astro build`. A stylelint error can block the build.
-- `pnpm check` runs `astro check` (TypeScript + Astro diagnostics).
 
 ## Shared theme imports
 
@@ -15,9 +48,31 @@ Context for Claude Code working in this repo. `README.md` covers structure, URLs
   ```json
   "paths": { "@/*": ["src/*", "../theme/src/*"] }
   ```
-- Import as `@/components/...`, `@/i18n/...`, `@/utils/...`. The alias resolves site-local first, then theme — so a site can shadow any theme file by putting it in its own `src/` at the same path.
+- Import as `@/components/...`, `@/i18n/...`, `@/utils/...`. The alias resolves site-local first, then theme — a site can shadow any theme file by putting it in its own `src/` at the same path.
 - No barrel/index exports in theme; import directly from the file.
 - Theme contains its own `site.config.ts` and `content.config.ts` — both **unused/stale**. Always look at the per-site versions under `packages/site-*/src/`.
+
+## CSS conventions
+
+- **No BEM** — simple class names scoped by Astro's built-in scoping. Use `:global(.child)` to pierce scope when targeting child components.
+- **Logical properties only** — `margin-block-end`, `padding-inline`, `inline-size`, `inset-block-start`; never `margin-bottom`/`padding-left`/`width`/`top`. Enforced by stylelint.
+- **Custom media queries** work in global CSS but NOT in Astro scoped `<style>` blocks — use actual values (`@media (min-width: 40rem)`) inside scoped styles.
+- **PostCSS features**: `rem(16)` function (→ `1rem`), CSS nesting, custom media queries in global only.
+- **Directory structure** under `packages/theme/src/styles/`:
+  - `00-settings/` — variables, tokens, typography
+  - `01-utilities/` — utility classes
+  - `02-generic/` — reset, base
+  - `03-elements/` — prose, typography, admonition, github-card
+  - `04-layouts/` — grid, blog-post
+  - `06-themes/` — theme variations
+
+Utility classes available: `.text--dimmed`, `.text--small`, `.text--large`, `.section-title`, `.list-reset`, `.sr-only`, `.prose`, `.prose--sm`, `.prose--dimmed`.
+
+## Component patterns
+
+- `DesktopNav.astro` — horizontal nav, hidden on mobile (used in Header + Footer)
+- `MobileNav.astro` — hamburger, hidden on desktop
+- Header uses both; Footer uses DesktopNav only.
 
 ## Bilingual / i18n patterns
 
@@ -34,21 +89,7 @@ Any change under `packages/theme/` affects both sites. Default workflow:
 1. Edit the theme file.
 2. Run `pnpm build:en` AND `pnpm build:pl`.
 3. Verify in browser at both `localhost:4321` and `localhost:4322`.
-4. For UI-visible changes, screenshot both locales — copy/layout often reveals only in one language (PL strings run longer).
-
-## Build pipeline gotchas
-
-- **Pagefind postbuild** runs `pagefind --site dist` after each site's build. It will fail loudly if `dist/` doesn't exist or is empty.
-- **OG image generation** (`packages/site-en/src/pages/og-image/[...slug].png.ts`) uses `satori` + `@resvg/resvg-js` with raw TTF fonts loaded as buffers. Only runs for posts without an explicit `ogImage`. PL site has **no** OG image route — Polish posts fall back to `/social-card.png`.
-- **Webmention cache** (`packages/theme/src/utils/webmentions.ts`) reads/writes `.data/webmentions.json`; writes are fire-and-forget (no await) so failures are silent. Requires `WEBMENTION_API_KEY` (server, secret) + optional `WEBMENTION_URL`, `WEBMENTION_PINGBACK`. All three are optional and the build won't fail if missing.
-- `@resvg/resvg-js` is excluded from Vite's `optimizeDeps` — it's a native binding and breaks bundling otherwise. Don't remove that exclusion.
-- `sharp` is pinned to `^0.34.2` via `pnpm.overrides`.
-
-## Dev server
-
-- EN on `4321` (Astro default), PL on `4322` (hardcoded `--port 4322` in `site-pl/package.json`).
-- Both can run concurrently — separate `.astro/` and `dist/` per site, no collision.
-- The `/session-start`, `/task-start`, `/task-done`, `/session-close` skills won't auto-start the dev server — they'll ask.
+4. For UI-visible changes, screenshot both locales — PL strings typically run longer, so layout issues often appear only in one language.
 
 ## Content collection schemas
 
@@ -58,13 +99,33 @@ Defined per-site in `src/content.config.ts`. Required frontmatter:
 - **tag**: all optional.
 - **pages** collection (site-local, not theme's) backs `home.md` and `about.md`.
 
+## Build pipeline gotchas
+
+- **Pagefind postbuild** runs `pagefind --site dist` after each site's build. It will fail loudly if `dist/` doesn't exist or is empty.
+- **OG image generation** (`packages/site-en/src/pages/og-image/[...slug].png.ts`) uses `satori` + `@resvg/resvg-js` with raw TTF fonts loaded as buffers. Only runs for posts without an explicit `ogImage`. PL site has **no** OG image route — Polish posts fall back to `/social-card.png`.
+- **Webmention cache** (`packages/theme/src/utils/webmentions.ts`) reads/writes `.data/webmentions.json`; writes are fire-and-forget (no await) so failures are silent. Requires `WEBMENTION_API_KEY` (server, secret) + optional `WEBMENTION_URL`, `WEBMENTION_PINGBACK`. All three are optional and the build won't fail if missing.
+- `@resvg/resvg-js` is excluded from Vite's `optimizeDeps` — native binding; don't remove the exclusion.
+- `sharp` is pinned to `^0.34.2` via `pnpm.overrides`.
+
+## Dev server
+
+- EN on `4321` (Astro default), PL on `4322` (hardcoded `--port 4322` in `site-pl/package.json`).
+- Both can run concurrently — separate `.astro/` and `dist/` per site, no collision.
+- The `/session-start`, `/task-start`, `/task-done`, `/session-close` skills won't auto-start the dev server — they'll ask which one to start.
+
 ## Known weirdness / tech debt
 
-- `packages/theme/src/data-backup.ts` is an orphan — not imported anywhere. Appears to be a copy-paste artifact of PL's `data/post.ts`. Safe to ignore; ask before deleting.
-- `packages/theme/src/site.config.ts` and `packages/theme/src/content.config.ts` — unused shadows of per-site files. Same deal: ignore or ask before deleting.
+- `packages/theme/src/data-backup.ts` is an orphan — not imported anywhere. Copy-paste artifact of PL's `data/post.ts`. Safe to ignore; ask before deleting.
+- `packages/theme/src/site.config.ts` and `packages/theme/src/content.config.ts` — unused shadows of per-site files. Same deal.
 - Post slug handling uses `post.id.split("/").pop()` — flat slugs only. Nested directories inside `src/content/post/` will collapse incorrectly.
 - `scripts/` folder is empty.
+- PL site has no OG image generation route (see build pipeline section); parity gap tracked in `ROADMAP.md`.
 
-## Deployment quick reference
+## Deployment
 
-Coolify builds via `pnpm install && pnpm build:en` (and `:pl`). Output is `packages/site-{en,pl}/dist`. Nixpacks configs at repo root: `nixpacks.toml` (EN), `nixpacks-pl.toml` (PL). Domain mapping is in Coolify, not in code.
+Coolify builds each site separately:
+
+**EN** — Build: `pnpm install && pnpm build:en` • Output: `packages/site-en/dist` • Domain: `filipchrapek.com`
+**PL** — Build: `pnpm install && pnpm build:pl` • Output: `packages/site-pl/dist` • Domain: `filipchrapek.pl`
+
+Nixpacks configs at repo root: `nixpacks.toml` (EN), `nixpacks-pl.toml` (PL). Domain mapping lives in Coolify, not in code.
