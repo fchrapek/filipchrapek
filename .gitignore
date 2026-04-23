@@ -31,3 +31,5 @@ pagefind/
 
 # internal / local-only
 ROADMAP.md
+resources/
+docs/SESSION-LOG.md
