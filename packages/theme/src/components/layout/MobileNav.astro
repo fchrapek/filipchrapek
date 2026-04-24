@@ -116,6 +116,10 @@ const menuItems = (links ?? defaultLinks).filter(
   .mobile-nav {
     position: relative;
     align-items: center;
+
+    @media (min-width: 40rem) {
+      display: none;
+    }
   }
 
   .mobile-nav__toggle {
@@ -270,11 +274,5 @@ const menuItems = (links ?? defaultLinks).filter(
     inline-size: calc(100% - 2rem);
     block-size: 1px;
     background: var(--color-accent);
-  }
-
-  @media (min-width: 40rem) {
-    .mobile-nav {
-      display: none;
-    }
   }
 </style>
