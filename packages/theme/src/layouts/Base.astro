@@ -10,11 +10,14 @@ import type { SiteMeta } from "@/types";
 interface Props {
   meta: SiteMeta;
   breadcrumbs?: Crumb[];
+  /** Narrows the shell to Medium-width reading column. Use on blog-post detail pages. */
+  reading?: boolean;
 }
 
 const {
   meta: { articleDate, description = siteConfig.description, ogImage, title },
   breadcrumbs,
+  reading = false,
 } = Astro.props;
 ---
 
@@ -30,7 +33,7 @@ const {
   </head>
   <body>
     <SkipLink />
-    <div class="shell">
+    <div class:list={["shell", reading && "shell--reading"]}>
       <Header breadcrumbs={breadcrumbs} />
       <main id="main" class="shell__main">
         <slot />

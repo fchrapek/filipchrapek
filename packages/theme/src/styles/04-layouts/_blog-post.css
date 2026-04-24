@@ -1,12 +1,13 @@
 /* ============================================
    BLOG POST LAYOUT — paper long-form template
    Mobile: TOC is a collapsible widget above the article.
-   Desktop (≥84rem): TOC bleeds out to the right of the 820px shell.
+   Desktop (≥64rem): TOC is a sticky aside inside the 820px shell,
+   next to the article. Article column shrinks to make room.
    ============================================ */
 
 .blog-post {
-  --post-toc-size: 11rem; /* 176px */
-  --post-toc-gap: 2.5rem; /* 40px */
+  --post-toc-size: 10rem; /* 160px — narrower so the article still breathes */
+  --post-toc-gap: 2rem; /* 32px */
 
   flex: 1;
   word-break: break-word;
@@ -94,8 +95,10 @@
   padding-block: 1rem 0;
 }
 
-/* Desktop: sticky TOC on the right, bleed out of the shell. */
-@media (min-width: 84rem) {
+/* Desktop: sticky TOC bleeds out to the right of the reading shell. The
+   article column stays at shell width so paragraphs hold their Medium-like
+   measure; the TOC sits in the right gutter outside the reading rail. */
+@media (min-width: 64rem) {
   .blog-post__layout {
     display: grid;
     align-items: start;

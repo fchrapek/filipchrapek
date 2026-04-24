@@ -2,7 +2,6 @@
 import type { CollectionEntry } from "astro:content";
 import Pagination from "@/components/Paginator.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
-import Separator from "@/components/Separator.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
@@ -76,32 +75,35 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
   </div>
   {
     pinnedPosts.length > 0 && (
-      <section class="index-section">
-        <h2 class="index-section-title">{t.pinnedPosts}</h2>
-        <div class="post-list">
+      <section class="index-section" aria-labelledby="pinned-posts">
+        <h2 id="pinned-posts" class="index-section-title">
+          {t.pinnedPosts}
+        </h2>
+        <ol class="post-list">
           {pinnedPosts.map((p) => (
-            <PostPreview post={p} withArrow />
+            <li>
+              <PostPreview as="h3" post={p} />
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
     )
   }
   {
-    descYearKeys.map((yearKey, index) => (
-      <>
-        {index > 0 && <Separator size="md" border />}
-        <section class="index-section">
-          <h2 id={`year-${yearKey}`} class="index-section-title">
-            <span class="sr-only">{t.postsIn}</span>
-            {yearKey}
-          </h2>
-          <div class="post-list">
-            {groupedByYear[yearKey]?.map((p) => (
-              <PostPreview post={p} withArrow />
-            ))}
-          </div>
-        </section>
-      </>
+    descYearKeys.map((yearKey) => (
+      <section class="index-section" aria-labelledby={`year-${yearKey}`}>
+        <h2 id={`year-${yearKey}`} class="index-section-title">
+          <span class="sr-only">{t.postsIn}</span>
+          {yearKey}
+        </h2>
+        <ol class="post-list">
+          {groupedByYear[yearKey]?.map((p) => (
+            <li>
+              <PostPreview as="h3" post={p} />
+            </li>
+          ))}
+        </ol>
+      </section>
     ))
   }
   <Pagination {...paginationProps} />

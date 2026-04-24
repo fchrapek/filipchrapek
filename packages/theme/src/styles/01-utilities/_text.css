@@ -47,6 +47,13 @@
   text-transform: none;
 }
 
+/* Home section rhythm — global because Testimonials (and other components)
+   use the modifier from outside Home.astro's scoped style island. The footer
+   is a sibling, so the last section keeps its bottom margin to breathe. */
+.home__section {
+  margin-block-end: var(--space-section);
+}
+
 /* Section head row — matches the home's section-head pattern */
 .section-head {
   display: flex;
@@ -80,8 +87,11 @@
   text-transform: uppercase;
 }
 
-/* Post list */
+/* Post list — used on listing pages with <ol> markup */
 .post-list {
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

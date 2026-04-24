@@ -92,10 +92,11 @@ const filteredLinks = menuLinks.filter(
 
   .site-header__wordmark {
     display: inline-flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: baseline;
     gap: 0.5rem;
     min-inline-size: 0;
+    overflow: hidden;
     color: var(--color-ink);
     font-family: var(--font-mono);
     font-size: var(--text-meta);
@@ -105,6 +106,7 @@ const filteredLinks = menuLinks.filter(
 
   .site-header__wordmark-home {
     display: inline-flex;
+    flex: none;
     align-items: baseline;
     gap: 0.5rem;
     color: inherit;
@@ -118,13 +120,15 @@ const filteredLinks = menuLinks.filter(
   }
 
   .site-header__wordmark-slash {
+    flex: none;
     color: var(--color-text-dimmed);
     font-weight: var(--font-normal);
   }
 
   .site-header__wordmark-crumb {
+    flex: 0 1 auto;
     min-inline-size: 0;
-    max-inline-size: min(40vw, 28rem);
+    max-inline-size: 14rem;
     overflow: hidden;
     color: var(--color-ink);
     font-weight: var(--font-medium);

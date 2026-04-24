@@ -6,6 +6,8 @@ export const siteConfig: SiteConfig = {
   author: "Filip Chrapek",
   // Human-facing location. Rendered on home hero meta and blog-post byline.
   location: "Poland",
+  // Short author tagline, shown next to the location in the blog-post byline.
+  tagline: "shipping small, sharp web work",
   // Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
   date: {
     locale: "en-GB",

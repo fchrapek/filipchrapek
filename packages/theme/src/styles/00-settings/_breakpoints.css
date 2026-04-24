@@ -13,6 +13,9 @@
 	--content-max: 51.25rem;   /* 820px — home + shell width */
 	--content-pad-inline: 1.25rem;
 	--content-pad-block: 3rem;
+
+	/* Vertical rhythm between major page sections (home + listings) */
+	--space-section: clamp(4rem, 3rem + 3vw, 6rem);  /* 64px → 96px */
 }
 
 @media (min-width: 48rem) {

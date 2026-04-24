@@ -23,7 +23,11 @@ const labels = {
 };
 
 const date = data.publishDate;
-const dateString = `${date.getFullYear()} · ${String(date.getMonth() + 1).padStart(2, "0")} · ${String(date.getDate()).padStart(2, "0")}`;
+const dateParts = [
+  String(date.getFullYear()),
+  String(date.getMonth() + 1).padStart(2, "0"),
+  String(date.getDate()).padStart(2, "0"),
+];
 const firstTag = data.tags?.[0];
 const remainingTags = data.tags?.slice(1) ?? [];
 const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
@@ -31,7 +35,18 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
 
 {/* Meta line */}
 <div class="masthead__meta">
-  <span>{dateString}</span>
+  <span class="masthead__meta-date">
+    {
+      dateParts.map((part, i) => (
+        <>
+          {i > 0 && (
+            <span class="masthead__meta-dot" aria-hidden="true" />
+          )}
+          <span>{part}</span>
+        </>
+      ))
+    }
+  </span>
   <span class="masthead__meta-dot" aria-hidden="true"></span>
   {firstTag && <a class="masthead__tag-primary" href={tagHref(firstTag)}>{firstTag}</a>}
   <span class="masthead__meta-dot" aria-hidden="true"></span>
@@ -52,7 +67,7 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
     <div class="masthead__author-text">
       <span class="masthead__author-name">{siteConfig.author}</span>
       <span class="masthead__author-role">
-        {siteConfig.location} · {pl ? "piszę o nudnych rzeczach" : "writes about the boring parts"}
+        {siteConfig.location} · {siteConfig.tagline}
       </span>
     </div>
   </div>
@@ -99,8 +114,15 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
     text-transform: uppercase;
   }
 
+  .masthead__meta-date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-dot);
+  }
+
   .masthead__meta-dot {
     display: inline-block;
+    flex: none;
     inline-size: 2px;
     block-size: 2px;
     border-radius: 2px;

@@ -33,6 +33,14 @@
   padding: var(--content-pad-block) var(--content-pad-inline);
 }
 
+/* Reading shell — narrower rail for blog post pages. Header, main, footer
+   all pull in to ~Medium width so the reading column gets a focused, quiet
+   chrome. The blog-post layout may still bleed the TOC outside this shell
+   on wide viewports — handled in _blog-post.css. */
+.shell--reading {
+  max-inline-size: 47rem; /* 752px — content area ≈ 680px at desktop padding */
+}
+
 /* Grid container */
 .grid {
   display: grid;

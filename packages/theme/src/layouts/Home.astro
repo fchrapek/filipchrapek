@@ -1,5 +1,6 @@
 ---
 import BaseHead from "@/components/BaseHead.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import Testimonials from "@/components/Testimonials.astro";
 import { siteConfig } from "@/site.config";
@@ -30,6 +31,8 @@ const t = pl
       chatHint: "Napisz wiadomość",
       chatSeed:
         "Cześć Filip — potrzebujemy prostej strony marketingowej dla małego SaaS. Termin ~3 tygodnie, najlepiej w Astro. Możemy pogadać w przyszłym tygodniu?",
+      chatNote:
+        "Podgląd — czat to jeszcze makieta, pracujemy nad nim. Pisz na maila.",
       sendLabel: "Wyślij",
       attach: "załącz",
       proposeTime: "zaproponuj termin",
@@ -75,6 +78,8 @@ const t = pl
       chatHint: "Drop a message",
       chatSeed:
         "Hey Filip — we need a simple marketing site for a small SaaS. Timeline is ~3 weeks, ideally using Astro. Available to chat next week?",
+      chatNote:
+        "Preview — chat is still a mockup, we're working on it. Email me for now.",
       sendLabel: "Send",
       attach: "attach",
       proposeTime: "propose time",
@@ -193,7 +198,7 @@ function noteSlug(n: NoteEntry): string {
         </header>
 
         {/* Hero */}
-        <section class="home__hero">
+        <section class="home__hero home__section">
           <div class="home__hero-main">
             <div class="home__hero-heading">
               <span class="home__avatar" aria-hidden="true"></span>
@@ -231,7 +236,10 @@ function noteSlug(n: NoteEntry): string {
             </div>
             <div class="home__chat-body">
               <span class="home__chat-avatar" aria-hidden="true"></span>
-              <p class="home__chat-message">{t.chatSeed}</p>
+              <div class="home__chat-stack">
+                <p class="home__chat-message">{t.chatSeed}</p>
+                <p class="home__chat-note">{t.chatNote}</p>
+              </div>
             </div>
             <div class="home__chat-footer">
               <div class="home__chat-tools">
@@ -247,109 +255,117 @@ function noteSlug(n: NoteEntry): string {
         </section>
 
         {/* Services */}
-        <div class="home__section-head">
-          <h2 class="home__section-label">{t.services}</h2>
-          <span class="home__section-hint">{t.servicesHint}</span>
-        </div>
-        <div class="home__grid home__grid--three">
-          {
-            services.map((s) => (
-              <article class="home__card home__card--service">
-                <div class="home__card-top">
-                  <svg
-                    class="home__service-icon"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.25"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    {s.icon === "code" && (
-                      <>
-                        <path d="M11 10 L5 16 L11 22" />
-                        <path d="M21 10 L27 16 L21 22" />
-                        <path d="M18 8 L14 24" />
-                      </>
-                    )}
-                    {s.icon === "design" && (
-                      <>
-                        <rect x="5" y="5" width="15" height="15" rx="1" />
-                        <circle cx="20" cy="20" r="7" />
-                      </>
-                    )}
-                    {s.icon === "systems" && (
-                      <>
-                        <circle cx="16" cy="16" r="11" />
-                        <circle cx="16" cy="16" r="5" />
-                        <path d="M16 2 L16 5" />
-                        <path d="M16 27 L16 30" />
-                        <path d="M2 16 L5 16" />
-                        <path d="M27 16 L30 16" />
-                      </>
-                    )}
-                  </svg>
-                  <span class="home__card-num">{s.num}</span>
-                </div>
-                <h3 class="home__card-title">{s.title}</h3>
-                <p class="home__card-body">{s.body}</p>
-              </article>
-            ))
-          }
-        </div>
+        <section class="home__section" aria-labelledby="home-services">
+          <header class="home__section-head">
+            <h2 id="home-services" class="home__section-label">{t.services}</h2>
+            <span class="home__section-hint">{t.servicesHint}</span>
+          </header>
+          <ol class="home__grid home__grid--three home__list">
+            {
+              services.map((s) => (
+                <li>
+                  <article class="home__card home__card--service">
+                    <div class="home__card-top">
+                      <svg
+                        class="home__service-icon"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        {s.icon === "code" && (
+                          <>
+                            <path d="M11 10 L5 16 L11 22" />
+                            <path d="M21 10 L27 16 L21 22" />
+                            <path d="M18 8 L14 24" />
+                          </>
+                        )}
+                        {s.icon === "design" && (
+                          <>
+                            <rect x="5" y="5" width="15" height="15" rx="1" />
+                            <circle cx="20" cy="20" r="7" />
+                          </>
+                        )}
+                        {s.icon === "systems" && (
+                          <>
+                            <circle cx="16" cy="16" r="11" />
+                            <circle cx="16" cy="16" r="5" />
+                            <path d="M16 2 L16 5" />
+                            <path d="M16 27 L16 30" />
+                            <path d="M2 16 L5 16" />
+                            <path d="M27 16 L30 16" />
+                          </>
+                        )}
+                      </svg>
+                      <span class="home__card-num">{s.num}</span>
+                    </div>
+                    <h3 class="home__card-title">{s.title}</h3>
+                    <p class="home__card-body">{s.body}</p>
+                  </article>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
 
         {/* Testimonials — sourced from the `testimonial` content collection */}
-        <Testimonials label={t.kindWords} hint={t.kindWordsHint} />
+        <Testimonials
+          class="home__section"
+          label={t.kindWords}
+          hint={t.kindWordsHint}
+        />
 
         {/* Writing */}
-        <div class="home__section-head">
-          <h2 class="home__section-label">{t.writing}</h2>
-          <span class="home__section-hint">{t.writingHint}</span>
-        </div>
-        <div class="home__writing">
-          {
-            recentPosts.map((p) => (
-              <a href={postHref(postSlug(p))} class="home__writing-row">
-                <span class="home__writing-date">
-                  {formatDate(p.data.publishDate)}
-                </span>
-                <span class="home__writing-title">{p.data.title}</span>
-                <span class="home__writing-meta">
-                  {p.data.tags?.[0] ?? ""}
-                </span>
-              </a>
-            ))
-          }
+        <section class="home__section" aria-labelledby="home-writing">
+          <header class="home__section-head">
+            <h2 id="home-writing" class="home__section-label">{t.writing}</h2>
+            <span class="home__section-hint">{t.writingHint}</span>
+          </header>
+          <ol class="home__list home__list--stacked">
+            {
+              recentPosts.map((p) => (
+                <li>
+                  <PostPreview post={p} as="h3" />
+                </li>
+              ))
+            }
+          </ol>
           <div class="home__all-link">
             <a href={t.postsHref}>{t.allPosts}</a>
           </div>
-        </div>
+        </section>
 
         {/* Notes */}
-        <div class="home__section-head">
-          <h2 class="home__section-label">{t.notesSection}</h2>
-          <span class="home__section-hint">{t.notesHint}</span>
-        </div>
-        <div class="home__grid home__grid--notes">
-          {
-            recentNotes.map((n) => (
-              <a href={noteHref(noteSlug(n))} class="home__card home__card--note">
-                <div class="home__card-top">
-                  <span>{formatDate(n.data.publishDate)}</span>
-                  <span>{relTime(n.data.publishDate)}</span>
-                </div>
-                <div class="home__note-title">{n.data.title}</div>
-                {n.data.description && (
-                  <p class="home__card-body">{n.data.description}</p>
-                )}
-              </a>
-            ))
-          }
-        </div>
-        <div class="home__all-link home__all-link--spaced">
-          <a href={t.notesHref}>{t.allNotes}</a>
-        </div>
+        <section class="home__section" aria-labelledby="home-notes">
+          <header class="home__section-head">
+            <h2 id="home-notes" class="home__section-label">{t.notesSection}</h2>
+            <span class="home__section-hint">{t.notesHint}</span>
+          </header>
+          <ol class="home__grid home__grid--notes home__list">
+            {
+              recentNotes.map((n) => (
+                <li>
+                  <a href={noteHref(noteSlug(n))} class="home__card home__card--note">
+                    <div class="home__card-top">
+                      <span>{formatDate(n.data.publishDate)}</span>
+                      <span>{relTime(n.data.publishDate)}</span>
+                    </div>
+                    <h3 class="home__note-title">{n.data.title}</h3>
+                    {n.data.description && (
+                      <p class="home__card-body">{n.data.description}</p>
+                    )}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+          <div class="home__all-link">
+            <a href={t.notesHref}>{t.allNotes}</a>
+          </div>
+        </section>
 
         {/* Footer */}
         <footer class="home__footer">
@@ -506,7 +522,9 @@ function noteSlug(n: NoteEntry): string {
     align-items: start;
     gap: 2rem;
     grid-template-columns: 1fr 1fr;
-    padding-block: 3.5rem 4.5rem;
+    /* Bottom gap to the next section comes from --space-section (via
+       .home__section on this element). Keep top padding for breathing. */
+    padding-block: 3.5rem 0;
   }
 
   .home__hero-heading {
@@ -650,13 +668,33 @@ function noteSlug(n: NoteEntry): string {
     block-size: 1.75rem;
   }
 
-  .home__chat-message {
+  .home__chat-stack {
+    display: flex;
     flex: 1;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-inline-size: 0;
+  }
+
+  .home__chat-message {
     margin: 0;
     color: var(--color-text-dimmed);
     font-size: var(--text-body);
     line-height: 1.55;
     white-space: pre-wrap;
+  }
+
+  .home__chat-note {
+    margin: 0;
+    padding: 0.375rem 0.5rem;
+    border: 1px dashed var(--color-hairline);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    line-height: 1.45;
+    letter-spacing: var(--tracking-mono-wide);
+    text-transform: uppercase;
   }
 
   .home__chat-footer {
@@ -707,6 +745,9 @@ function noteSlug(n: NoteEntry): string {
     opacity: 0.7;
   }
 
+  /* .home__section lives in 01-utilities/_text.css so Testimonials and other
+     components can share the same vertical rhythm outside this scoped island. */
+
   /* Section head */
   .home__section-head {
     display: flex;
@@ -714,6 +755,17 @@ function noteSlug(n: NoteEntry): string {
     align-items: baseline;
     padding-block-end: 0.875rem;
     border-block-end: 1px solid var(--color-hairline);
+  }
+
+  /* Unstyled list — used for the semantic <ol> wrappers in each section */
+  .home__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .home__list--stacked {
+    padding-block-start: 0.25rem;
   }
 
   .home__section-label {
@@ -734,20 +786,37 @@ function noteSlug(n: NoteEntry): string {
     white-space: nowrap;
   }
 
-  /* Grids */
+  /* Grids — minmax(0, 1fr) so columns stay equal even when card content is long */
   .home__grid {
     display: grid;
     gap: 1rem;
-    padding-block: 1.75rem 4.5rem;
+    padding-block-start: 1.75rem;
   }
 
+  /* Services grid: 3 equal columns + 3 named row tracks.
+     Each <li> uses display: contents so the <article> inside can subgrid
+     those tracks — icon row, title row, body row line up across all cards. */
   .home__grid--three {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .home__grid--three > li {
+    display: contents;
   }
 
   .home__grid--notes {
-    grid-template-columns: repeat(2, 1fr);
-    padding-block: 1.125rem 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-block-start: 1.125rem;
+  }
+
+  .home__grid--notes > li {
+    display: flex;
+    min-inline-size: 0;
+  }
+
+  .home__grid--notes > li > .home__card {
+    inline-size: 100%;
   }
 
   /* Cards */
@@ -763,6 +832,16 @@ function noteSlug(n: NoteEntry): string {
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease;
+  }
+
+  /* Service cards flatten into the outer grid's row tracks via subgrid,
+     so icon-row / title / body align horizontally across all three cards. */
+  .home__card--service {
+    display: grid;
+    row-gap: 0.625rem;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    min-inline-size: 0;
   }
 
   .home__card--note {
@@ -823,64 +902,14 @@ function noteSlug(n: NoteEntry): string {
     text-wrap: balance;
   }
 
-  /* Writing list */
-  .home__writing {
-    padding-block: 0.25rem 4.5rem;
-  }
-
-  .home__writing-row {
-    display: grid;
-    align-items: baseline;
-    gap: 1.25rem;
-    grid-template-columns: 6.875rem 1fr auto;
-    padding: 1rem 0;
-    border-block-end: 1px solid var(--color-hairline);
-    color: var(--color-ink);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .home__writing-row:hover .home__writing-title {
-    color: var(--color-accent);
-  }
-
-  .home__writing-date {
-    color: var(--color-text-dimmed);
-    font-family: var(--font-mono);
-    font-size: var(--text-micro);
-    letter-spacing: var(--tracking-mono);
-    white-space: nowrap;
-  }
-
-  .home__writing-title {
-    font-size: var(--text-h5);
-    font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-tight);
-    transition: color 0.2s ease;
-    text-wrap: balance;
-  }
-
-  .home__writing-meta {
-    color: var(--color-text-dimmed);
-    font-family: var(--font-mono);
-    font-size: var(--text-micro);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
+  /* "All posts →" / "All notes →" link at the bottom of each list section */
   .home__all-link {
     margin-block-start: 1.125rem;
-    padding-block-end: 4.5rem;
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
     font-size: var(--text-meta);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-  }
-
-  .home__all-link--spaced {
-    margin-block-start: 1.375rem;
   }
 
   .home__all-link a {
@@ -983,7 +1012,8 @@ function noteSlug(n: NoteEntry): string {
     .home__hero {
       gap: 1.5rem;
       grid-template-columns: 1fr;
-      padding-block: 2rem 2.25rem;
+      /* bottom spacing is owned by --space-section on the next sibling */
+      padding-block: 2rem 0;
     }
 
     /* Home hero h1 inherits global --text-h1 on mobile too */
@@ -999,10 +1029,25 @@ function noteSlug(n: NoteEntry): string {
       font-size: var(--text-micro);
     }
 
+    /* On mobile stack cards vertically — drop the desktop subgrid so each
+       article is its own flex column, and let --space-section handle the gap
+       below. */
     .home__grid--three {
       gap: 0.75rem;
       grid-template-columns: 1fr;
-      padding-block: 1rem 2.5rem;
+      grid-template-rows: none;
+      padding-block: 1rem 0;
+    }
+
+    .home__grid--three > li {
+      display: block;
+    }
+
+    .home__card--service {
+      display: flex;
+      flex-direction: column;
+      grid-template-rows: none;
+      grid-row: auto;
     }
 
     .home__grid--notes {
@@ -1012,32 +1057,6 @@ function noteSlug(n: NoteEntry): string {
 
     .home__card {
       padding: 1rem;
-    }
-
-    .home__writing-row {
-      gap: 0.25rem;
-      grid-template-columns: 1fr auto;
-      padding: 0.875rem 0;
-    }
-
-    .home__writing-date {
-      grid-column: 1;
-      order: 1;
-      font-size: var(--text-micro);
-    }
-
-    .home__writing-title {
-      grid-column: 1 / -1;
-      order: 3;
-      font-size: var(--text-h5);
-      line-height: 1.3;
-    }
-
-    .home__writing-meta {
-      grid-column: 2;
-      order: 2;
-      font-size: var(--text-micro);
-      justify-self: end;
     }
 
     .home__footer {
