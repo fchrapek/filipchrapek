@@ -17,9 +17,11 @@ jobs:
       - name: Trigger Coolify deploy via restricted SSH key
         env:
           SSH_KEY: ${{ secrets.MIKRUS_SSH_KEY }}
+          SSH_HOST: ${{ secrets.MIKRUS_SSH_HOST }}
+          SSH_PORT: ${{ secrets.MIKRUS_SSH_PORT }}
         run: |
           mkdir -p ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
           chmod 600 ~/.ssh/deploy
-          ssh-keyscan -p 10148 steve148.mikrus.xyz >> ~/.ssh/known_hosts 2>/dev/null
-          ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes -p 10148 root@steve148.mikrus.xyz
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes -p "$SSH_PORT" "root@$SSH_HOST"
