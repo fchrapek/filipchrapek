@@ -445,7 +445,11 @@ function noteSlug(n: NoteEntry): string {
   .home__inner {
     max-inline-size: var(--content-max);
     margin-inline: auto;
-    padding: var(--content-pad-block) var(--content-pad-inline);
+    padding: 1.25rem 1.25rem 2.5rem;
+
+    @media (min-width: 40rem) {
+      padding: var(--content-pad-block) var(--content-pad-inline);
+    }
   }
 
   /* Header */
@@ -487,10 +491,64 @@ function noteSlug(n: NoteEntry): string {
   }
 
   .home__nav {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
     display: flex;
-    gap: 1.5rem;
-    color: var(--color-text-dimmed);
-    font-size: var(--text-small);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 5rem 2rem 3rem;
+    background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    color: var(--color-ink-55);
+    font-family: var(--font-mono);
+    font-size: var(--text-h3);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-mono);
+    text-transform: lowercase;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.32s cubic-bezier(0.33, 1, 0.68, 1),
+      visibility 0.32s step-end;
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+
+    @media (min-width: 40rem) {
+      position: static;
+      z-index: auto;
+      flex-direction: row;
+      justify-content: normal;
+      align-items: normal;
+      gap: 1.5rem;
+      padding: 0;
+      background-color: transparent;
+      color: var(--color-text-dimmed);
+      font-family: inherit;
+      font-size: var(--text-small);
+      font-weight: inherit;
+      letter-spacing: normal;
+      text-transform: none;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  /* Mobile overlay open state — triggered by the hamburger toggle. Desktop
+     never flips the attribute because the menu button is display: none there. */
+  .home[data-menu-open="true"] .home__nav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      opacity 0.32s cubic-bezier(0.33, 1, 0.68, 1),
+      visibility 0s;
   }
 
   .home__nav-link {
@@ -506,7 +564,7 @@ function noteSlug(n: NoteEntry): string {
   .home__menu-button {
     position: relative;
     z-index: 90; /* keep above the overlay so the close X stays tappable */
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -520,6 +578,10 @@ function noteSlug(n: NoteEntry): string {
     color: var(--color-ink);
     cursor: pointer;
     transition: background-color 0.2s ease;
+
+    @media (min-width: 40rem) {
+      display: none;
+    }
   }
 
   .home__menu-button:hover {
@@ -552,11 +614,18 @@ function noteSlug(n: NoteEntry): string {
   .home__hero {
     display: grid;
     align-items: start;
-    gap: 2rem;
-    grid-template-columns: 1.2fr 1fr;
-    /* Bottom gap to the next section comes from --space-section (via
-       .home__section on this element). Keep top padding for breathing. */
-    padding-block: 1.75rem 0;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    /* bottom spacing is owned by --space-section on the next sibling */
+    padding-block: 2rem 0;
+
+    @media (min-width: 40rem) {
+      /* Bottom gap to the next section comes from --space-section (via
+         .home__section on this element). Keep top padding for breathing. */
+      gap: 2rem;
+      grid-template-columns: 1.2fr 1fr;
+      padding-block: 1.75rem 0;
+    }
   }
 
   .home__hero-heading {
@@ -578,8 +647,13 @@ function noteSlug(n: NoteEntry): string {
   }
 
   .home__avatar {
-    inline-size: 2.5rem;
-    block-size: 2.5rem;
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+
+    @media (min-width: 40rem) {
+      inline-size: 2.5rem;
+      block-size: 2.5rem;
+    }
   }
 
   .home__hero-name {
@@ -634,15 +708,22 @@ function noteSlug(n: NoteEntry): string {
 
   .home__hero-meta {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 1.25rem;
+    align-items: flex-start;
+    gap: 0.375rem;
     margin-block-start: 1.375rem;
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
     font-size: var(--text-micro);
     letter-spacing: var(--tracking-mono-wide);
     text-transform: uppercase;
+
+    @media (min-width: 40rem) {
+      flex-direction: row;
+      align-items: center;
+      gap: 1.25rem;
+    }
   }
 
   .home__hero-meta a {
@@ -826,21 +907,39 @@ function noteSlug(n: NoteEntry): string {
     padding-block-start: 1.75rem;
   }
 
-  /* Services grid: 3 equal columns + 3 named row tracks.
-     Each <li> uses display: contents so the <article> inside can subgrid
-     those tracks — icon row, title row, body row line up across all cards. */
+  /* On mobile the cards stack vertically; on wider viewports the outer grid
+     owns 3 equal columns + 3 named row tracks and each <li> uses display:
+     contents so the <article> inside can subgrid those tracks. */
   .home__grid--three {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto auto 1fr;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+    padding-block: 1rem 0;
+
+    @media (min-width: 40rem) {
+      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: auto auto 1fr;
+      padding-block: 1.75rem 0;
+    }
   }
 
   .home__grid--three > li {
-    display: contents;
+    display: block;
+
+    @media (min-width: 40rem) {
+      display: contents;
+    }
   }
 
   .home__grid--notes {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+    grid-template-columns: 1fr;
     padding-block-start: 1.125rem;
+
+    @media (min-width: 40rem) {
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .home__grid--notes > li {
@@ -857,7 +956,7 @@ function noteSlug(n: NoteEntry): string {
     display: flex;
     flex-direction: column;
     gap: 0.625rem;
-    padding: 1.25rem 1.125rem;
+    padding: 1rem;
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-sm);
     color: var(--color-ink);
@@ -865,16 +964,26 @@ function noteSlug(n: NoteEntry): string {
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease;
+
+    @media (min-width: 40rem) {
+      padding: 1.25rem 1.125rem;
+    }
   }
 
-  /* Service cards flatten into the outer grid's row tracks via subgrid,
-     so icon-row / title / body align horizontally across all three cards. */
+  /* Service cards flatten into the outer grid's row tracks via subgrid on
+     wider viewports, so icon-row / title / body align horizontally across
+     all three cards. On mobile they are simple flex columns. */
   .home__card--service {
-    display: grid;
-    row-gap: 0.625rem;
-    grid-template-rows: subgrid;
-    grid-row: span 3;
+    display: flex;
+    flex-direction: column;
     min-inline-size: 0;
+
+    @media (min-width: 40rem) {
+      display: grid;
+      row-gap: 0.625rem;
+      grid-template-rows: subgrid;
+      grid-row: span 3;
+    }
   }
 
   .home__card--note {
@@ -960,13 +1069,21 @@ function noteSlug(n: NoteEntry): string {
   /* Footer */
   .home__footer {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    gap: 0.625rem;
     padding-block-start: 1.5rem;
     border-block-start: 1px solid var(--color-hairline);
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: var(--text-meta);
+    font-size: var(--text-micro);
     letter-spacing: var(--tracking-mono);
+
+    @media (min-width: 40rem) {
+      flex-direction: row;
+      gap: 0;
+      font-size: var(--text-meta);
+    }
   }
 
   .home__footer-copy {
@@ -988,110 +1105,4 @@ function noteSlug(n: NoteEntry): string {
     color: var(--color-ink);
   }
 
-  /* Mobile (<640px) — hamburger reveals nav as an overlay */
-  @media (max-width: 40rem) {
-    .home__inner {
-      padding: 1.25rem 1.25rem 2.5rem;
-    }
-
-    .home__nav {
-      position: fixed;
-      inset: 0;
-      z-index: 80;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      padding: 5rem 2rem 3rem;
-      background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
-      color: var(--color-ink-55);
-      font-family: var(--font-mono);
-      font-size: var(--text-h3);
-      font-weight: var(--font-medium);
-      letter-spacing: var(--tracking-mono);
-      text-transform: lowercase;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition:
-        opacity 0.32s cubic-bezier(0.33, 1, 0.68, 1),
-        visibility 0.32s step-end;
-      -webkit-backdrop-filter: blur(18px);
-      backdrop-filter: blur(18px);
-    }
-
-    .home[data-menu-open="true"] .home__nav {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transition:
-        opacity 0.32s cubic-bezier(0.33, 1, 0.68, 1),
-        visibility 0s;
-    }
-
-    .home__menu-button {
-      display: flex;
-    }
-
-    .home__wordmark {
-      font-size: var(--text-meta);
-    }
-
-    .home__hero {
-      gap: 1.5rem;
-      grid-template-columns: 1fr;
-      /* bottom spacing is owned by --space-section on the next sibling */
-      padding-block: 2rem 0;
-    }
-
-    /* Home hero h1 inherits global --text-h1 on mobile too */
-
-    .home__avatar {
-      inline-size: 2.25rem;
-      block-size: 2.25rem;
-    }
-
-    .home__hero-meta {
-      flex-direction: column;
-      gap: 0.375rem;
-      font-size: var(--text-micro);
-    }
-
-    /* On mobile stack cards vertically — drop the desktop subgrid so each
-       article is its own flex column, and let --space-section handle the gap
-       below. */
-    .home__grid--three {
-      gap: 0.75rem;
-      grid-template-columns: 1fr;
-      grid-template-rows: none;
-      padding-block: 1rem 0;
-    }
-
-    .home__grid--three > li {
-      display: block;
-    }
-
-    .home__card--service {
-      display: flex;
-      flex-direction: column;
-      grid-template-rows: none;
-      grid-row: auto;
-    }
-
-    .home__grid--notes {
-      gap: 0.625rem;
-      grid-template-columns: 1fr;
-    }
-
-    .home__card {
-      padding: 1rem;
-    }
-
-    .home__footer {
-      flex-direction: column;
-      gap: 0.625rem;
-      font-size: var(--text-micro);
-    }
-  }
 </style>
