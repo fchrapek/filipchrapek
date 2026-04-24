@@ -15,7 +15,7 @@
   gap: var(--space-xs);
   margin: 0 !important;
   color: var(--admonition-color);
-  font-size: var(--text-base);
+  font-size: var(--text-reading);
   font-weight: var(--font-medium);
   text-transform: capitalize;
 

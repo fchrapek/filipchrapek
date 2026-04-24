@@ -9,11 +9,8 @@
  */
 
 :root {
-	/* Viewport range for fluid calculations */
-	--fluid-min-width: 20rem;   /* 320px - mobile */
-	--fluid-max-width: 80rem;   /* 1280px - desktop */
-
-	/* Fluid space scale - scales between min and max viewport */
+	/* Fluid space scale — hand-tuned legacy slopes kept for existing call-sites.
+	   Typography tokens below use the shared floor/cap anchors. */
 	
 	/* Small scales */
 	--fluid-space-4-8: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);      /* 4px → 8px */
@@ -58,19 +55,18 @@
 	--fluid-space-64-128: clamp(4rem, 2.4rem + 8vw, 8rem);           /* 64px → 128px */
 	--fluid-space-64-160: clamp(4rem, 1.6rem + 12vw, 10rem);         /* 64px → 160px */
 
-	/* Fluid typography scale — aligned with new static scale in _typography.css */
-	--fluid-text-display: clamp(2rem, 1.4rem + 2.5vw, 2.75rem);       /* 32px → 44px */
-	--fluid-text-h1: clamp(2rem, 1.4rem + 2.5vw, 2.75rem);            /* 32px → 44px */
-	--fluid-text-h2: clamp(1.375rem, 1.15rem + 1vw, 1.625rem);        /* 22px → 26px */
-	--fluid-text-h3: clamp(1.0625rem, 1rem + 0.3vw, 1.125rem);        /* 17px → 18px */
-	--fluid-text-h4: 1rem;                                            /* 16px */
-	--fluid-text-h5: 0.9375rem;                                       /* 15px */
-	--fluid-text-lead: clamp(1.0625rem, 0.96rem + 0.5vw, 1.1875rem);  /* 17px → 19px */
-	--fluid-text-base: 1rem;                                          /* 16px */
-	--fluid-text-body: 0.9375rem;                                     /* 15px */
-	--fluid-text-small: 0.84375rem;                                   /* 13.5px */
-	--fluid-text-meta: 0.75rem;                                       /* 12px */
-	--fluid-text-micro: 0.65625rem;                                   /* 10.5px */
+	/* ────────────────────────────────────────────────────────────────────
+	   FLUID HELPERS — shared anchors used by --text-* tokens in
+	   _typography.css. Cap tracks --content-max so typography stops scaling
+	   the moment the content column does. Bump --content-max and every
+	   fluid size follows automatically. */
+	--fluid-floor: 20rem;
+	--fluid-cap: var(--content-max);
+	--fluid-range: calc(var(--fluid-cap) - var(--fluid-floor));
+
+	/* 0 at floor, 1 at cap. Modern calc() supports length / length → unitless,
+	   so this resolves to a plain ratio multipliable against rem values. */
+	--fluid-t: calc((100vw - var(--fluid-floor)) / var(--fluid-range));
 }
 
 /*

@@ -20,7 +20,6 @@ const items = entries
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, limit);
 
-// Pre-render each quote body so we can drop the HTML into the blockquote.
 const rendered = await Promise.all(
   items.map(async (entry) => {
     const { Content } = await render(entry);
@@ -57,6 +56,7 @@ const rendered = await Promise.all(
               ) : (
                 <span class="testimonials__name">{entry.data.name}</span>
               )}
+              <span class="testimonials__sep" aria-hidden="true" />
               <span class="testimonials__role">{entry.data.role}</span>
             </figcaption>
           </figure>
@@ -92,35 +92,46 @@ const rendered = await Promise.all(
   .testimonials__hint {
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: var(--text-micro);
     letter-spacing: 0.06em;
     white-space: nowrap;
   }
 
+  /* Outer grid owns the row tracks so every card lines up:
+     row 1 = quote mark · row 2 = quote body · row 3 = cite (name · role). */
   .testimonials__grid {
     display: grid;
     gap: 1.5rem 1.25rem;
     grid-template-columns: 1fr;
+    grid-auto-rows: auto;
     padding-block: 1.75rem 0;
   }
 
   @media (min-width: 40rem) {
     .testimonials__grid {
       grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto 1fr auto;
+    }
+
+    /* Subgrid: each card inherits the outer grid's row tracks so marks align
+       at the top and cites align at the bottom regardless of quote length. */
+    .testimonials__item {
+      row-gap: 0.875rem;
+      grid-template-rows: subgrid;
+      grid-row: span 3;
     }
   }
 
   .testimonials__item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
+    display: grid;
+    row-gap: 0.875rem;
     margin: 0;
   }
 
   .testimonials__mark {
     color: var(--color-accent);
     font-family: var(--font-mono);
-    font-size: 1.75rem;
+    font-size: var(--text-h1);
     font-weight: var(--font-medium);
     line-height: 1;
   }
@@ -131,7 +142,7 @@ const rendered = await Promise.all(
     border: none;
     color: var(--color-text-subtle);
     font-family: var(--font-sans);
-    font-size: 0.84375rem;
+    font-size: var(--text-body);
     font-weight: var(--font-normal);
     font-style: normal;
     line-height: 1.55;
@@ -160,6 +171,10 @@ const rendered = await Promise.all(
   }
 
   .testimonials__cite {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--gap-dot);
     padding-block-start: 0.625rem;
     border-block-start: 1px solid var(--color-hairline);
     color: var(--color-text-dimmed);
@@ -178,8 +193,11 @@ const rendered = await Promise.all(
     color: var(--color-accent);
   }
 
-  .testimonials__role::before {
-    content: " · ";
-    color: var(--color-text-dimmed);
+  .testimonials__sep {
+    flex: none;
+    inline-size: 2px;
+    block-size: 2px;
+    border-radius: 2px;
+    background: currentColor;
   }
 </style>

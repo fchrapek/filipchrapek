@@ -8,8 +8,10 @@
 
   max-inline-size: var(--prose-measure);
   color: var(--color-ink);
-  font-size: var(--text-base);
-  line-height: var(--leading-base);
+  /* Default: UI-density copy — matches home card bodies (14px).
+     Blog-post prose bumps this to --text-reading via .blog-post__content. */
+  font-size: var(--text-body);
+  line-height: var(--leading-ui);
   letter-spacing: var(--tracking-base);
 
   /* Paragraphs */
@@ -42,14 +44,14 @@
   /* Headings */
   & h2 {
     margin-block: 2.5rem 0.875rem;
-    font-size: var(--fluid-text-h2);
+    font-size: var(--text-h2);
     line-height: var(--leading-h2);
     letter-spacing: var(--tracking-h2);
   }
 
   & h3 {
     margin-block: 2rem 0.625rem;
-    font-size: var(--fluid-text-h3);
+    font-size: var(--text-h3);
     line-height: var(--leading-h3);
     letter-spacing: var(--tracking-h3);
   }
@@ -217,8 +219,10 @@
   }
 }
 
+/* Legacy modifier — kept as a no-op so existing `prose--sm` callers still work.
+   The base .prose size already matches what prose--sm used to target. */
 .prose--sm {
-  font-size: var(--text-base);
+  /* size inherits from .prose */
 }
 
 .prose--dimmed {

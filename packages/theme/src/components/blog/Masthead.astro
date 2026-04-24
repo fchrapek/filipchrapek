@@ -52,7 +52,7 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
     <div class="masthead__author-text">
       <span class="masthead__author-name">{siteConfig.author}</span>
       <span class="masthead__author-role">
-        {pl ? "Warszawa · piszę o nudnych rzeczach" : "Warsaw · writes about the boring parts"}
+        {siteConfig.location} · {pl ? "piszę o nudnych rzeczach" : "writes about the boring parts"}
       </span>
     </div>
   </div>
@@ -91,19 +91,19 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.875rem;
+    gap: var(--gap-dot);
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: 0.6875rem; /* 11px */
+    font-size: var(--text-micro);
     letter-spacing: var(--tracking-mono-ultra);
     text-transform: uppercase;
   }
 
   .masthead__meta-dot {
     display: inline-block;
-    inline-size: 3px;
-    block-size: 3px;
-    border-radius: 3px;
+    inline-size: 2px;
+    block-size: 2px;
+    border-radius: 2px;
     background: currentColor;
   }
 
@@ -125,7 +125,7 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
   .masthead__title {
     margin: 1rem 0 0.875rem;
     color: var(--color-ink);
-    font-size: var(--fluid-text-h1);
+    font-size: var(--text-h1);
     font-weight: var(--font-medium);
     line-height: var(--leading-h1);
     letter-spacing: var(--tracking-h1);
@@ -135,7 +135,7 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
   .masthead__lede {
     margin: 0;
     color: var(--color-text-subtle);
-    font-size: var(--fluid-text-lead);
+    font-size: var(--text-lead);
     font-weight: var(--font-normal);
     line-height: var(--leading-lead);
     text-wrap: pretty;
@@ -177,7 +177,7 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
 
   .masthead__author-name {
     color: var(--color-ink);
-    font-size: 0.84375rem; /* 13.5px */
+    font-size: var(--text-small);
     font-weight: var(--font-medium);
     letter-spacing: var(--tracking-tight);
   }

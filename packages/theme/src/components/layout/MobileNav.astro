@@ -119,6 +119,8 @@ const menuItems = (links ?? defaultLinks).filter(
   }
 
   .mobile-nav__toggle {
+    position: relative;
+    z-index: 90; /* keep button above the fullscreen sheet so the X stays tappable */
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -246,10 +248,12 @@ const menuItems = (links ?? defaultLinks).filter(
     position: relative;
     padding: 0.5rem 1rem;
     color: var(--color-ink-55);
-    font-size: 1.5rem; /* 24px */
+    font-family: var(--font-mono);
+    font-size: var(--text-h3); /* mono reads tighter than sans; h3 fits the overlay */
     font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-tight);
+    letter-spacing: var(--tracking-mono);
     text-decoration: none;
+    text-transform: lowercase;
     transition: color 0.2s ease;
   }
 

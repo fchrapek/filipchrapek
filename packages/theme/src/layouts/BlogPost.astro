@@ -94,48 +94,7 @@ const wordCount = remarkPluginFrontmatter.wordCount as number | undefined;
   <StructuredData post={post} type="article" />
   <article class="blog-post" data-pagefind-body>
     <div class="blog-post__layout">
-      {/* Sticky TOC */}
-      <aside class="blog-post__toc" aria-label={labels.onThisPage}>
-        <a class="blog-post__toc-back" href={sectionPath}>{labels.allPosts}</a>
-        <div class="blog-post__toc-divider" aria-hidden="true"></div>
-        {
-          tocItems.length > 0 && (
-            <>
-              <div class="blog-post__toc-label">{labels.onThisPage}</div>
-              <ol class="blog-post__toc-list">
-                {tocItems.map((h) => (
-                  <li>
-                    <a
-                      class="blog-post__toc-item"
-                      href={`#${h.slug}`}
-                      data-toc-link={h.slug}
-                    >
-                      <span class="blog-post__toc-num">{h.num}</span>
-                      <span>{h.text}</span>
-                    </a>
-                  </li>
-                ))}
-              </ol>
-              <div class="blog-post__toc-divider" aria-hidden="true"></div>
-            </>
-          )
-        }
-        <div class="blog-post__toc-meta">
-          <span>
-            {readingTime}
-            {wordCount ? ` · ${wordCount.toLocaleString()} ${pl ? "słów" : "words"}` : ""}
-          </span>
-          {
-            updatedDate && (
-              <span>
-                {labels.updated} {dateFmt(updatedDate)}
-              </span>
-            )
-          }
-        </div>
-      </aside>
-
-      {/* Article body */}
+      {/* Article body — now rendered first so desktop TOC can live on the right */}
       <div class="blog-post__article" id="blog-hero">
         <Masthead content={post} readingTime={readingTime} />
         <div class="blog-post__content prose">
@@ -202,6 +161,85 @@ const wordCount = remarkPluginFrontmatter.wordCount as number | undefined;
           )
         }
       </div>
+
+      {/* TOC — mobile: collapsible widget above article (via CSS order);
+                   desktop (≥84rem): sticky in the right-side gutter. */}
+      <aside class="blog-post__toc" aria-label={labels.onThisPage} data-toc-open="false">
+        <button
+          class="blog-post__toc-trigger"
+          type="button"
+          aria-expanded="false"
+          aria-controls="post-toc-panel"
+          data-toc-trigger
+        >
+          <span class="blog-post__toc-trigger-label">
+            {labels.onThisPage}
+          </span>
+          {
+            tocItems.length > 0 && (
+              <span class="blog-post__toc-trigger-count">
+                {String(tocItems.length).padStart(2, "0")}
+              </span>
+            )
+          }
+          <svg
+            class="blog-post__toc-chevron"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </button>
+
+        <div class="blog-post__toc-panel" id="post-toc-panel">
+          <div class="blog-post__toc-panel-inner">
+            <a class="blog-post__toc-back" href={sectionPath}>
+              {labels.allPosts}
+            </a>
+            <div class="blog-post__toc-divider" aria-hidden="true"></div>
+            {
+              tocItems.length > 0 && (
+                <>
+                  <div class="blog-post__toc-label">{labels.onThisPage}</div>
+                  <ol class="blog-post__toc-list">
+                    {tocItems.map((h) => (
+                      <li>
+                        <a
+                          class="blog-post__toc-item"
+                          href={`#${h.slug}`}
+                          data-toc-link={h.slug}
+                        >
+                          <span class="blog-post__toc-num">{h.num}</span>
+                          <span>{h.text}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                  <div class="blog-post__toc-divider" aria-hidden="true"></div>
+                </>
+              )
+            }
+            <div class="blog-post__toc-meta">
+              <span>
+                {readingTime}
+                {wordCount ? ` · ${wordCount.toLocaleString()} ${pl ? "słów" : "words"}` : ""}
+              </span>
+              {
+                updatedDate && (
+                  <span>
+                    {labels.updated} {dateFmt(updatedDate)}
+                  </span>
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
   </article>
 
@@ -280,5 +318,28 @@ const wordCount = remarkPluginFrontmatter.wordCount as number | undefined;
     );
 
     targets.forEach((t) => headingObserver.observe(t));
+  }
+
+  // Mobile TOC toggle. Desktop collapses the trigger via CSS so this is a no-op there.
+  const tocAside = document.querySelector<HTMLElement>(".blog-post__toc");
+  const tocTrigger = document.querySelector<HTMLButtonElement>(
+    "[data-toc-trigger]",
+  );
+
+  if (tocAside && tocTrigger) {
+    const setOpen = (open: boolean) => {
+      tocAside.dataset.tocOpen = String(open);
+      tocTrigger.setAttribute("aria-expanded", String(open));
+    };
+
+    tocTrigger.addEventListener("click", () => {
+      setOpen(tocAside.dataset.tocOpen !== "true");
+    });
+
+    // Collapse when a TOC item is tapped so the user sees the target heading.
+    tocAside.addEventListener("click", (e) => {
+      const link = (e.target as HTMLElement).closest("[data-toc-link]");
+      if (link) setOpen(false);
+    });
   }
 </script>

@@ -74,37 +74,80 @@
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, monospace;
 
-  /* Font sizes (static) */
-  --text-display: 2.75rem; /* 44px — post title */
-  --text-h1: 2.75rem; /* 44px */
-  --text-h2: 1.625rem; /* 26px */
-  --text-h3: 1.125rem; /* 18px */
-  --text-h4: 1rem; /* 16px */
-  --text-h5: 0.9375rem; /* 15px */
-  --text-lead: 1.1875rem; /* 19px — article subtitle */
-  --text-base: 1rem; /* 16px */
-  --text-body: 0.9375rem; /* 15px — UI body */
-  --text-small: 0.84375rem; /* 13.5px */
-  --text-meta: 0.75rem; /* 12px — uppercase mono meta */
-  --text-micro: 0.65625rem; /* 10.5px */
+  /* ────────────────────────────────────────────────────────────────────
+     SIZE SCALE — single API: --text-*
+     Fluid sizes interpolate between --fluid-floor and --fluid-cap (see
+     _fluid.css). Static sizes already sit at their floor and don't scale.
+     Values are in rem; the comment shows the resulting px at 16px root.
+     ──────────────────────────────────────────────────────────────────── */
+
+  /* Reserved display size — kept on the scale but unused right now. */
+  --text-display: clamp(
+    2rem,
+    calc(2rem + 0.5rem * var(--fluid-t)),
+    2.5rem
+  );                                                            /* 32 → 40 */
+
+  /* Headings — fluid */
+  --text-h1: clamp(
+    1.5rem,
+    calc(1.5rem + 0.25rem * var(--fluid-t)),
+    1.75rem
+  );                                                            /* 24 → 28 */
+  --text-h2: clamp(
+    1.25rem,
+    calc(1.25rem + 0.125rem * var(--fluid-t)),
+    1.375rem
+  );                                                            /* 20 → 22 */
+  --text-h3: clamp(
+    1.0625rem,
+    calc(1.0625rem + 0.0625rem * var(--fluid-t)),
+    1.125rem
+  );                                                            /* 17 → 18 */
+
+  /* Headings — static */
+  --text-h4: 1rem;                                              /* 16 */
+  --text-h5: 0.9375rem;                                         /* 15 */
+
+  /* Body copy */
+  --text-lead: clamp(
+    1.0625rem,
+    calc(1.0625rem + 0.125rem * var(--fluid-t)),
+    1.1875rem
+  );                                                            /* 17 → 19 — blog subtitle */
+  --text-reading: clamp(
+    0.9375rem,
+    calc(0.9375rem + 0.125rem * var(--fluid-t)),
+    1.0625rem
+  );                                                            /* 15 → 17 — prose */
+  --text-body: clamp(
+    0.8125rem,
+    calc(0.8125rem + 0.0625rem * var(--fluid-t)),
+    0.875rem
+  );                                                            /* 13 → 14 — UI body */
+
+  /* Small static tokens — going smaller hurts legibility */
+  --text-small: 0.875rem;                                       /* 14 */
+  --text-meta: 0.75rem;                                         /* 12 — mono chrome */
+  --text-micro: 0.6875rem;                                      /* 11 — micro labels */
 
   /* Line heights */
   --leading-tight: 1.1;
   --leading-snug: 1.3;
   --leading-display: 1.08;
-  --leading-h1: 1.08;
-  --leading-h2: 1.2;
+  --leading-h1: 1.15;
+  --leading-h2: 1.25;
   --leading-h3: 1.35;
   --leading-h4: 1.4;
   --leading-h5: 1.45;
-  --leading-lead: 1.5;
+  --leading-lead: 1.55;
   --leading-base: 1.65; /* prose body */
   --leading-ui: 1.55; /* ui body */
   --leading-small: 1.55;
 
   /* Letter spacing */
   --tracking-display: -0.03em;
-  --tracking-h1: -0.03em;
+  --tracking-h1: -0.025em;
   --tracking-h2: -0.02em;
   --tracking-h3: -0.015em;
   --tracking-base: -0.01em;
@@ -112,6 +155,9 @@
   --tracking-mono: 0.02em;
   --tracking-mono-wide: 0.08em;
   --tracking-mono-ultra: 0.14em;
+
+  /* Spacing helpers */
+  --gap-dot: 0.5rem; /* item · dot · item rows — tighter than default flex gap */
 
   /* Font weights */
   --font-normal: 400;

@@ -24,9 +24,9 @@ const t = pl
       heroMid: "wiecznie ciekawy",
       heroTail: "freelancer.",
       heroBody:
-        "Od lat skupiam się na web devie, designie wszelkich odmian i produktywności bez „guru” BS. Czasem piszę, często dowożę, staram się nie traktować siebie zbyt poważnie.",
+        "Od lat skupiam się na web devie, designie wszelkich odmian i produktywności bez „guru” BS.",
       email: "hello@filipchrapek.com",
-      location: "Warszawa → zdalnie",
+      location: `${siteConfig.location} → zdalnie`,
       chatHint: "Napisz wiadomość",
       chatSeed:
         "Cześć Filip — potrzebujemy prostej strony marketingowej dla małego SaaS. Termin ~3 tygodnie, najlepiej w Astro. Możemy pogadać w przyszłym tygodniu?",
@@ -69,9 +69,9 @@ const t = pl
       heroMid: "perpetually curious",
       heroTail: "freelancer.",
       heroBody:
-        "For years now, my professional focus is web dev, design of all flavors, and productivity without the ‘guru’ BS. I write occasionally, ship often, and try not to take myself too seriously.",
+        "For years now, my professional focus is web dev, design of all flavors, and productivity without the ‘guru’ BS.",
       email: "hello@filipchrapek.com",
-      location: "Warsaw → remote",
+      location: `${siteConfig.location} → remote`,
       chatHint: "Drop a message",
       chatSeed:
         "Hey Filip — we need a simple marketing site for a small SaaS. Timeline is ~3 weeks, ideally using Astro. Available to chat next week?",
@@ -427,7 +427,7 @@ function noteSlug(n: NoteEntry): string {
     gap: 0.5rem;
     color: var(--color-ink);
     font-family: var(--font-mono);
-    font-size: 0.78125rem; /* 12.5px */
+    font-size: var(--text-meta);
     font-weight: var(--font-medium);
     letter-spacing: var(--tracking-mono);
     text-decoration: none;
@@ -442,7 +442,7 @@ function noteSlug(n: NoteEntry): string {
     display: flex;
     gap: 1.5rem;
     color: var(--color-text-dimmed);
-    font-size: 0.84375rem; /* 13.5px */
+    font-size: var(--text-small);
   }
 
   .home__nav-link {
@@ -456,6 +456,8 @@ function noteSlug(n: NoteEntry): string {
   }
 
   .home__menu-button {
+    position: relative;
+    z-index: 90; /* keep above the overlay so the close X stays tappable */
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -532,7 +534,7 @@ function noteSlug(n: NoteEntry): string {
 
   .home__hero-name {
     color: var(--color-ink);
-    font-size: 0.875rem;
+    font-size: var(--text-small);
     font-weight: var(--font-medium);
     letter-spacing: var(--tracking-tight);
   }
@@ -540,7 +542,7 @@ function noteSlug(n: NoteEntry): string {
   .home__hero-status {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--gap-dot);
     margin-block-start: 0.125rem;
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
@@ -561,10 +563,10 @@ function noteSlug(n: NoteEntry): string {
   .home__hero-title {
     margin: 0;
     color: var(--color-ink);
-    font-size: 1.625rem;
+    font-size: var(--text-h1);
     font-weight: var(--font-medium);
-    line-height: 1.15;
-    letter-spacing: -0.025em;
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
     text-wrap: balance;
   }
 
@@ -575,7 +577,7 @@ function noteSlug(n: NoteEntry): string {
   .home__hero-body {
     margin: 1rem 0 0;
     color: var(--color-text-subtle);
-    font-size: 0.90625rem; /* 14.5px */
+    font-size: var(--text-body);
     line-height: 1.6;
     text-wrap: pretty;
   }
@@ -587,7 +589,7 @@ function noteSlug(n: NoteEntry): string {
     margin-block-start: 1.375rem;
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: 0.6875rem; /* 11px */
+    font-size: var(--text-micro);
     letter-spacing: var(--tracking-mono-wide);
     text-transform: uppercase;
   }
@@ -621,7 +623,7 @@ function noteSlug(n: NoteEntry): string {
   .home__chat-hint {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--gap-dot);
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
     font-size: var(--text-micro);
@@ -652,7 +654,7 @@ function noteSlug(n: NoteEntry): string {
     flex: 1;
     margin: 0;
     color: var(--color-text-dimmed);
-    font-size: 0.84375rem;
+    font-size: var(--text-body);
     line-height: 1.55;
     white-space: pre-wrap;
   }
@@ -689,7 +691,7 @@ function noteSlug(n: NoteEntry): string {
     background: var(--color-ink);
     color: var(--color-bg);
     font: inherit;
-    font-size: 0.78125rem;
+    font-size: var(--text-meta);
     font-weight: var(--font-medium);
     text-decoration: none;
     cursor: pointer;
@@ -727,7 +729,7 @@ function noteSlug(n: NoteEntry): string {
   .home__section-hint {
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: var(--text-micro);
     letter-spacing: 0.06em;
     white-space: nowrap;
   }
@@ -799,7 +801,7 @@ function noteSlug(n: NoteEntry): string {
   .home__card-title {
     margin: 0.25rem 0 0;
     color: var(--color-ink);
-    font-size: 0.96875rem; /* 15.5px */
+    font-size: var(--text-h5);
     font-weight: var(--font-medium);
     letter-spacing: var(--tracking-tight);
   }
@@ -807,14 +809,14 @@ function noteSlug(n: NoteEntry): string {
   .home__card-body {
     margin: 0;
     color: var(--color-text-subtle);
-    font-size: 0.84375rem;
+    font-size: var(--text-body);
     line-height: 1.55;
     text-wrap: pretty;
   }
 
   .home__note-title {
     color: var(--color-ink);
-    font-size: 0.9375rem;
+    font-size: var(--text-h5);
     font-weight: var(--font-medium);
     line-height: 1.3;
     letter-spacing: var(--tracking-tight);
@@ -845,13 +847,13 @@ function noteSlug(n: NoteEntry): string {
   .home__writing-date {
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: 0.71875rem; /* 11.5px */
+    font-size: var(--text-micro);
     letter-spacing: var(--tracking-mono);
     white-space: nowrap;
   }
 
   .home__writing-title {
-    font-size: 0.96875rem;
+    font-size: var(--text-h5);
     font-weight: var(--font-medium);
     letter-spacing: var(--tracking-tight);
     transition: color 0.2s ease;
@@ -872,7 +874,7 @@ function noteSlug(n: NoteEntry): string {
     padding-block-end: 4.5rem;
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--text-meta);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -901,7 +903,7 @@ function noteSlug(n: NoteEntry): string {
     border-block-start: 1px solid var(--color-hairline);
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--text-meta);
     letter-spacing: var(--tracking-mono);
   }
 
@@ -946,9 +948,11 @@ function noteSlug(n: NoteEntry): string {
         transparent
       );
       color: var(--color-ink-55);
-      font-size: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: var(--text-h3);
       font-weight: var(--font-medium);
-      letter-spacing: var(--tracking-tight);
+      letter-spacing: var(--tracking-mono);
+      text-transform: lowercase;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -973,7 +977,7 @@ function noteSlug(n: NoteEntry): string {
     }
 
     .home__wordmark {
-      font-size: 0.75rem;
+      font-size: var(--text-meta);
     }
 
     .home__hero {
@@ -982,9 +986,7 @@ function noteSlug(n: NoteEntry): string {
       padding-block: 2rem 2.25rem;
     }
 
-    .home__hero-title {
-      font-size: 1.75rem;
-    }
+    /* Home hero h1 inherits global --text-h1 on mobile too */
 
     .home__avatar {
       inline-size: 2.25rem;
@@ -1021,27 +1023,27 @@ function noteSlug(n: NoteEntry): string {
     .home__writing-date {
       grid-column: 1;
       order: 1;
-      font-size: 0.625rem;
+      font-size: var(--text-micro);
     }
 
     .home__writing-title {
       grid-column: 1 / -1;
       order: 3;
-      font-size: 0.9375rem;
+      font-size: var(--text-h5);
       line-height: 1.3;
     }
 
     .home__writing-meta {
       grid-column: 2;
       order: 2;
-      font-size: 0.625rem;
+      font-size: var(--text-micro);
       justify-self: end;
     }
 
     .home__footer {
       flex-direction: column;
       gap: 0.625rem;
-      font-size: 0.71875rem;
+      font-size: var(--text-micro);
     }
   }
 </style>
