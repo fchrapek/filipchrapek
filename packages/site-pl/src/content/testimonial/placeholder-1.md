@@ -1,8 +1,9 @@
 ---
-name: Wpisz prawdziwe nazwisko
-role: Stanowisko · Firma
+name: Beata Krzyczyńska
+role: Rebell Studio
+roleHref: https://www.rebellstudio.pl/
 order: 10
-draft: true
+draft: false
 ---
 
-Zastąp ten placeholder prawdziwą opinią — najlepiej 1–3 zdania. Markdown działa, więc możesz dodać *wyróżnienie* albo [link](https://example.com).
+Świetnie zorganizowany, z dużą wiedzą i cierpliwością. Bez problemu doradza w doborze odpowiednich rozwiązań, a komunikacja jest szybka i sprawna. Na pewno będę wracać po kolejne projekty.

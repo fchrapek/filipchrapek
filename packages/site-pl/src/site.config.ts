@@ -48,10 +48,6 @@ export const menuLinks: { path: string; title: string }[] = [
     path: "/artykuly/",
     title: "Blog",
   },
-  {
-    path: "/notatki/",
-    title: "Notatki",
-  },
 ];
 
 // https://expressive-code.com/reference/configuration/

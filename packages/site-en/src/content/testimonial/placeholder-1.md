@@ -1,8 +1,9 @@
 ---
-name: Replace with real name
-role: Role · Company
+name: Beata Krzyczyńska
+role: Rebell Studio
+roleHref: https://www.rebellstudio.pl/
 order: 10
-draft: true
+draft: false
 ---
 
-Replace this placeholder with a real testimonial. Keep it to 1–3 sentences — the card clips tall quotes on narrow screens. Markdown works here, so you can add *emphasis* or a [link](https://example.com) if you need to.
+Highly organised, deeply knowledgeable, and patient. He guides you through the right choices without friction, and communication stays fast and clear. I'll definitely be back for the next project.

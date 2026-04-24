@@ -3,6 +3,8 @@
    ============================================ */
 
 :root {
+  color-scheme: light;
+
   /* Surface + ink */
   --color-bg: #f6f5f2;
   --color-ink: #161614;
@@ -53,3 +55,28 @@
   --color-orange-400: #b25a1d;
   --color-red-500: #a83244;
 }
+
+/* Dark mode — user-toggled only; no prefers-color-scheme. Inverts the ink ramp
+   and lifts accents for readable contrast on a warm near-black. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #1a1917;
+  --color-ink: #e8e6df;
+  --color-accent: #8ba4ee;
+
+  --color-ink-04: rgb(232 230 223 / 4%);
+  --color-ink-12: rgb(232 230 223 / 12%);
+  --color-ink-40: rgb(232 230 223 / 40%);
+  --color-ink-55: rgb(232 230 223 / 55%);
+  --color-ink-78: rgb(232 230 223 / 78%);
+
+  --color-surface: rgb(232 230 223 / 4%);
+  --color-surface-hover: rgb(232 230 223 / 8%);
+
+  --color-lime-500: #9ac86a;
+  --color-purple-400: #9d8fff;
+  --color-orange-400: #e69b5f;
+  --color-red-500: #e57387;
+}
+

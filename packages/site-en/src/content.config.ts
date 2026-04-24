@@ -61,7 +61,10 @@ const testimonial = defineCollection({
 	schema: z.object({
 		name: z.string(),
 		role: z.string(),
+		/** Link on the author's name. Mutually exclusive with roleHref. */
 		href: z.string().url().optional(),
+		/** Link on the role/place line. Use when the company/institution has the URL. */
+		roleHref: z.string().url().optional(),
 		order: z.number().default(100),
 		draft: z.boolean().default(false),
 	}),

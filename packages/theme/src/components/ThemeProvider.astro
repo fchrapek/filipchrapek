@@ -1,44 +1,46 @@
-{/* Inlined to avoid FOUC. This is a parser blocking script. */}
+{/* Inlined to avoid FOUC. Parser-blocking so data-theme is set before CSS paints.
+    Light by default. No system-preference detection — only the user's explicit choice persists. */}
 <script is:inline>
-	const lightModePref = window.matchMedia("(prefers-color-scheme: light)");
+	(() => {
+		const KEY = "theme";
+		const read = () => {
+			try {
+				return localStorage.getItem(KEY);
+			} catch (_) {
+				return null;
+			}
+		};
+		const apply = () => {
+			const next = read() === "dark" ? "dark" : "light";
+			if (document.documentElement.getAttribute("data-theme") !== next) {
+				document.documentElement.setAttribute("data-theme", next);
+			}
+		};
 
-	function getUserPref() {
-		const storedTheme = typeof localStorage !== "undefined" && localStorage.getItem("theme");
-		return storedTheme || (lightModePref.matches ? "light" : "dark");
-	}
+		apply();
 
-	function setTheme(newTheme) {
-		if (newTheme !== "light" && newTheme !== "dark") {
-			return console.warn(
-				`Invalid theme value '${newTheme}' received. Expected 'light' or 'dark'.`,
-			);
+		// Speculation Rules prerender: the inline script ran at prerender time, so
+		// data-theme may be stale if the user toggled before activating this doc.
+		if (document.prerendering) {
+			document.addEventListener("prerenderingchange", apply, { once: true });
 		}
 
-		const root = document.documentElement;
+		// bfcache restore — re-apply so back/forward nav doesn't flash old theme.
+		window.addEventListener("pageshow", (e) => {
+			if (e.persisted) apply();
+		});
 
-		// root already set to newTheme, exit early
-		if (newTheme === root.getAttribute("data-theme")) {
-			return;
-		}
+		// Keep other tabs in sync.
+		window.addEventListener("storage", (e) => {
+			if (e.key === KEY) apply();
+		});
 
-		root.setAttribute("data-theme", newTheme);
-
-		if (typeof localStorage !== "undefined") {
-			localStorage.setItem("theme", newTheme);
-		}
-	}
-
-	// initial setup
-	setTheme(getUserPref());
-
-	// View Transitions hook to restore theme
-	document.addEventListener("astro:after-swap", () => setTheme(getUserPref()));
-
-	// listen for theme-change custom event, fired in src/components/ThemeToggle.astro
-	document.addEventListener("theme-change", (e) => {
-		setTheme(e.detail.theme);
-	});
-
-	// listen for prefers-color-scheme change.
-	lightModePref.addEventListener("change", (e) => setTheme(e.matches ? "light" : "dark"));
+		document.addEventListener("theme-change", (e) => {
+			const next = e && e.detail && e.detail.theme === "dark" ? "dark" : "light";
+			document.documentElement.setAttribute("data-theme", next);
+			try {
+				localStorage.setItem(KEY, next);
+			} catch (_) {}
+		});
+	})();
 </script>

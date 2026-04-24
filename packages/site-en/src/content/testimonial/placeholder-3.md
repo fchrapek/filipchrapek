@@ -1,8 +1,9 @@
 ---
-name: Replace with real name
-role: Role · Company
+name: Gosia Leitner
+role: Record label
+href: https://www.instagram.com/gosialeitner/
 order: 30
-draft: true
+draft: false
 ---
 
-Three cards look best in the desktop grid. If you only have two real testimonials, add a `draft: true` to the third so the section stays evenly balanced.
+A great experience all around. Ordering the work for my record label was quick, effortless, and genuinely enjoyable. Filip gets what you need without the back-and-forth — sincerely recommend.

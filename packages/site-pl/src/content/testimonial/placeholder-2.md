@@ -1,8 +1,9 @@
 ---
-name: Wpisz prawdziwe nazwisko
-role: Stanowisko · Firma
+name: Ewa Stachowska
+role: Pomorski Uniwersytet Medyczny w Szczecinie
+roleHref: https://www.pum.edu.pl/
 order: 20
-draft: true
+draft: false
 ---
 
-Kolejny placeholder. Zdejmij flagę `draft: true` gdy dodasz prawdziwą opinię. Pole `order` pozwala ręcznie sortować karty bez zmiany nazw plików.
+Bardzo dobra współpraca. Strona powstała na czas, profesjonalnie i bez zbędnych komplikacji. Komunikacja sprawna, efekt końcowy schludny i dokładnie taki, jakiego potrzebowaliśmy.

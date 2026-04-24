@@ -1,8 +1,9 @@
 ---
-name: Wpisz prawdziwe nazwisko
-role: Stanowisko · Firma
+name: Gosia Leitner
+role: Wytwórnia muzyczna
+href: https://www.instagram.com/gosialeitner/
 order: 30
-draft: true
+draft: false
 ---
 
-Trzy karty najlepiej wyglądają w siatce na desktopie. Jeśli masz tylko dwie prawdziwe opinie, dodaj `draft: true` do trzeciej, żeby sekcja pozostała zrównoważona.
+Świetne doświadczenie od początku do końca. Zamówienie pracy dla mojej wytwórni muzycznej przebiegło szybko, bezproblemowo i z przyjemnością. Filip rozumie czego potrzebujesz bez zbędnego pingpongu — polecam.

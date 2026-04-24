@@ -3,6 +3,8 @@ import BaseHead from "@/components/BaseHead.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import Testimonials from "@/components/Testimonials.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
 import { siteConfig } from "@/site.config";
 import { isPolish } from "@/utils/i18n";
 import type { CollectionEntry } from "astro:content";
@@ -50,7 +52,6 @@ const t = pl
       nav: [
         { label: "O mnie", href: "/o-mnie/" },
         { label: "Blog", href: "/artykuly/" },
-        { label: "Notatki", href: "/notatki/" },
       ],
       services1Title: "Web development",
       services1Body:
@@ -97,7 +98,6 @@ const t = pl
       nav: [
         { label: "About", href: "/about/" },
         { label: "Blog", href: "/posts/" },
-        { label: "Notes", href: "/notes/" },
       ],
       services1Title: "Web development",
       services1Body:
@@ -164,6 +164,7 @@ function noteSlug(n: NoteEntry): string {
 
 <html lang={siteConfig.lang}>
   <head>
+    <ThemeProvider />
     <BaseHead title="Home" description={siteConfig.description} />
     <StructuredData type="website" />
   </head>
@@ -177,24 +178,27 @@ function noteSlug(n: NoteEntry): string {
             <span class="home__wordmark-slash">/</span>
             <span class="home__wordmark-name">chrapek</span>
           </a>
-          <nav class="home__nav" aria-label="Primary">
-            {
-              t.nav.map((n) => (
-                <a href={n.href} class="home__nav-link">
-                  {n.label}
-                </a>
-              ))
-            }
-          </nav>
-          <button
-            class="home__menu-button"
-            type="button"
-            aria-label={t.menu}
-            data-home-menu-toggle
-          >
-            <span class="home__menu-line"></span>
-            <span class="home__menu-line"></span>
-          </button>
+          <div class="home__header-right">
+            <nav class="home__nav" aria-label="Primary">
+              {
+                t.nav.map((n) => (
+                  <a href={n.href} class="home__nav-link">
+                    {n.label}
+                  </a>
+                ))
+              }
+            </nav>
+            <ThemeToggle />
+            <button
+              class="home__menu-button"
+              type="button"
+              aria-label={t.menu}
+              data-home-menu-toggle
+            >
+              <span class="home__menu-line"></span>
+              <span class="home__menu-line"></span>
+            </button>
+          </div>
         </header>
 
         {/* Hero */}
@@ -435,6 +439,12 @@ function noteSlug(n: NoteEntry): string {
     align-items: center;
     padding-block-end: 1.25rem;
     border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .home__header-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   .home__wordmark {

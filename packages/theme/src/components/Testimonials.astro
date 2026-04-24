@@ -56,8 +56,17 @@ const rendered = await Promise.all(
               ) : (
                 <span class="testimonials__name">{entry.data.name}</span>
               )}
-              <span class="testimonials__sep" aria-hidden="true" />
-              <span class="testimonials__role">{entry.data.role}</span>
+              {entry.data.roleHref ? (
+                <a
+                  class="testimonials__role"
+                  href={entry.data.roleHref}
+                  rel="noopener"
+                >
+                  {entry.data.role}
+                </a>
+              ) : (
+                <span class="testimonials__role">{entry.data.role}</span>
+              )}
             </figcaption>
           </figure>
         ))}
@@ -168,12 +177,10 @@ const rendered = await Promise.all(
 
   .testimonials__cite {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--gap-dot);
+    flex-direction: column;
+    gap: 0.25rem;
     padding-block-start: 0.625rem;
     border-block-start: 1px solid var(--color-hairline);
-    color: var(--color-text-dimmed);
     font-family: var(--font-mono);
     font-size: var(--text-micro);
     letter-spacing: 0.08em;
@@ -185,15 +192,13 @@ const rendered = await Promise.all(
     text-decoration: none;
   }
 
-  a.testimonials__name:hover {
-    color: var(--color-accent);
+  .testimonials__role {
+    color: var(--color-text-dimmed);
+    text-decoration: none;
   }
 
-  .testimonials__sep {
-    flex: none;
-    inline-size: 2px;
-    block-size: 2px;
-    border-radius: 2px;
-    background: currentColor;
+  a.testimonials__name:hover,
+  a.testimonials__role:hover {
+    color: var(--color-accent);
   }
 </style>

@@ -1,5 +1,6 @@
 ---
 import { menuLinks } from "@/site.config";
+import ThemeToggle from "@/components/ThemeToggle.astro";
 import MobileNav from "./MobileNav.astro";
 
 export interface Crumb {
@@ -58,36 +59,46 @@ const filteredLinks = menuLinks.filter(
     }
   </div>
 
-  <nav class="site-header__nav" aria-label="Primary">
-    {
-      filteredLinks.map((link) => {
-        const isActive =
-          link.path === currentPath ||
-          (link.path !== "/" && currentPath.startsWith(link.path));
-        return (
-          <a
-            class:list={["site-header__nav-link", isActive && "is-active"]}
-            href={link.path}
-            aria-current={isActive ? "page" : false}
-          >
-            {link.title}
-          </a>
-        );
-      })
-    }
-  </nav>
+  <div class="site-header__right">
+    <nav class="site-header__nav" aria-label="Primary">
+      {
+        filteredLinks.map((link) => {
+          const isActive =
+            link.path === currentPath ||
+            (link.path !== "/" && currentPath.startsWith(link.path));
+          return (
+            <a
+              class:list={["site-header__nav-link", isActive && "is-active"]}
+              href={link.path}
+              aria-current={isActive ? "page" : false}
+            >
+              {link.title}
+            </a>
+          );
+        })
+      }
+    </nav>
 
-  <MobileNav class="site-header__mobile" links={filteredLinks} />
+    <ThemeToggle />
+
+    <MobileNav class="site-header__mobile" links={filteredLinks} />
+  </div>
 </header>
 
 <style>
   .site-header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
     padding-block-end: 1.25rem;
     border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .site-header__right {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   .site-header__wordmark {

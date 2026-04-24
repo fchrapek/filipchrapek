@@ -2,6 +2,7 @@
 import BaseHead from "@/components/BaseHead.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import StructuredData from "@/components/StructuredData.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header, { type Crumb } from "@/components/layout/Header.astro";
 import { siteConfig } from "@/site.config";
@@ -23,6 +24,7 @@ const {
 
 <html lang={siteConfig.lang}>
   <head>
+    <ThemeProvider />
     <BaseHead
       articleDate={articleDate}
       description={description}
@@ -40,18 +42,17 @@ const {
       </main>
       <Footer />
     </div>
+    {/* Prefetch only — no prerender. Speculation Rules `prerender` runs the target's
+        inline scripts at prerender time and caches the rendered document; activation
+        paints the cached state before any post-activation listener can reconcile.
+        That was the source of the dark→light flash on inter-page navigation.
+        Prefetch is script-free, so navigation still hits warm caches without the trap. */}
     <script is:inline type="speculationrules">
       {
         "prefetch": [
           {
             "where": { "href_matches": "/*" },
             "eagerness": "immediate"
-          }
-        ],
-        "prerender": [
-          {
-            "where": { "href_matches": "/*" },
-            "eagerness": "moderate"
           }
         ]
       }
