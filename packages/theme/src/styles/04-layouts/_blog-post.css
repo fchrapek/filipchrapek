@@ -13,16 +13,37 @@
   word-break: break-word;
 }
 
-/* Default layout: single column. TOC sits above the article via `order`. */
+/* Default layout: single column. TOC sits above the article via `order`.
+   On desktop (≥64rem) the layout becomes a 2-column grid with a sticky TOC
+   that bleeds out to the right of the reading shell so paragraphs hold their
+   Medium-like measure. */
 .blog-post__layout {
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
   padding-block: 1.5rem 2.5rem;
+
+  @media (--lg) {
+    display: grid;
+    align-items: start;
+    column-gap: var(--post-toc-gap);
+    grid-template-columns: minmax(0, 1fr) var(--post-toc-size);
+    margin-inline-end: calc(
+      (var(--post-toc-size) + var(--post-toc-gap)) * -1
+    );
+    padding-block: 3.5rem 2.5rem;
+  }
 }
 
 .blog-post__toc {
   order: -1; /* above article on mobile */
+
+  @media (--lg) {
+    position: sticky;
+    inset-block-start: 2.5rem;
+    grid-column: 2;
+    order: 0;
+  }
 }
 
 /* Mobile trigger (the collapsible pill). Hidden on desktop. */
@@ -44,6 +65,10 @@
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
+
+  @media (--lg) {
+    display: none;
+  }
 }
 
 .blog-post__toc-trigger:hover {
@@ -75,12 +100,18 @@
   transform: rotate(180deg);
 }
 
-/* Panel — collapses via the 0fr ↔ 1fr grid-rows trick. */
+/* Panel — collapses via the 0fr ↔ 1fr grid-rows trick on mobile; always
+   open on desktop. */
 .blog-post__toc-panel {
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
   transition: grid-template-rows 0.32s cubic-bezier(0.33, 1, 0.68, 1);
+
+  @media (--lg) {
+    grid-template-rows: 1fr;
+    overflow: visible;
+  }
 }
 
 .blog-post__toc[data-toc-open="true"] .blog-post__toc-panel {
@@ -93,46 +124,8 @@
   gap: 1rem;
   min-block-size: 0;
   padding-block: 1rem 0;
-}
 
-/* Desktop: sticky TOC bleeds out to the right of the reading shell. The
-   article column stays at shell width so paragraphs hold their Medium-like
-   measure; the TOC sits in the right gutter outside the reading rail. */
-@media (min-width: 64rem) {
-  .blog-post__layout {
-    display: grid;
-    align-items: start;
-    column-gap: var(--post-toc-gap);
-    grid-template-columns: minmax(0, 1fr) var(--post-toc-size);
-    margin-inline-end: calc(
-      (var(--post-toc-size) + var(--post-toc-gap)) * -1
-    );
-    padding-block: 3.5rem 2.5rem;
-  }
-
-  .blog-post__article {
-    grid-column: 1;
-    max-inline-size: none;
-  }
-
-  .blog-post__toc {
-    position: sticky;
-    inset-block-start: 2.5rem;
-    grid-column: 2;
-    order: 0;
-  }
-
-  /* No trigger on desktop — always-expanded panel. */
-  .blog-post__toc-trigger {
-    display: none;
-  }
-
-  .blog-post__toc-panel {
-    grid-template-rows: 1fr;
-    overflow: visible;
-  }
-
-  .blog-post__toc-panel-inner {
+  @media (--lg) {
     padding-block: 0;
   }
 }
@@ -217,9 +210,16 @@
   text-transform: uppercase;
 }
 
-/* Article — fills the shell by default (820px rail). */
+/* Article — fills the shell by default (820px rail). On desktop it sits in
+   column 1 of the TOC grid and releases its max-width so the reading shell
+   controls the measure. */
 .blog-post__article {
   inline-size: 100%;
+
+  @media (--lg) {
+    grid-column: 1;
+    max-inline-size: none;
+  }
 }
 
 .blog-post__content {
@@ -259,10 +259,8 @@
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-sm);
   background: var(--color-surface);
-}
 
-@media (min-width: 40rem) {
-  .blog-post__author {
+  @media (--sm) {
     grid-template-columns: 3.25rem 1fr auto;
   }
 }
@@ -303,10 +301,8 @@
   font-weight: var(--font-medium);
   text-decoration: none;
   white-space: nowrap;
-}
 
-@media (min-width: 40rem) {
-  .blog-post__author-cta {
+  @media (--sm) {
     display: inline-flex;
     align-items: center;
   }
@@ -357,10 +353,8 @@
   gap: 0.875rem;
   grid-template-columns: 1fr;
   margin-block-start: 2rem;
-}
 
-@media (min-width: 40rem) {
-  .blog-post__nav {
+  @media (--sm) {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -425,6 +419,13 @@
     border-color 0.2s ease,
     background-color 0.2s ease;
   backdrop-filter: blur(6px);
+
+  @media (--sm) {
+    inset-block-end: 1.5rem;
+    inset-inline-end: 1.5rem;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+  }
 }
 
 .back-to-top:hover {
@@ -440,17 +441,8 @@
 .back-to-top-icon {
   inline-size: 1rem;
   block-size: 1rem;
-}
 
-@media (min-width: 40rem) {
-  .back-to-top {
-    inset-block-end: 1.5rem;
-    inset-inline-end: 1.5rem;
-    inline-size: 2.75rem;
-    block-size: 2.75rem;
-  }
-
-  .back-to-top-icon {
+  @media (--sm) {
     inline-size: 1.125rem;
     block-size: 1.125rem;
   }

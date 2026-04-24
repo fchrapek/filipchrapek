@@ -46,18 +46,14 @@
   display: grid;
   gap: 1rem; /* 16px */
   grid-template-columns: repeat(4, 1fr);
-}
 
-/* Tablet: 8 columns */
-@media (--sm) {
-  .grid {
+  /* Tablet: 8 columns */
+  @media (--sm) {
     grid-template-columns: repeat(8, 1fr);
   }
-}
 
-/* Desktop: 12 columns, 24px gap */
-@media (--lg) {
-  .grid {
+  /* Desktop: 12 columns, 24px gap */
+  @media (--lg) {
     gap: 1.5rem; /* 24px */
     grid-template-columns: repeat(12, 1fr);
   }
