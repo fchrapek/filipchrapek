@@ -1,0 +1,25 @@
+name: Deploy to Mikrus
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-mikrus
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger Coolify deploy via restricted SSH key
+        env:
+          SSH_KEY: ${{ secrets.MIKRUS_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          ssh-keyscan -p 10148 steve148.mikrus.xyz >> ~/.ssh/known_hosts 2>/dev/null
+          ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes -p 10148 root@steve148.mikrus.xyz
