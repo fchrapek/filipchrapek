@@ -1,5 +1,6 @@
 ---
 import { menuLinks } from "@/site.config";
+import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import MobileNav from "./MobileNav.astro";
 
@@ -79,7 +80,10 @@ const filteredLinks = menuLinks.filter(
       }
     </nav>
 
-    <ThemeToggle />
+    <div class="site-header__tools">
+      <Search />
+      <ThemeToggle />
+    </div>
 
     <MobileNav class="site-header__mobile" links={filteredLinks} />
   </div>
@@ -180,6 +184,13 @@ const filteredLinks = menuLinks.filter(
   .site-header__nav-link:hover,
   .site-header__nav-link.is-active {
     color: var(--color-ink);
+  }
+
+  .site-header__tools {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.125rem;
   }
 
   .site-header__mobile {

@@ -1,22 +1,21 @@
 ---
+import CopyEmail from "@/components/CopyEmail.astro";
 import { siteConfig } from "@/site.config";
 import { getLang } from "@/utils/i18n";
 
 const year = new Date().getFullYear();
 const lang = getLang(siteConfig.lang);
-const emailLabel = "email";
+const email = "hello@filipchrapek.com";
+const emailLabel = lang === "pl" ? "e-mail" : "email";
 const rssLabel = "rss";
-const githubLabel = "github";
 const copy = `© ${year} · ${siteConfig.author}`;
-const contactHref = `mailto:${lang === "pl" ? "hello@filipchrapek.com" : "hello@filipchrapek.com"}`;
 ---
 
 <footer class="site-footer">
   <span class="site-footer__copy">{copy}</span>
   <div class="site-footer__links">
-    <a href="https://github.com/filipchrapek" rel="me">{githubLabel}</a>
     <a href="/rss.xml">{rssLabel}</a>
-    <a href={contactHref}>{emailLabel}</a>
+    <CopyEmail email={email} label={emailLabel} />
   </div>
 </footer>
 

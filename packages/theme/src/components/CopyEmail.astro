@@ -1,0 +1,166 @@
+---
+import Chip from "@/components/Chip.astro";
+import { siteConfig } from "@/site.config";
+import { isPolish } from "@/utils/i18n";
+
+interface Props {
+  email?: string;
+  /** Visible label. Defaults to the email address. */
+  label?: string;
+  class?: string;
+}
+
+const pl = isPolish(siteConfig.lang);
+const {
+  email = "hello@filipchrapek.com",
+  label,
+  class: className,
+} = Astro.props;
+const original = label ?? email;
+const copied = pl ? "skopiowano" : "copied";
+---
+
+<copy-email
+  class:list={["copy-email", className]}
+  data-email={email}
+  data-original={original}
+  data-copied={copied}
+>
+  <Chip as="button" class="copy-email__chip">
+    <span slot="icon" class="copy-email__icons">
+      <svg
+        class="copy-email__icon copy-email__icon--idle"
+        aria-hidden="true"
+        focusable="false"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        viewBox="0 0 32 32"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect x="11" y="11" width="16" height="16" rx="2"></rect>
+        <path d="M21 11 L21 7 A2 2 0 0 0 19 5 L7 5 A2 2 0 0 0 5 7 L5 19 A2 2 0 0 0 7 21 L11 21"></path>
+      </svg>
+      <svg
+        class="copy-email__icon copy-email__icon--done"
+        aria-hidden="true"
+        focusable="false"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        viewBox="0 0 32 32"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M6 17 L13 24 L26 9"></path>
+      </svg>
+    </span>
+    <span class="copy-email__label">{original}</span>
+  </Chip>
+</copy-email>
+
+<script>
+  class CopyEmail extends HTMLElement {
+    #timer: number | undefined;
+
+    connectedCallback() {
+      const btn = this.querySelector<HTMLButtonElement>("button");
+      const label = this.querySelector<HTMLSpanElement>(".copy-email__label");
+      if (!btn || !label) return;
+
+      const email = this.dataset.email ?? "";
+      const original = this.dataset.original ?? email;
+      const copiedLabel = this.dataset.copied ?? "copied";
+
+      btn.addEventListener("click", async () => {
+        let ok = false;
+        try {
+          await navigator.clipboard.writeText(email);
+          ok = true;
+        } catch (_) {
+          try {
+            const ta = document.createElement("textarea");
+            ta.value = email;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "absolute";
+            ta.style.insetInlineStart = "-9999px";
+            document.body.appendChild(ta);
+            ta.select();
+            ok = document.execCommand("copy");
+            document.body.removeChild(ta);
+          } catch {
+            ok = false;
+          }
+        }
+
+        if (!ok) {
+          window.location.href = `mailto:${email}`;
+          return;
+        }
+
+        label.textContent = copiedLabel;
+        this.classList.add("is-copied");
+        window.clearTimeout(this.#timer);
+        this.#timer = window.setTimeout(() => {
+          label.textContent = original;
+          this.classList.remove("is-copied");
+        }, 1400);
+      });
+    }
+
+    disconnectedCallback() {
+      window.clearTimeout(this.#timer);
+    }
+  }
+
+  if (!customElements.get("copy-email")) {
+    customElements.define("copy-email", CopyEmail);
+  }
+</script>
+
+<style>
+  .copy-email {
+    display: inline-flex;
+  }
+
+  .copy-email__icons {
+    position: relative;
+    display: inline-flex;
+    inline-size: 0.875em;
+    block-size: 0.875em;
+  }
+
+  .copy-email__icon {
+    position: absolute;
+    inset: 0;
+    transition:
+      opacity 0.2s ease,
+      scale 0.2s ease;
+  }
+
+  .copy-email__icon--done {
+    color: var(--color-accent);
+    opacity: 0;
+    scale: 0.6;
+  }
+
+  .copy-email.is-copied .copy-email__icon--idle {
+    opacity: 0;
+    scale: 0.6;
+  }
+
+  .copy-email.is-copied .copy-email__icon--done {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* When copied, tint the chip itself — scoped class on Chip's root gets
+     the same scope attribute since it's passed via `class` prop. */
+  .copy-email.is-copied .copy-email__chip {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+</style>

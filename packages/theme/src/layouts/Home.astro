@@ -1,6 +1,9 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import BaseHead from "@/components/BaseHead.astro";
+import CopyEmail from "@/components/CopyEmail.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
+import Search from "@/components/Search.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import Testimonials from "@/components/Testimonials.astro";
 import ThemeProvider from "@/components/ThemeProvider.astro";
@@ -117,7 +120,12 @@ const t = pl
 const services = [
   { num: "01", title: t.services1Title, body: t.services1Body, icon: "code" },
   { num: "02", title: t.services2Title, body: t.services2Body, icon: "design" },
-  { num: "03", title: t.services3Title, body: t.services3Body, icon: "systems" },
+  {
+    num: "03",
+    title: t.services3Title,
+    body: t.services3Body,
+    icon: "systems",
+  },
 ];
 
 const recentPosts = [...posts]
@@ -165,6 +173,7 @@ function noteSlug(n: NoteEntry): string {
 <html lang={siteConfig.lang}>
   <head>
     <ThemeProvider />
+    <ClientRouter />
     <BaseHead title="Home" description={siteConfig.description} />
     <StructuredData type="website" />
   </head>
@@ -188,7 +197,10 @@ function noteSlug(n: NoteEntry): string {
                 ))
               }
             </nav>
-            <ThemeToggle />
+            <div class="home__tools">
+              <Search />
+              <ThemeToggle />
+            </div>
             <button
               class="home__menu-button"
               type="button"
@@ -225,7 +237,7 @@ function noteSlug(n: NoteEntry): string {
 
             <div class="home__hero-meta">
               <span>{t.location}</span>
-              <a href={`mailto:${t.email}`}>{t.email}</a>
+              <CopyEmail email={t.email} />
             </div>
           </div>
 
@@ -345,14 +357,19 @@ function noteSlug(n: NoteEntry): string {
         {/* Notes */}
         <section class="home__section" aria-labelledby="home-notes">
           <header class="home__section-head">
-            <h2 id="home-notes" class="home__section-label">{t.notesSection}</h2>
+            <h2 id="home-notes" class="home__section-label">
+              {t.notesSection}
+            </h2>
             <span class="home__section-hint">{t.notesHint}</span>
           </header>
           <ol class="home__grid home__grid--notes home__list">
             {
               recentNotes.map((n) => (
                 <li>
-                  <a href={noteHref(noteSlug(n))} class="home__card home__card--note">
+                  <a
+                    href={noteHref(noteSlug(n))}
+                    class="home__card home__card--note"
+                  >
                     <div class="home__card-top">
                       <span>{formatDate(n.data.publishDate)}</span>
                       <span>{relTime(n.data.publishDate)}</span>
@@ -375,9 +392,8 @@ function noteSlug(n: NoteEntry): string {
         <footer class="home__footer">
           <span class="home__footer-copy">© 2026 · {siteConfig.author}</span>
           <div class="home__footer-links">
-            <a href="https://github.com/filipchrapek" rel="me">github</a>
             <a href="/rss.xml">rss</a>
-            <a href={`mailto:${t.email}`}>email</a>
+            <CopyEmail email={t.email} label={pl ? "e-mail" : "email"} />
           </div>
         </footer>
       </div>
@@ -445,6 +461,12 @@ function noteSlug(n: NoteEntry): string {
     display: inline-flex;
     align-items: center;
     gap: 1rem;
+  }
+
+  .home__tools {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
   }
 
   .home__wordmark {
@@ -531,10 +553,10 @@ function noteSlug(n: NoteEntry): string {
     display: grid;
     align-items: start;
     gap: 2rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
     /* Bottom gap to the next section comes from --space-section (via
        .home__section on this element). Keep top padding for breathing. */
-    padding-block: 3.5rem 0;
+    padding-block: 1.75rem 0;
   }
 
   .home__hero-heading {
@@ -613,6 +635,7 @@ function noteSlug(n: NoteEntry): string {
   .home__hero-meta {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 1.25rem;
     margin-block-start: 1.375rem;
     color: var(--color-text-dimmed);
@@ -981,11 +1004,7 @@ function noteSlug(n: NoteEntry): string {
       align-items: center;
       gap: 1rem;
       padding: 5rem 2rem 3rem;
-      background-color: color-mix(
-        in srgb,
-        var(--color-bg) 92%,
-        transparent
-      );
+      background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
       color: var(--color-ink-55);
       font-family: var(--font-mono);
       font-size: var(--text-h3);

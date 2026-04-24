@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import BaseHead from "@/components/BaseHead.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import StructuredData from "@/components/StructuredData.astro";
@@ -25,6 +26,7 @@ const {
 <html lang={siteConfig.lang}>
   <head>
     <ThemeProvider />
+    <ClientRouter />
     <BaseHead
       articleDate={articleDate}
       description={description}
@@ -42,21 +44,6 @@ const {
       </main>
       <Footer />
     </div>
-    {/* Prefetch only — no prerender. Speculation Rules `prerender` runs the target's
-        inline scripts at prerender time and caches the rendered document; activation
-        paints the cached state before any post-activation listener can reconcile.
-        That was the source of the dark→light flash on inter-page navigation.
-        Prefetch is script-free, so navigation still hits warm caches without the trap. */}
-    <script is:inline type="speculationrules">
-      {
-        "prefetch": [
-          {
-            "where": { "href_matches": "/*" },
-            "eagerness": "immediate"
-          }
-        ]
-      }
-    </script>
   </body>
 </html>
 

@@ -10,20 +10,24 @@
 				return null;
 			}
 		};
-		const apply = () => {
+		const apply = (root) => {
+			const target = root || document.documentElement;
 			const next = read() === "dark" ? "dark" : "light";
-			if (document.documentElement.getAttribute("data-theme") !== next) {
-				document.documentElement.setAttribute("data-theme", next);
+			if (target.getAttribute("data-theme") !== next) {
+				target.setAttribute("data-theme", next);
 			}
 		};
 
 		apply();
 
-		// Speculation Rules prerender: the inline script ran at prerender time, so
-		// data-theme may be stale if the user toggled before activating this doc.
-		if (document.prerendering) {
-			document.addEventListener("prerenderingchange", apply, { once: true });
-		}
+		// View Transitions: carry the theme onto the incoming document BEFORE swap
+		// so the snapshot used by the transition is painted with the right tokens.
+		document.addEventListener("astro:before-swap", (event) => {
+			apply(event.newDocument.documentElement);
+		});
+
+		// Safety net after swap (also covers history nav where before-swap may be bypassed).
+		document.addEventListener("astro:after-swap", () => apply());
 
 		// bfcache restore — re-apply so back/forward nav doesn't flash old theme.
 		window.addEventListener("pageshow", (e) => {
