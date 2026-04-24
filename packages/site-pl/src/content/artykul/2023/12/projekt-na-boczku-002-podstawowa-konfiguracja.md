@@ -24,7 +24,7 @@ Składniki jakie będziemy potrzebować:
 - WordPress
 - lokalne repozytorium
 
-:::note[ ]
+:::note
 Te chaotyczne notatki, które zamierzam, celowo nie są tutorialami. Będę rzucał wieloma terminami, apkami, platformami, narzędziami, ale zazwyczaj nie będę ich głębiej opisywał (a jeśli tak się stanie, to pewnie zrobię to w formie osobnego artykułu).
 
 Just sayin, żeby potem nie było 😀
@@ -94,7 +94,7 @@ Jak wspominam wyżej, front obsłuży mi Next.js.
 
 Tak się składa, że oferują starter dokładnie pod Headless WP, tak że nie będę leszczem i sobie z niego skorzystam, [tutaj link](https://vercel.com/templates/next.js/isr-blog-nextjs-wordpress).
 
-:::note[ ]
+:::note
 Instrukcja wspomina o wtyczce, która umożliwia skorzystanie z GraphQL, czyli języka zapytań dzięki któremu, krótko mówiąc, możemy komunikować się pomiędzy frontem, back-endem. Tak że teoretycznie ta część powinna wpaść pod sekcję **Lokalne środowisko backendowe**
 :::
 

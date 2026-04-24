@@ -42,7 +42,7 @@ Midjourney, jeśli wykorzystane umiejętnie, to fajna rzecz. Jest to model gener
 
 Pomimo tych wyraźnych wad, jest to w mojej ocenie wciąż najłatwiejsza w obsłudze platforma, która faktycznie generuje rzeczy nadające się do komercyjnego wykorzystania.
 
-:::note[ ]
+:::note
 Piszę to z pozycji Kowalskiego, który ma laptopa, a nie peceta z Nvidią za 20k i chce mu się przeczytać maksymalnie 2 tutoriale, żeby zacząć generować coś co niekoniecznie przypomina następnego bossa gry od FromSoftware. Tak, mówię o tobie [Stable Diffusion](https://github.com/AUTOMATIC1111/stable-diffusion-webui).
 :::
 
@@ -64,7 +64,7 @@ Co prawda porównując cennik banków, takich jak Shutterstock albo iStock spraw
 
 I jak wspomniałem wcześniej: jeśli korzystasz z innych apek Adobe, Stock przyjemnie integruje się z całością.
 
-:::tip[ ]
+:::tip
 Przy okazji Black Friday firma udziela bardzo hojnych zniżek. Idealny moment na odnowienie abonamentu, to właśnie ten okres. Upusty i negocjacje potrafią zbić cenę do na prawdę niskich poziomów (ponad 50%). Wiem, bo sam korzystam.
 
 Mimo konieczności kombinowania, za to plus dla Adobe.
@@ -76,7 +76,7 @@ Zazwyczaj znalezienie dobrego zdjęcia w banku Adobe, to była kwestia kilku chw
 
 Wpisane hasło to [*woman working out gym*](https://stock.adobe.com/pl/search?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aillustration%5D=1&filters%5Bcontent_type%3Azip_vector%5D=1&filters%5Bcontent_type%3Avideo%5D=1&filters%5Bcontent_type%3Atemplate%5D=1&filters%5Bcontent_type%3A3d%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Bcontent_type%3Aaudio%5D=0&filters%5Binclude_stock_enterprise%5D=0&filters%5Bis_editorial%5D=0&filters%5Bfree_collection%5D=0&filters%5Bgentech%5D=all&k=woman+working+out+gym&order=relevance&safe_search=1&limit=100&search_page=1&search_type=filter-select&acp=&aco=woman+working+out+gym&get_facets=1).
 
-:::note[ ]
+:::note
 Spróbuj się pobawić i znajdź obrazy wygenerowane przez AI. Sam jestem ciekawy czy to moje oczy są już skrzywione na tym punkcie, czy dla kogoś niekoniecznie związanego z branżą jest to również oczywiste.
 :::
 
@@ -98,7 +98,7 @@ Spróbuj się pobawić i znajdź obrazy wygenerowane przez AI. Sam jestem ciekaw
 
 Podbój Adobe Stock przez AI trwał już od dłuższego czasu. Sprawa dosyć szybko zaczęła wymykać się spod kontroli: [twórcy narzekali](https://community.adobe.com/t5/stock-contributors-discussions/the-impact-of-generative-ai-content-on-adobe-s-reviewing-process/m-p/13972515), a [użytkownicy tracili/tracą cierpliwość](https://community.adobe.com/t5/stock-discussions/ai-content-not-labelled-as-ai/m-p/13585770)
 
-:::note[ ]
+:::note
 W tym artykule nie skupiam na być może najważniejszej kwestii: czy zasoby wygenerowane przez AI w ogóle powinny znaleźć się w takim miejscu jak komercyjny bank zdjęć? Moim zdaniem, oczywiście że nie.
 :::
 

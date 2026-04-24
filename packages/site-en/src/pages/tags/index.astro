@@ -14,27 +14,94 @@ const meta = {
 };
 ---
 
-<PageLayout meta={meta}>
-  <h1
-    class="section-title section-title--large"
-    style="margin-block-end: var(--space-250)"
-  >
-    {t.title}
-  </h1>
-  <ul class="list">
+<PageLayout meta={meta} breadcrumbs={[{ label: "tags" }]}>
+  <header class="tags-hero">
+    <h1>{t.title}</h1>
+    <span class="tags-hero__hint">
+      {allTags.length} · {t.postsAbout}
+    </span>
+  </header>
+
+  <ol class="tag-grid">
     {
-      allTags.map(([tag, val]) => (
-        <li style="display: flex; align-items: center; gap: var(--space-100)">
+      allTags.map(([tag, count]) => (
+        <li>
           <a
+            class="tag-pill"
             href={`/tags/${tag}/`}
             title={`${t.viewAllPostsWithTag}: ${tag}`}
-            style="text-decoration: underline; text-underline-offset: 2px"
           >
-            &#35;{tag}
+            <span class="tag-pill__name">#{tag}</span>
+            <span class="tag-pill__count">{count}</span>
           </a>
-          <span>- {t.postCount(val)}</span>
         </li>
       ))
     }
-  </ul>
+  </ol>
 </PageLayout>
+
+<style>
+  .tags-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-block-end: 2.25rem;
+  }
+
+  .tags-hero__hint {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-mono-ultra);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .tag-grid {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tag-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-mono-wide);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .tag-pill:hover {
+    border-color: var(--color-ink-40);
+    background: var(--color-surface-hover);
+    color: var(--color-accent);
+  }
+
+  .tag-pill__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tag-pill__count {
+    flex: none;
+    color: var(--color-text-dimmed);
+  }
+</style>

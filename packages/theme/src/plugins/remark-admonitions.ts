@@ -58,12 +58,24 @@ export const remarkAdmonitions: Plugin<[], Root> = () => (tree) => {
 		if (
 			firstChild?.type === "paragraph" &&
 			firstChild.data &&
-			"directiveLabel" in firstChild.data &&
-			firstChild.children.length > 0
+			"directiveLabel" in firstChild.data
 		) {
-			titleNode = firstChild.children;
-			title = mdastToString(firstChild.children);
-			// The first paragraph contains a custom title, we can safely remove it.
+			// Authors sometimes write `:::note[ ]` with a blank label. Treat that
+			// as no title so we don't render a dangling "NOTE · " prefix.
+			// Use the full paragraph (not its children array) for reliable text
+			// extraction, and strip all whitespace to detect truly empty labels.
+			const customText = mdastToString(firstChild).replace(/\s+/g, "");
+			if (customText) {
+				// Prefix custom title with the type name so the mono label reads
+				// like "NOTE · Polish readers" instead of just "POLISH READERS".
+				titleNode = [
+					{ type: "text", value: `${admonitionType} · ` },
+					...firstChild.children,
+				];
+				title = `${admonitionType} · ${customText}`;
+			}
+			// Always remove the label paragraph — empty or not — so it doesn't
+			// leak into the admonition body.
 			node.children.splice(0, 1);
 		}
 

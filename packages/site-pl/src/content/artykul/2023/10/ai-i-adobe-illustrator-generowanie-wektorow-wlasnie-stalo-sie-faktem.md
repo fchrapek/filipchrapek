@@ -55,7 +55,7 @@ Owszem, wygenerowany asset jest skalowalny, edytowalny i (w zależności od styl
 
 A to, o ile nie celujesz w mocno stylizowany vibe (na samym końcu zobaczysz co mam na myśli), w zasadzie przekreśla profesjonalne wykorzystanie.
 
-:::caution[ ]
+:::caution
 Z resztą w becie i tak nie ma mowy o komercyjnym wykorzystaniu generatywnej AI:
 
 Funkcja Tekst na grafikę wektorową (Beta) jest dostępna w aplikacji Illustrator wszędzie tam, gdzie firma Adobe świadczy usługi. Nie jest dostępna dla użytkowników w Chinach ani do użytku komercyjnego.

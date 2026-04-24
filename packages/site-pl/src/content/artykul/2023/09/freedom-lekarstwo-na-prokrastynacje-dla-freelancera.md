@@ -31,7 +31,7 @@ No nie wiem, możesz np. założyć konto na **<a href="https://freedom.sjv.io/W
 
 Założenia były proste: znaleźć **cross-platformowe rozwiązanie, które na jak największym automacie ułatwi wejście w tryb _deep work_**.
 
-:::note[ ]
+:::note
 ***Deep work*** to fancy określenie na wyłączenie TikToka i skupieniu się na robocie 💀.
 
 Ok, temat jest serio ciekawy i jak chcesz poczytać więcej, to sprawdź <a href="https://calnewport.com/" target="_blank">tego</a> autora.

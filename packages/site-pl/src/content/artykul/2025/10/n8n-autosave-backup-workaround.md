@@ -65,7 +65,7 @@ Jak zauważa użytkownik:
 >
 > — [n8n Community Forum](https://community.n8n.io/t/autosave-for-workflows/234/29)
 
-:::note[ ]
+:::note
 **Dobra wiadomość:** Zespół n8n jest [świadomy problemu](https://github.com/n8n-io/n8n/issues/3321) i dyskusje w community trwają. Ale dopóki nie pojawi się oficjalne rozwiązanie, potrzebujemy workaroundów.
 :::
 
@@ -112,7 +112,7 @@ Rozwiązanie jest oczywiste: **zróbcie to opcjonalnym**. Dajcie użytkownikom t
 
 Dopóki n8n nie zaimplementuje właściwego rozwiązania z trybem draft i historią wersji, używaj jednego z workaroundów community powyżej. Twoje przyszłe ja podziękuje ci, gdy nie stracisz 3 godzin pracy.
 
-:::tip[ ]
+:::tip
 **Pro tip:** Nawet z auto-save, wyrabiaj nawyk wciskania `cmd/ctrl + s` po ukończeniu znaczącej części pracy. Stare nawyki umierają powoli, ale też ratują tyłek.
 :::
 

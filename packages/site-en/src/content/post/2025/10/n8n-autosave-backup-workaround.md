@@ -67,7 +67,7 @@ As the user points out:
 >
 > — [n8n Community Forum](https://community.n8n.io/t/autosave-for-workflows/234/29)
 
-:::note[ ]
+:::note
 **The good news:** The n8n team is [aware of the issue](https://github.com/n8n-io/n8n/issues/3321) and community discussions are ongoing. But until an official solution arrives, we need workarounds.
 :::
 
@@ -114,7 +114,7 @@ The solution is obvious: **make it optional**. Give users a toggle in settings. 
 
 Until n8n implements a proper solution with draft mode and version history, use one of the community workarounds above. Your future self will thank you when you don't lose 3 hours of work.
 
-:::tip[ ]
+:::tip
 **Pro tip:** Even with auto-save, get into the habit of hitting cmd/ctrl + s after completing a significant chunk of work. Old habits die hard, but they also save your ass.
 :::
 

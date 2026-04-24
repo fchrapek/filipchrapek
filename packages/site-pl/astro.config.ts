@@ -11,6 +11,7 @@ import webmanifest from "astro-webmanifest";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
+import { rehypeLazyImages } from "../theme/src/plugins/rehype-lazy-images";
 // Remark plugins
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
 import { remarkAdmonitions } from "../theme/src/plugins/remark-admonitions"; /* Add admonitions */
@@ -80,6 +81,7 @@ export default defineConfig({
         },
       ],
       rehypeUnwrapImages,
+      rehypeLazyImages,
     ],
     remarkPlugins: [
       remarkReadingTime,

@@ -2,6 +2,7 @@
 import { type CollectionEntry, render } from "astro:content";
 
 import Masthead from "@/components/blog/Masthead.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import { siteConfig } from "@/site.config";
@@ -119,15 +120,7 @@ const wordCount = remarkPluginFrontmatter.wordCount as number | undefined;
                 </a>
               </header>
               {morePosts.map((p) => (
-                <a class="blog-post__more-row" href={postHref(p)}>
-                  <span class="blog-post__more-date">
-                    {dateFmt(p.data.publishDate)}
-                  </span>
-                  <span class="blog-post__more-title">{p.data.title}</span>
-                  <span class="blog-post__more-meta">
-                    {p.data.tags?.[0] ?? ""}
-                  </span>
-                </a>
+                <PostPreview post={p} />
               ))}
             </section>
           )

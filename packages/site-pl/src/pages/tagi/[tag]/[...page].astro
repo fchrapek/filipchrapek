@@ -6,12 +6,10 @@ import { getAllPosts, getTagMeta, getUniqueTags } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { Icon } from "astro-icon/components";
 import { translations } from "@/i18n/translations";
 
 const t = translations.pl.pages.tags;
 const pagination = translations.pl.pagination;
-const breadcrumbs = translations.pl.breadcrumbs;
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = await getAllPosts();
@@ -58,71 +56,71 @@ const paginationProps = {
 };
 ---
 
-<PageLayout meta={meta}>
-  <nav class="breadcrumbs" aria-label="Breadcrumbs">
-    <ul class="breadcrumbs-list">
-      <li class="breadcrumbs-item">
-        <a class="breadcrumbs-link" href="/tagi/">{breadcrumbs.tags}</a>
-        <Icon
-          aria-hidden="true"
-          name="mdi:chevron-right"
-          class="breadcrumbs-separator"
-        />
-      </li>
-      <li aria-current="page"><span aria-hidden="true">#</span>{tag}</li>
-    </ul>
-  </nav>
-  <h1
-    class="section-title section-title--large"
-    style="text-transform: capitalize"
-  >
-    {tagMeta?.data.title ?? `${t.postsAbout} ${tag}`}
-  </h1>
-  <div class="prose prose--sm" style="margin-block-end: var(--space-500)">
-    {tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
-    {TagContent && <TagContent />}
-  </div>
-  <ul class="list">
+<PageLayout
+  meta={meta}
+  breadcrumbs={[
+    { label: "tagi", href: "/tagi/" },
+    { label: `#${tag}` },
+  ]}
+>
+  <header class="tag-hero">
+    <span class="tag-hero__kicker">#{tag}</span>
+    <h1>{tagMeta?.data.title ?? `${t.postsAbout} ${tag}`}</h1>
+    {
+      (tagMeta?.data.description || TagContent) && (
+        <div class="tag-hero__body prose">
+          {tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
+          {TagContent && <TagContent />}
+        </div>
+      )
+    }
+  </header>
+
+  <ol class="post-list">
     {
       page.data.map((p) => (
-        <li class="list-item">
+        <li>
           <PostPreview as="h2" post={p} />
         </li>
       ))
     }
-  </ul>
+  </ol>
   <Pagination {...paginationProps} />
 </PageLayout>
 
 <style>
-  .breadcrumbs {
-    margin-block-end: var(--space-md);
-  }
-
-  .breadcrumbs-list {
+  .tag-hero {
     display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-block-end: 2.5rem;
+    padding-block-end: 1.5rem;
+    border-block-end: 1px solid var(--color-hairline);
   }
 
-  .breadcrumbs-item {
-    display: flex;
-    align-items: center;
-  }
-
-  .breadcrumbs-link {
+  .tag-hero__kicker {
     color: var(--color-accent);
-    text-decoration: none;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: var(--color-link);
-    }
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-mono-ultra);
+    text-transform: uppercase;
   }
 
-  .breadcrumbs-separator {
-    margin-inline: var(--space-xs);
+  .tag-hero h1 {
+    margin: 0;
+    text-transform: capitalize;
+  }
+
+  .tag-hero__body {
+    max-inline-size: none;
+    color: var(--color-text-subtle);
+  }
+
+  .tag-hero__body :global(p) {
+    margin-block: 0 0.75rem;
+  }
+
+  .tag-hero__body :global(p:last-child) {
+    margin-block-end: 0;
   }
 </style>

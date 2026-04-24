@@ -35,7 +35,7 @@ Ale jeśli tak bardzo kochasz prostotę i wygodę Obsidiana, jak ja, i chciałby
 
 Najprostszym sposobem, żeby zacząć pracować z treścią w projekcie Astro z poziomu Obsidiana, jest po prostu utworzenie nowego Vaulta (celowo nie rozpisuję się na temat podstaw Obsidiana, wierzę, że ogarniesz sam) i jako lokalizację wskazanie folderu `content` z projektu Astro.
 
-:::tip[ ]
+:::tip
 Jeśli w swoim projekcie Astro używasz rozszerzonego formatu Markdown, czyli plików z rozszerzeniem `.mdx`, to konieczne jest dodanie wtyczki, która umożliwi ich odczyt. Obsidian natywnie wspiera standardowy format `.md`.
 
 Instalujesz [plugin mdx as md](https://github.com/mkozhukharenko/mdx-as-md-obsidian) i po problemie.
@@ -57,6 +57,6 @@ Przykład:
 
 I w zasadzie tyle, content Astro powinien pojawić się w Obsidianie. *Nice job!*
 
-:::note[ ]
+:::note
 Jeśli nie widzisz treści z Astro, to upewnij się czy na pewno masz dobre ścieżki, czy nie ma literówek, niepotrzebnych slashy etc.
 :::

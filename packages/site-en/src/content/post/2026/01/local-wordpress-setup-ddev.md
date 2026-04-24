@@ -14,7 +14,7 @@ tags: ["wordpress", "ddev", "docker"]
 - **Easy SSL** - HTTPS works out of the box
 - **Multiple PHP versions** - switch easily between projects
 
-:::note[ ]
+:::note
 I'm not gonna lie, before the AI takeover, using DDEV or Docker alone and dealing with different project config bullshit was giving me nightmares. 
 
 Since I don't have to worry about spending a whole day making the config work for this and that specific project and environment, I'm basically using Docker (with DDEV if it makes sense) for everything.

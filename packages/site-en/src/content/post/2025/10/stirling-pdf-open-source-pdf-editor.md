@@ -38,7 +38,7 @@ And boom, another middle finger goes to Adobe (bleh).
 All of this is packed into a decent, responsive UI that works on both desktop and mobile.
 ## Let me edit you, stupid PDF
 
-:::warning[ ]
+:::warning
 Unfortunately, the most useful feature for me, which is **editing existing PDF text, is currently unavailable**. And that, I won't lie, hurts a bit.
 :::
 
@@ -69,7 +69,7 @@ The key advantages of running your own VPS:
 
 The downside? You need to be comfortable with the terminal and basic Linux commands. But honestly, if you can follow a tutorial, you're good to go.
 
-:::note[ ]
+:::note
 **If it happens that you're Polish**, check out [mikrus.io - Polish VPS for enthusiasts](#) - it's an excellent, affordable option with an active community
 :::
 ### Installing Stirling-PDF
@@ -118,7 +118,7 @@ curl http://localhost:8080/api/v1/info/status
 
 If you see something like `{"status":"UP"}`, we're good.
 
-:::important[ ]
+:::important
 Check your server's capabilities. In my case, with [n8n](https://n8n.io/) already running, I needed to bump to a higher tier because I was running out of RAM. Stirling can be quite resource-hungry, especially when doing OCR on larger documents.
 :::
 ### Accessing Stirling
@@ -149,7 +149,7 @@ docker compose up -d
 
 Now you can access Stirling via: `http://your-server-ip:40116`
 
-:::tip[ ]
+:::tip
 If you're using Stirling only locally (to integrate with other apps on the same server), you don't need to open any external ports. Docker containers on the same network can communicate by container name, so other containers can use `http://stirling-pdf:8080` to access it.
 :::
 

@@ -39,7 +39,7 @@ Wszystko to pakuje się w przyzwoite, responsywne UI, które działa zarówno na
 
 ## Daj się edytować, ty głupi PDF-ie
 
-:::warning[ ]
+:::warning
 Niestety najbardziej dla mnie użyteczny ficzer, czyli **edycja istniejącego tekstu PDF-a jest na ten moment niedostępna**. I to, nie ukrywam, trochę boli.
 :::
 
@@ -119,7 +119,7 @@ curl http://localhost:8080/api/v1/info/status
 
 Jak zobaczysz coś w stylu `{"status":"UP"}`, to mamy to.
 
-:::important[ ]
+:::important
 Sprawdź możliwości swojego serwera. W moim przypadku, przy hulającym [n8n](https://n8n.io/), konieczny był bump do wyższej wersji, bo brakowało mi RAM-u. Stirling potrafi być dość żarłoczny na zasoby, szczególnie przy OCR-ze większych dokumentów.
 :::
 

@@ -55,7 +55,7 @@ export default defineConfig({
 
 At a minimum, you need to add the integration and choose your themes. The plugin handles the rest.
 
-:::important[ ]
+:::important
 Make sure to add `expressiveCode` **before** any MDX integration in your config. Order matters here.
 :::
 
