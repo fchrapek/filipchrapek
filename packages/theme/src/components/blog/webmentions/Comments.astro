@@ -111,7 +111,7 @@ const comments = mentions.filter(
   .avatar-link {
     flex-shrink: 0;
     overflow: hidden;
-    border-radius: 9999px;
+    border-radius: var(--radius-pill);
     box-shadow: 0 0 0 2px var(--color-text);
     transition: box-shadow 0.2s ease;
 
@@ -125,7 +125,7 @@ const comments = mentions.filter(
     inline-size: 3rem;
     block-size: 3rem;
     margin-block: 0;
-    border-radius: 9999px;
+    border-radius: var(--radius-pill);
   }
 
   .content {
