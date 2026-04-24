@@ -2,8 +2,8 @@ import { Resvg } from "@resvg/resvg-js";
 import type { APIContext, InferGetStaticPropsType } from "astro";
 import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
-import RobotoMonoBold from "@/assets/fonts/roboto-mono-700.ttf";
-import RobotoMono from "@/assets/fonts/roboto-mono-regular.ttf";
+import PlexMonoRegular from "@/assets/fonts/IBMPlexMono-Regular.ttf";
+import PlexMonoMedium from "@/assets/fonts/IBMPlexMono-Medium.ttf";
 import { getAllPosts } from "@/data/post";
 import { siteConfig } from "@/site.config";
 import { getFormattedDate } from "@/utils/date";
@@ -12,16 +12,16 @@ const ogOptions: SatoriOptions = {
   // debug: true,
   fonts: [
     {
-      data: Buffer.from(RobotoMono),
-      name: "Roboto Mono",
+      data: Buffer.from(PlexMonoRegular),
+      name: "IBM Plex Mono",
       style: "normal",
       weight: 400,
     },
     {
-      data: Buffer.from(RobotoMonoBold),
-      name: "Roboto Mono",
+      data: Buffer.from(PlexMonoMedium),
+      name: "IBM Plex Mono",
       style: "normal",
-      weight: 700,
+      weight: 500,
     },
   ],
   height: 630,
@@ -32,7 +32,7 @@ const markup = (title: string, pubDate: string) =>
   html`<div tw="flex flex-col w-full h-full bg-[#1d1f21] text-[#c9cacc]">
     <div tw="flex flex-col flex-1 w-full p-10 justify-center">
       <p tw="text-2xl mb-6">${pubDate}</p>
-      <h1 tw="text-6xl font-bold leading-snug text-white">${title}</h1>
+      <h1 tw="text-6xl font-medium leading-snug text-white">${title}</h1>
     </div>
     <div
       tw="flex items-center justify-between w-full p-10 border-t border-[#2bbc89] text-xl"
@@ -57,7 +57,7 @@ const markup = (title: string, pubDate: string) =>
             d="m136 53.333 45.333-26.666v120L226.667 120V80L272 53.333V160l-90.667 53.333v240L136 480V306.667L45.334 360V220l45.333-26.667v73.334L136 240z"
           />
         </svg>
-        <p tw="ml-3 font-semibold">${siteConfig.title}</p>
+        <p tw="ml-3 font-medium">${siteConfig.title}</p>
       </div>
       <p>by ${siteConfig.author}</p>
     </div>

@@ -56,4 +56,15 @@ const tag = defineCollection({
 	}),
 });
 
-export const collections = { artykul, notatka, tag };
+const testimonial = defineCollection({
+	loader: glob({ base: "./src/content/testimonial", pattern: "**/*.md" }),
+	schema: z.object({
+		name: z.string(),
+		role: z.string(),
+		href: z.string().url().optional(),
+		order: z.number().default(100),
+		draft: z.boolean().default(false),
+	}),
+});
+
+export const collections = { artykul, notatka, tag, testimonial };

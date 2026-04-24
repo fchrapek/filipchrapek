@@ -1,67 +1,56 @@
 ---
 import { siteConfig } from "@/site.config";
-import DesktopNav from "./DesktopNav.astro";
+import { getLang } from "@/utils/i18n";
 
 const year = new Date().getFullYear();
+const lang = getLang(siteConfig.lang);
+const emailLabel = "email";
+const rssLabel = "rss";
+const githubLabel = "github";
+const copy = `© ${year} · ${siteConfig.author}`;
+const contactHref = `mailto:${lang === "pl" ? "hello@filipchrapek.com" : "hello@filipchrapek.com"}`;
 ---
 
-<footer class="footer">
-  <div class="copyright">
-    &copy; {siteConfig.author}
-    {year}.<span class="site-name">&nbsp;🚀&nbsp;{siteConfig.title}</span>
+<footer class="site-footer">
+  <span class="site-footer__copy">{copy}</span>
+  <div class="site-footer__links">
+    <a href="https://github.com/filipchrapek" rel="me">{githubLabel}</a>
+    <a href="/rss.xml">{rssLabel}</a>
+    <a href={contactHref}>{emailLabel}</a>
   </div>
-  <DesktopNav class="nav" />
 </footer>
 
 <style>
-  .footer {
+  .site-footer {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-xs);
-    inline-size: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
     margin-block-start: auto;
-    padding-block: var(--space-lg);
-    color: var(--color-gray-600);
-    font-size: var(--fluid-text-small);
-    font-weight: var(--font-medium);
-    line-height: var(--leading-small);
-    text-align: center;
-
-    @media (min-width: 40rem) {
-      flex-direction: row;
-      justify-content: space-between;
-    }
+    padding-block: 1.5rem;
+    border-block-start: 1px solid var(--color-hairline);
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.75rem; /* 12px */
+    letter-spacing: var(--tracking-mono);
   }
 
-  .copyright {
-    margin-inline-end: 0;
-
-    @media (min-width: 40rem) {
-      margin-inline-end: var(--space-sm);
-    }
+  .site-footer__copy {
+    white-space: nowrap;
   }
 
-  .site-name {
-    display: inline-block;
+  .site-footer__links {
+    display: flex;
+    gap: 1.25rem;
   }
 
-  .nav {
-    font-size: var(--fluid-text-small);
+  .site-footer__links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
 
-    :global(.link) {
-      padding-inline: var(--space-sm);
-      color: var(--color-gray-600);
-      font-weight: var(--font-medium);
-      text-decoration: none;
-      text-transform: none;
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: var(--color-text);
-        text-decoration: underline;
-      }
-    }
+  .site-footer__links a:hover {
+    color: var(--color-ink);
   }
 </style>

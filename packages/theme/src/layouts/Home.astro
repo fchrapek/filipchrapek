@@ -1,0 +1,1047 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import StructuredData from "@/components/StructuredData.astro";
+import Testimonials from "@/components/Testimonials.astro";
+import { siteConfig } from "@/site.config";
+import { isPolish } from "@/utils/i18n";
+import type { CollectionEntry } from "astro:content";
+
+type PostEntry = CollectionEntry<"post"> | CollectionEntry<"artykul">;
+type NoteEntry = CollectionEntry<"note"> | CollectionEntry<"notatka">;
+
+interface Props {
+  posts: PostEntry[];
+  notes: NoteEntry[];
+}
+
+const { posts, notes } = Astro.props;
+const pl = isPolish(siteConfig.lang);
+
+const t = pl
+  ? {
+      status: "Dostępny · Q2 2026",
+      heroLead: "Samouk generalista,",
+      heroMid: "wiecznie ciekawy",
+      heroTail: "freelancer.",
+      heroBody:
+        "Od lat skupiam się na web devie, designie wszelkich odmian i produktywności bez „guru” BS. Czasem piszę, często dowożę, staram się nie traktować siebie zbyt poważnie.",
+      email: "hello@filipchrapek.com",
+      location: "Warszawa → zdalnie",
+      chatHint: "Napisz wiadomość",
+      chatSeed:
+        "Cześć Filip — potrzebujemy prostej strony marketingowej dla małego SaaS. Termin ~3 tygodnie, najlepiej w Astro. Możemy pogadać w przyszłym tygodniu?",
+      sendLabel: "Wyślij",
+      attach: "załącz",
+      proposeTime: "zaproponuj termin",
+      services: "Usługi",
+      servicesHint: "trzy, zrobione porządnie",
+      writing: "Artykuły",
+      writingHint: "ostatnie",
+      notesSection: "Notatki",
+      notesHint: "krótkie formy",
+      allPosts: "wszystkie artykuły →",
+      allNotes: "wszystkie notatki →",
+      kindWords: "Dobre słowa",
+      kindWordsHint: "od klientów",
+      menu: "Menu",
+      nav: [
+        { label: "O mnie", href: "/o-mnie/" },
+        { label: "Blog", href: "/artykuly/" },
+        { label: "Notatki", href: "/notatki/" },
+      ],
+      services1Title: "Web development",
+      services1Body:
+        "Małe, ostre strony i aplikacje webowe. Astro, React, cokolwiek pasuje. Bez 14-stopniowych pipeline’ów na bloga.",
+      services2Title: "Design wszelkich odmian",
+      services2Body:
+        "Interfejsy, identyfikacja, czasem logo. Mniej moodboardów, więcej dowożenia. Figma opcjonalnie, smak obowiązkowy.",
+      services3Title: "Systemy i produktywność",
+      services3Body:
+        "Ustawianie nudnych rur, żeby praca przestała przypominać pasterzenie kotów. Obsidian, DDEV, automatyzacja — bez guru bullshitu.",
+      postsHref: "/artykuly/",
+      notesHref: "/notatki/",
+      monthsSuffix: "mies",
+      yearsSuffix: "r",
+    }
+  : {
+      status: "Available · Q2 2026",
+      heroLead: "Self-taught generalist,",
+      heroMid: "perpetually curious",
+      heroTail: "freelancer.",
+      heroBody:
+        "For years now, my professional focus is web dev, design of all flavors, and productivity without the ‘guru’ BS. I write occasionally, ship often, and try not to take myself too seriously.",
+      email: "hello@filipchrapek.com",
+      location: "Warsaw → remote",
+      chatHint: "Drop a message",
+      chatSeed:
+        "Hey Filip — we need a simple marketing site for a small SaaS. Timeline is ~3 weeks, ideally using Astro. Available to chat next week?",
+      sendLabel: "Send",
+      attach: "attach",
+      proposeTime: "propose time",
+      services: "Services",
+      servicesHint: "three, done properly",
+      writing: "Writing",
+      writingHint: "recent",
+      notesSection: "Notes",
+      notesHint: "short-form",
+      allPosts: "all posts →",
+      allNotes: "all notes →",
+      kindWords: "Kind words",
+      kindWordsHint: "from clients",
+      menu: "Menu",
+      nav: [
+        { label: "About", href: "/about/" },
+        { label: "Blog", href: "/posts/" },
+        { label: "Notes", href: "/notes/" },
+      ],
+      services1Title: "Web development",
+      services1Body:
+        "Small, sharp sites and web apps. Astro, React, whatever actually fits. No 14-step build pipelines for a blog.",
+      services2Title: "Design of all flavors",
+      services2Body:
+        "Interfaces, identity, the occasional logo. Less moodboard, more shipping. Figma optional, taste mandatory.",
+      services3Title: "Systems & productivity",
+      services3Body:
+        "Setting up the boring pipes so work stops feeling like herding cats. Obsidian, DDEV, automation — minus the guru bullshit.",
+      postsHref: "/posts/",
+      notesHref: "/notes/",
+      monthsSuffix: "mo",
+      yearsSuffix: "y",
+    };
+
+const services = [
+  { num: "01", title: t.services1Title, body: t.services1Body, icon: "code" },
+  { num: "02", title: t.services2Title, body: t.services2Body, icon: "design" },
+  { num: "03", title: t.services3Title, body: t.services3Body, icon: "systems" },
+];
+
+const recentPosts = [...posts]
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+
+const recentNotes = [...notes]
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 6);
+
+function formatDate(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y} · ${m} · ${day}`;
+}
+
+function relTime(d: Date): string {
+  const diffMs = Date.now() - d.getTime();
+  const days = Math.max(1, Math.floor(diffMs / 86_400_000));
+  if (days < 30) return `${days}d`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months}${t.monthsSuffix}`;
+  const years = Math.floor(months / 12);
+  return `${years}${t.yearsSuffix}`;
+}
+
+function postHref(slug: string) {
+  return `${t.postsHref}${slug}/`;
+}
+
+function noteHref(slug: string) {
+  return `${t.notesHref}${slug}/`;
+}
+
+function postSlug(p: PostEntry): string {
+  return p.id.split("/").pop() ?? p.id;
+}
+
+function noteSlug(n: NoteEntry): string {
+  return n.id.split("/").pop() ?? n.id;
+}
+---
+
+<html lang={siteConfig.lang}>
+  <head>
+    <BaseHead title="Home" description={siteConfig.description} />
+    <StructuredData type="website" />
+  </head>
+  <body>
+    <div class="home">
+      <div class="home__inner">
+        {/* Header */}
+        <header class="home__header">
+          <a class="home__wordmark" href="/">
+            <span class="home__wordmark-name">filip</span>
+            <span class="home__wordmark-slash">/</span>
+            <span class="home__wordmark-name">chrapek</span>
+          </a>
+          <nav class="home__nav" aria-label="Primary">
+            {
+              t.nav.map((n) => (
+                <a href={n.href} class="home__nav-link">
+                  {n.label}
+                </a>
+              ))
+            }
+          </nav>
+          <button
+            class="home__menu-button"
+            type="button"
+            aria-label={t.menu}
+            data-home-menu-toggle
+          >
+            <span class="home__menu-line"></span>
+            <span class="home__menu-line"></span>
+          </button>
+        </header>
+
+        {/* Hero */}
+        <section class="home__hero">
+          <div class="home__hero-main">
+            <div class="home__hero-heading">
+              <span class="home__avatar" aria-hidden="true"></span>
+              <div>
+                <div class="home__hero-name">{siteConfig.author}</div>
+                <div class="home__hero-status">
+                  <span class="home__status-dot" aria-hidden="true"></span>
+                  {t.status}
+                </div>
+              </div>
+            </div>
+
+            <h1 class="home__hero-title">
+              {t.heroLead}{" "}
+              <span class="home__hero-muted">{t.heroMid}</span>{" "}
+              {t.heroTail}
+            </h1>
+
+            <p class="home__hero-body">{t.heroBody}</p>
+
+            <div class="home__hero-meta">
+              <span>{t.location}</span>
+              <a href={`mailto:${t.email}`}>{t.email}</a>
+            </div>
+          </div>
+
+          {/* Chat placeholder (visual only) */}
+          <aside class="home__chat" aria-label={t.chatHint}>
+            <div class="home__chat-header">
+              <div class="home__chat-hint">
+                <span class="home__status-dot" aria-hidden="true"></span>
+                {t.chatHint}
+              </div>
+              <span class="home__chat-kbd">⌘ + ↵</span>
+            </div>
+            <div class="home__chat-body">
+              <span class="home__chat-avatar" aria-hidden="true"></span>
+              <p class="home__chat-message">{t.chatSeed}</p>
+            </div>
+            <div class="home__chat-footer">
+              <div class="home__chat-tools">
+                <span class="home__chat-chip">📎 {t.attach}</span>
+                <span class="home__chat-chip">🗓 {t.proposeTime}</span>
+              </div>
+              <a class="home__chat-send" href={`mailto:${t.email}`}>
+                {t.sendLabel}
+                <span class="home__chat-send-kbd">↵</span>
+              </a>
+            </div>
+          </aside>
+        </section>
+
+        {/* Services */}
+        <div class="home__section-head">
+          <h2 class="home__section-label">{t.services}</h2>
+          <span class="home__section-hint">{t.servicesHint}</span>
+        </div>
+        <div class="home__grid home__grid--three">
+          {
+            services.map((s) => (
+              <article class="home__card home__card--service">
+                <div class="home__card-top">
+                  <svg
+                    class="home__service-icon"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    {s.icon === "code" && (
+                      <>
+                        <path d="M11 10 L5 16 L11 22" />
+                        <path d="M21 10 L27 16 L21 22" />
+                        <path d="M18 8 L14 24" />
+                      </>
+                    )}
+                    {s.icon === "design" && (
+                      <>
+                        <rect x="5" y="5" width="15" height="15" rx="1" />
+                        <circle cx="20" cy="20" r="7" />
+                      </>
+                    )}
+                    {s.icon === "systems" && (
+                      <>
+                        <circle cx="16" cy="16" r="11" />
+                        <circle cx="16" cy="16" r="5" />
+                        <path d="M16 2 L16 5" />
+                        <path d="M16 27 L16 30" />
+                        <path d="M2 16 L5 16" />
+                        <path d="M27 16 L30 16" />
+                      </>
+                    )}
+                  </svg>
+                  <span class="home__card-num">{s.num}</span>
+                </div>
+                <h3 class="home__card-title">{s.title}</h3>
+                <p class="home__card-body">{s.body}</p>
+              </article>
+            ))
+          }
+        </div>
+
+        {/* Testimonials — sourced from the `testimonial` content collection */}
+        <Testimonials label={t.kindWords} hint={t.kindWordsHint} />
+
+        {/* Writing */}
+        <div class="home__section-head">
+          <h2 class="home__section-label">{t.writing}</h2>
+          <span class="home__section-hint">{t.writingHint}</span>
+        </div>
+        <div class="home__writing">
+          {
+            recentPosts.map((p) => (
+              <a href={postHref(postSlug(p))} class="home__writing-row">
+                <span class="home__writing-date">
+                  {formatDate(p.data.publishDate)}
+                </span>
+                <span class="home__writing-title">{p.data.title}</span>
+                <span class="home__writing-meta">
+                  {p.data.tags?.[0] ?? ""}
+                </span>
+              </a>
+            ))
+          }
+          <div class="home__all-link">
+            <a href={t.postsHref}>{t.allPosts}</a>
+          </div>
+        </div>
+
+        {/* Notes */}
+        <div class="home__section-head">
+          <h2 class="home__section-label">{t.notesSection}</h2>
+          <span class="home__section-hint">{t.notesHint}</span>
+        </div>
+        <div class="home__grid home__grid--notes">
+          {
+            recentNotes.map((n) => (
+              <a href={noteHref(noteSlug(n))} class="home__card home__card--note">
+                <div class="home__card-top">
+                  <span>{formatDate(n.data.publishDate)}</span>
+                  <span>{relTime(n.data.publishDate)}</span>
+                </div>
+                <div class="home__note-title">{n.data.title}</div>
+                {n.data.description && (
+                  <p class="home__card-body">{n.data.description}</p>
+                )}
+              </a>
+            ))
+          }
+        </div>
+        <div class="home__all-link home__all-link--spaced">
+          <a href={t.notesHref}>{t.allNotes}</a>
+        </div>
+
+        {/* Footer */}
+        <footer class="home__footer">
+          <span class="home__footer-copy">© 2026 · {siteConfig.author}</span>
+          <div class="home__footer-links">
+            <a href="https://github.com/filipchrapek" rel="me">github</a>
+            <a href="/rss.xml">rss</a>
+            <a href={`mailto:${t.email}`}>email</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      // Simple toggle for mobile — reveal .home__nav as overlay on click
+      const homeEl = document.querySelector<HTMLElement>(".home");
+      const btn = document.querySelector<HTMLButtonElement>(
+        "[data-home-menu-toggle]",
+      );
+      if (homeEl && btn) {
+        btn.addEventListener("click", () => {
+          const open = homeEl.dataset.menuOpen === "true";
+          homeEl.dataset.menuOpen = String(!open);
+          btn.setAttribute("aria-expanded", String(!open));
+          document.documentElement.style.overflow = !open ? "hidden" : "";
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && homeEl.dataset.menuOpen === "true") {
+            homeEl.dataset.menuOpen = "false";
+            btn.setAttribute("aria-expanded", "false");
+            document.documentElement.style.overflow = "";
+            btn.focus();
+          }
+        });
+
+        homeEl.addEventListener("click", (e) => {
+          const target = e.target as HTMLElement;
+          if (target.closest(".home__nav-link")) {
+            homeEl.dataset.menuOpen = "false";
+            btn.setAttribute("aria-expanded", "false");
+            document.documentElement.style.overflow = "";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .home {
+    min-block-size: 100vh;
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  .home__inner {
+    max-inline-size: var(--content-max);
+    margin-inline: auto;
+    padding: var(--content-pad-block) var(--content-pad-inline);
+  }
+
+  /* Header */
+  .home__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block-end: 1.25rem;
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .home__wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 0.78125rem; /* 12.5px */
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-mono);
+    text-decoration: none;
+  }
+
+  .home__wordmark-slash {
+    color: var(--color-text-dimmed);
+    font-weight: var(--font-normal);
+  }
+
+  .home__nav {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--color-text-dimmed);
+    font-size: 0.84375rem; /* 13.5px */
+  }
+
+  .home__nav-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .home__nav-link:hover {
+    color: var(--color-ink);
+  }
+
+  .home__menu-button {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .home__menu-button:hover {
+    background-color: var(--color-ink-04);
+  }
+
+  .home__menu-button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .home__menu-line {
+    display: block;
+    inline-size: 1.125rem;
+    block-size: 1.25px;
+    background: currentColor;
+    transform-origin: center;
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .home[data-menu-open="true"] .home__menu-line:first-child {
+    transform: translateY(2.625px) rotate(45deg);
+  }
+
+  .home[data-menu-open="true"] .home__menu-line:last-child {
+    transform: translateY(-2.625px) rotate(-45deg);
+  }
+
+  /* Hero */
+  .home__hero {
+    display: grid;
+    align-items: start;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    padding-block: 3.5rem 4.5rem;
+  }
+
+  .home__hero-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-block-end: 1.375rem;
+  }
+
+  .home__avatar,
+  .home__chat-avatar {
+    flex: none;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-pill);
+    background-image: url("/filipchrapek-profile.jpg");
+    background-repeat: no-repeat;
+    background-position: center 25%;
+    background-size: cover;
+  }
+
+  .home__avatar {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+  }
+
+  .home__hero-name {
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .home__hero-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-block-start: 0.125rem;
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-mono-wide);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .home__status-dot {
+    flex: none;
+    inline-size: 0.375rem;
+    block-size: 0.375rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+  }
+
+  .home__hero-title {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 1.625rem;
+    font-weight: var(--font-medium);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .home__hero-muted {
+    color: var(--color-text-dimmed);
+  }
+
+  .home__hero-body {
+    margin: 1rem 0 0;
+    color: var(--color-text-subtle);
+    font-size: 0.90625rem; /* 14.5px */
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  .home__hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-block-start: 1.375rem;
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem; /* 11px */
+    letter-spacing: var(--tracking-mono-wide);
+    text-transform: uppercase;
+  }
+
+  .home__hero-meta a {
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .home__hero-meta a:hover {
+    color: var(--color-accent);
+  }
+
+  /* Chat placeholder */
+  .home__chat {
+    padding: 0.875rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .home__chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-end: 0.625rem;
+  }
+
+  .home__chat-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .home__chat-kbd {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.06em;
+  }
+
+  .home__chat-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    min-block-size: 7.5rem;
+  }
+
+  .home__chat-avatar {
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+  }
+
+  .home__chat-message {
+    flex: 1;
+    margin: 0;
+    color: var(--color-text-dimmed);
+    font-size: 0.84375rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+
+  .home__chat-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-start: 0.625rem;
+    padding-block-start: 0.625rem;
+    border-block-start: 1px solid var(--color-hairline);
+  }
+
+  .home__chat-tools {
+    display: flex;
+    gap: 0.375rem;
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+  }
+
+  .home__chat-chip {
+    padding: 0.1875rem 0.4375rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+  }
+
+  .home__chat-send {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4375rem 0.875rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink);
+    color: var(--color-bg);
+    font: inherit;
+    font-size: 0.78125rem;
+    font-weight: var(--font-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .home__chat-send:hover {
+    background: var(--color-accent);
+  }
+
+  .home__chat-send-kbd {
+    font-family: var(--font-mono);
+    opacity: 0.7;
+  }
+
+  /* Section head */
+  .home__section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-block-end: 0.875rem;
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .home__section-label {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-mono-ultra);
+    text-transform: uppercase;
+  }
+
+  .home__section-hint {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  /* Grids */
+  .home__grid {
+    display: grid;
+    gap: 1rem;
+    padding-block: 1.75rem 4.5rem;
+  }
+
+  .home__grid--three {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .home__grid--notes {
+    grid-template-columns: repeat(2, 1fr);
+    padding-block: 1.125rem 1.5rem;
+  }
+
+  /* Cards */
+  .home__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.25rem 1.125rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .home__card--note {
+    padding: 1rem;
+    background: var(--color-surface);
+  }
+
+  .home__card--note:hover {
+    border-color: var(--color-ink-40);
+    background: var(--color-surface-hover);
+  }
+
+  .home__card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-mono-wide);
+    text-transform: uppercase;
+  }
+
+  .home__service-icon {
+    inline-size: 1.375rem;
+    block-size: 1.375rem;
+    color: var(--color-ink);
+  }
+
+  .home__card-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.08em;
+  }
+
+  .home__card-title {
+    margin: 0.25rem 0 0;
+    color: var(--color-ink);
+    font-size: 0.96875rem; /* 15.5px */
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .home__card-body {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: 0.84375rem;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .home__note-title {
+    color: var(--color-ink);
+    font-size: 0.9375rem;
+    font-weight: var(--font-medium);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
+  }
+
+  /* Writing list */
+  .home__writing {
+    padding-block: 0.25rem 4.5rem;
+  }
+
+  .home__writing-row {
+    display: grid;
+    align-items: baseline;
+    gap: 1.25rem;
+    grid-template-columns: 6.875rem 1fr auto;
+    padding: 1rem 0;
+    border-block-end: 1px solid var(--color-hairline);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .home__writing-row:hover .home__writing-title {
+    color: var(--color-accent);
+  }
+
+  .home__writing-date {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.71875rem; /* 11.5px */
+    letter-spacing: var(--tracking-mono);
+    white-space: nowrap;
+  }
+
+  .home__writing-title {
+    font-size: 0.96875rem;
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-tight);
+    transition: color 0.2s ease;
+    text-wrap: balance;
+  }
+
+  .home__writing-meta {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .home__all-link {
+    margin-block-start: 1.125rem;
+    padding-block-end: 4.5rem;
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .home__all-link--spaced {
+    margin-block-start: 1.375rem;
+  }
+
+  .home__all-link a {
+    padding-block-end: 0.125rem;
+    border-block-end: 1px solid var(--color-hairline);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .home__all-link a:hover {
+    border-color: var(--color-accent);
+  }
+
+  /* Footer */
+  .home__footer {
+    display: flex;
+    justify-content: space-between;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--color-hairline);
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: var(--tracking-mono);
+  }
+
+  .home__footer-copy {
+    white-space: nowrap;
+  }
+
+  .home__footer-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .home__footer-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .home__footer-links a:hover {
+    color: var(--color-ink);
+  }
+
+  /* Mobile (<640px) — hamburger reveals nav as an overlay */
+  @media (max-width: 40rem) {
+    .home__inner {
+      padding: 1.25rem 1.25rem 2.5rem;
+    }
+
+    .home__nav {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 5rem 2rem 3rem;
+      background-color: color-mix(
+        in srgb,
+        var(--color-bg) 92%,
+        transparent
+      );
+      color: var(--color-ink-55);
+      font-size: 1.5rem;
+      font-weight: var(--font-medium);
+      letter-spacing: var(--tracking-tight);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity 0.32s cubic-bezier(0.33, 1, 0.68, 1),
+        visibility 0.32s step-end;
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    .home[data-menu-open="true"] .home__nav {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition:
+        opacity 0.32s cubic-bezier(0.33, 1, 0.68, 1),
+        visibility 0s;
+    }
+
+    .home__menu-button {
+      display: flex;
+    }
+
+    .home__wordmark {
+      font-size: 0.75rem;
+    }
+
+    .home__hero {
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+      padding-block: 2rem 2.25rem;
+    }
+
+    .home__hero-title {
+      font-size: 1.75rem;
+    }
+
+    .home__avatar {
+      inline-size: 2.25rem;
+      block-size: 2.25rem;
+    }
+
+    .home__hero-meta {
+      flex-direction: column;
+      gap: 0.375rem;
+      font-size: var(--text-micro);
+    }
+
+    .home__grid--three {
+      gap: 0.75rem;
+      grid-template-columns: 1fr;
+      padding-block: 1rem 2.5rem;
+    }
+
+    .home__grid--notes {
+      gap: 0.625rem;
+      grid-template-columns: 1fr;
+    }
+
+    .home__card {
+      padding: 1rem;
+    }
+
+    .home__writing-row {
+      gap: 0.25rem;
+      grid-template-columns: 1fr auto;
+      padding: 0.875rem 0;
+    }
+
+    .home__writing-date {
+      grid-column: 1;
+      order: 1;
+      font-size: 0.625rem;
+    }
+
+    .home__writing-title {
+      grid-column: 1 / -1;
+      order: 3;
+      font-size: 0.9375rem;
+      line-height: 1.3;
+    }
+
+    .home__writing-meta {
+      grid-column: 2;
+      order: 2;
+      font-size: 0.625rem;
+      justify-self: end;
+    }
+
+    .home__footer {
+      flex-direction: column;
+      gap: 0.625rem;
+      font-size: 0.71875rem;
+    }
+  }
+</style>

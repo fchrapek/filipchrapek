@@ -58,15 +58,19 @@
 	--fluid-space-64-128: clamp(4rem, 2.4rem + 8vw, 8rem);           /* 64px → 128px */
 	--fluid-space-64-160: clamp(4rem, 1.6rem + 12vw, 10rem);         /* 64px → 160px */
 
-	/* Fluid typography scale */
-	--fluid-text-display: clamp(2.25rem, 1.5rem + 2vw, 3.375rem);  /* 36px → 54px */
-	--fluid-text-h1: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);          /* 32px → 40px */
-	--fluid-text-h2: clamp(1.5rem, 1.25rem + 1vw, 2rem);           /* 24px → 32px */
-	--fluid-text-h3: clamp(1.25rem, 1.125rem + 0.5vw, 1.5rem);     /* 20px → 24px */
-	--fluid-text-h4: clamp(1.125rem, 1.0625rem + 0.25vw, 1.25rem); /* 18px → 20px */
-	--fluid-text-h5: clamp(1rem, 0.9375rem + 0.25vw, 1.125rem);    /* 16px → 18px */
-	--fluid-text-base: clamp(1rem, 0.9375rem + 0.25vw, 1.125rem);  /* 16px → 18px */
-	--fluid-text-small: clamp(0.875rem, 0.8125rem + 0.25vw, 1rem); /* 14px → 16px */
+	/* Fluid typography scale — aligned with new static scale in _typography.css */
+	--fluid-text-display: clamp(2rem, 1.4rem + 2.5vw, 2.75rem);       /* 32px → 44px */
+	--fluid-text-h1: clamp(2rem, 1.4rem + 2.5vw, 2.75rem);            /* 32px → 44px */
+	--fluid-text-h2: clamp(1.375rem, 1.15rem + 1vw, 1.625rem);        /* 22px → 26px */
+	--fluid-text-h3: clamp(1.0625rem, 1rem + 0.3vw, 1.125rem);        /* 17px → 18px */
+	--fluid-text-h4: 1rem;                                            /* 16px */
+	--fluid-text-h5: 0.9375rem;                                       /* 15px */
+	--fluid-text-lead: clamp(1.0625rem, 0.96rem + 0.5vw, 1.1875rem);  /* 17px → 19px */
+	--fluid-text-base: 1rem;                                          /* 16px */
+	--fluid-text-body: 0.9375rem;                                     /* 15px */
+	--fluid-text-small: 0.84375rem;                                   /* 13.5px */
+	--fluid-text-meta: 0.75rem;                                       /* 12px */
+	--fluid-text-micro: 0.65625rem;                                   /* 10.5px */
 }
 
 /*

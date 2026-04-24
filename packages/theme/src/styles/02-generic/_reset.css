@@ -17,7 +17,7 @@ html {
 }
 
 body {
-  line-height: var(--leading-normal);
+  line-height: var(--leading-ui);
 }
 
 img,

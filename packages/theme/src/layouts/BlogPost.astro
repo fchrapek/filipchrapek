@@ -5,24 +5,78 @@ import Masthead from "@/components/blog/Masthead.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import { siteConfig } from "@/site.config";
-import { getLang } from "@/utils/i18n";
+import { getLang, isPolish } from "@/utils/i18n";
+import { getAllPosts } from "@/data/post";
 
 import BaseLayout from "./Base.astro";
 
+type PostEntry = CollectionEntry<"post"> | CollectionEntry<"artykul">;
+
 interface Props {
-  post: CollectionEntry<"post"> | CollectionEntry<"artykul">;
+  post: PostEntry;
 }
 
 const { post } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate } = post.data;
-const slug = post.id.split("/").pop();
+const slug = post.id.split("/").pop()!;
 const socialImage = ogImage ?? `/og-image/${slug}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
-const { remarkPluginFrontmatter } = await render(post);
+const { remarkPluginFrontmatter, headings } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 
 const lang = getLang(siteConfig.lang);
-const backToTopLabel = lang === "pl" ? "Wróć na górę" : "Back to top";
+const pl = isPolish(siteConfig.lang);
+const labels = {
+  backToTop: pl ? "Wróć na górę" : "Back to top",
+  allPosts: pl ? "← wszystkie artykuły" : "← all posts",
+  onThisPage: pl ? "Na tej stronie" : "On this page",
+  updated: pl ? "zaktualizowane" : "updated",
+  end: pl ? "koniec" : "end",
+  morePosts: pl ? "Więcej artykułów" : "More posts",
+  allPostsFooter: pl ? "wszystkie artykuły →" : "all posts →",
+  previous: pl ? "Poprzedni" : "Previous",
+  next: pl ? "Następny" : "Next",
+  sectionLabel: pl ? "artykuły" : "posts",
+};
+
+const sectionPath = pl ? "/artykuly/" : "/posts/";
+
+// TOC — keep h2 only (matches the design's numbered list cadence)
+const tocItems = headings
+  .filter((h) => h.depth === 2)
+  .map((h, i) => ({
+    ...h,
+    num: String(i + 1).padStart(2, "0"),
+  }));
+
+// More posts — fetch siblings, exclude current, sort by date desc, take 3
+const allPosts = await getAllPosts();
+const morePosts = allPosts
+  .filter((p) => p.id !== post.id)
+  .sort(
+    (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+  )
+  .slice(0, 3);
+
+// Prev / next
+const sorted = [...allPosts].sort(
+  (a, b) => a.data.publishDate.getTime() - b.data.publishDate.getTime(),
+);
+const idx = sorted.findIndex((p) => p.id === post.id);
+const prevPost = idx > 0 ? sorted[idx - 1] : null;
+const nextPost = idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1] : null;
+
+const postHref = (p: PostEntry) =>
+  `${sectionPath}${p.id.split("/").pop()}/`;
+
+const dateFmt = (d: Date) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${y} · ${m} · ${dd}`;
+};
+
+const wordCount = remarkPluginFrontmatter.wordCount as number | undefined;
 ---
 
 <BaseLayout
@@ -32,26 +86,134 @@ const backToTopLabel = lang === "pl" ? "Wróć na górę" : "Back to top";
     ogImage: socialImage,
     title,
   }}
+  breadcrumbs={[
+    { label: labels.sectionLabel, href: sectionPath },
+    { label: title },
+  ]}
 >
   <StructuredData post={post} type="article" />
   <article class="blog-post" data-pagefind-body>
-    <div id="blog-hero" class="blog-post-hero">
-      <Masthead content={post} readingTime={readingTime} />
-    </div>
-    <div class="blog-post-content prose prose--sm">
-      <slot />
-      <WebMentions />
+    <div class="blog-post__layout">
+      {/* Sticky TOC */}
+      <aside class="blog-post__toc" aria-label={labels.onThisPage}>
+        <a class="blog-post__toc-back" href={sectionPath}>{labels.allPosts}</a>
+        <div class="blog-post__toc-divider" aria-hidden="true"></div>
+        {
+          tocItems.length > 0 && (
+            <>
+              <div class="blog-post__toc-label">{labels.onThisPage}</div>
+              <ol class="blog-post__toc-list">
+                {tocItems.map((h) => (
+                  <li>
+                    <a
+                      class="blog-post__toc-item"
+                      href={`#${h.slug}`}
+                      data-toc-link={h.slug}
+                    >
+                      <span class="blog-post__toc-num">{h.num}</span>
+                      <span>{h.text}</span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+              <div class="blog-post__toc-divider" aria-hidden="true"></div>
+            </>
+          )
+        }
+        <div class="blog-post__toc-meta">
+          <span>
+            {readingTime}
+            {wordCount ? ` · ${wordCount.toLocaleString()} ${pl ? "słów" : "words"}` : ""}
+          </span>
+          {
+            updatedDate && (
+              <span>
+                {labels.updated} {dateFmt(updatedDate)}
+              </span>
+            )
+          }
+        </div>
+      </aside>
+
+      {/* Article body */}
+      <div class="blog-post__article" id="blog-hero">
+        <Masthead content={post} readingTime={readingTime} />
+        <div class="blog-post__content prose">
+          <slot />
+          <WebMentions />
+        </div>
+
+        <div class="blog-post__end" aria-hidden="true">
+          <span class="blog-post__end-line"></span>
+          <span class="blog-post__end-label">{labels.end}</span>
+          <span class="blog-post__end-line"></span>
+        </div>
+
+        {
+          morePosts.length > 0 && (
+            <section class="blog-post__more" aria-label={labels.morePosts}>
+              <header class="blog-post__more-head">
+                <h2 class="blog-post__more-label">{labels.morePosts}</h2>
+                <a class="blog-post__more-all" href={sectionPath}>
+                  {labels.allPostsFooter}
+                </a>
+              </header>
+              {morePosts.map((p) => (
+                <a class="blog-post__more-row" href={postHref(p)}>
+                  <span class="blog-post__more-date">
+                    {dateFmt(p.data.publishDate)}
+                  </span>
+                  <span class="blog-post__more-title">{p.data.title}</span>
+                  <span class="blog-post__more-meta">
+                    {p.data.tags?.[0] ?? ""}
+                  </span>
+                </a>
+              ))}
+            </section>
+          )
+        }
+
+        {
+          (prevPost || nextPost) && (
+            <nav class="blog-post__nav" aria-label={labels.morePosts}>
+              {prevPost ? (
+                <a
+                  class="blog-post__nav-link blog-post__nav-link--prev"
+                  href={postHref(prevPost)}
+                >
+                  <span class="blog-post__nav-kicker">← {labels.previous}</span>
+                  <span class="blog-post__nav-title">{prevPost.data.title}</span>
+                </a>
+              ) : (
+                <span />
+              )}
+              {nextPost ? (
+                <a
+                  class="blog-post__nav-link blog-post__nav-link--next"
+                  href={postHref(nextPost)}
+                >
+                  <span class="blog-post__nav-kicker">{labels.next} →</span>
+                  <span class="blog-post__nav-title">{nextPost.data.title}</span>
+                </a>
+              ) : (
+                <span />
+              )}
+            </nav>
+          )
+        }
+      </div>
     </div>
   </article>
-  <button class="back-to-top" data-show="false" id="to-top-btn">
-    <span class="sr-only">{backToTopLabel}</span>
+
+  <button class="back-to-top" data-show="false" id="to-top-btn" type="button">
+    <span class="sr-only">{labels.backToTop}</span>
     <svg
       aria-hidden="true"
       class="back-to-top-icon"
       fill="none"
       focusable="false"
       stroke="currentColor"
-      stroke-width="2"
+      stroke-width="1.5"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -67,17 +229,56 @@ const backToTopLabel = lang === "pl" ? "Wróć na górę" : "Back to top";
   const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
   const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
 
-  function callback(entries: IntersectionObserverEntry[]) {
-    entries.forEach((entry) => {
-      // only show the scroll to top button when the heading is out of view
-      scrollBtn.dataset.show = (!entry.isIntersecting).toString();
+  if (scrollBtn && targetHeader) {
+    scrollBtn.addEventListener("click", () => {
+      document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
     });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        scrollBtn.dataset.show = (!entry.isIntersecting).toString();
+      });
+    });
+    observer.observe(targetHeader);
   }
 
-  scrollBtn.addEventListener("click", () => {
-    document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
-  });
+  // TOC highlighting based on scroll position
+  const tocLinks = document.querySelectorAll<HTMLAnchorElement>(
+    "[data-toc-link]",
+  );
 
-  const observer = new IntersectionObserver(callback);
-  observer.observe(targetHeader);
+  if (tocLinks.length > 0) {
+    const targets = Array.from(tocLinks)
+      .map((l) => {
+        const id = l.dataset.tocLink;
+        return id ? document.getElementById(id) : null;
+      })
+      .filter((el): el is HTMLElement => el !== null);
+
+    const setActive = (id: string | null) => {
+      tocLinks.forEach((l) => {
+        if (l.dataset.tocLink === id) {
+          l.setAttribute("aria-current", "true");
+          l.classList.add("is-active");
+        } else {
+          l.removeAttribute("aria-current");
+          l.classList.remove("is-active");
+        }
+      });
+    };
+
+    const headingObserver = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) {
+          setActive(visible[0].target.id);
+        }
+      },
+      { rootMargin: "0% 0% -70% 0%", threshold: 0 },
+    );
+
+    targets.forEach((t) => headingObserver.observe(t));
+  }
 </script>

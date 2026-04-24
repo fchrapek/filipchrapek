@@ -61,7 +61,7 @@ const groupedByYear = groupPostsByYear(page.data);
 const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
-<PageLayout meta={meta}>
+<PageLayout meta={meta} breadcrumbs={[{ label: "artykuły" }]}>
   <div class="header">
     <h1 class="section-title section-title--large">{t.title}</h1>
     <a class="rss" href="/rss.xml" target="_blank">

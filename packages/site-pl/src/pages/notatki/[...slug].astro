@@ -26,6 +26,12 @@ const meta = {
 };
 ---
 
-<PageLayout meta={meta}>
+<PageLayout
+	meta={meta}
+	breadcrumbs={[
+		{ label: "notatki", href: "/notatki/" },
+		{ label: note.data.title },
+	]}
+>
 	<Note as="h1" note={note} />
 </PageLayout>

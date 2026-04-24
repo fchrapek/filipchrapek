@@ -1,0 +1,185 @@
+---
+import { getCollection, render } from "astro:content";
+
+interface Props {
+  label: string;
+  hint: string;
+  /** Max number of testimonials to render. Defaults to 3 (fits the grid). */
+  limit?: number;
+  /** Extra class on the root. */
+  class?: string;
+}
+
+const { label, hint, limit = 3, class: className } = Astro.props;
+
+const entries = await getCollection("testimonial", ({ data }) =>
+  import.meta.env.PROD ? !data.draft : true,
+);
+
+const items = entries
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, limit);
+
+// Pre-render each quote body so we can drop the HTML into the blockquote.
+const rendered = await Promise.all(
+  items.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  }),
+);
+---
+
+{
+  rendered.length > 0 && (
+    <section class:list={["testimonials", className]} aria-label={label}>
+      <header class="testimonials__head">
+        <h2 class="testimonials__label">{label}</h2>
+        <span class="testimonials__hint">{hint}</span>
+      </header>
+      <div class="testimonials__grid">
+        {rendered.map(({ entry, Content }) => (
+          <figure class="testimonials__item">
+            <span class="testimonials__mark" aria-hidden="true">
+              &ldquo;
+            </span>
+            <blockquote class="testimonials__quote">
+              <Content />
+            </blockquote>
+            <figcaption class="testimonials__cite">
+              {entry.data.href ? (
+                <a
+                  class="testimonials__name"
+                  href={entry.data.href}
+                  rel="noopener"
+                >
+                  {entry.data.name}
+                </a>
+              ) : (
+                <span class="testimonials__name">{entry.data.name}</span>
+              )}
+              <span class="testimonials__role">{entry.data.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .testimonials {
+    padding-block-end: 4.5rem;
+  }
+
+  .testimonials__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-block-end: 0.875rem;
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .testimonials__label {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-mono-ultra);
+    text-transform: uppercase;
+  }
+
+  .testimonials__hint {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .testimonials__grid {
+    display: grid;
+    gap: 1.5rem 1.25rem;
+    grid-template-columns: 1fr;
+    padding-block: 1.75rem 0;
+  }
+
+  @media (min-width: 40rem) {
+    .testimonials__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .testimonials__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin: 0;
+  }
+
+  .testimonials__mark {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: var(--font-medium);
+    line-height: 1;
+  }
+
+  .testimonials__quote {
+    margin: 0;
+    padding: 0;
+    border: none;
+    color: var(--color-text-subtle);
+    font-family: var(--font-sans);
+    font-size: 0.84375rem;
+    font-weight: var(--font-normal);
+    font-style: normal;
+    line-height: 1.55;
+    letter-spacing: var(--tracking-base);
+    text-wrap: pretty;
+  }
+
+  .testimonials__quote :global(p) {
+    margin: 0;
+  }
+
+  .testimonials__quote :global(p + p) {
+    margin-block-start: 0.5rem;
+  }
+
+  .testimonials__quote :global(a) {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-hairline);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .testimonials__quote :global(a:hover) {
+    text-decoration-color: var(--color-accent);
+  }
+
+  .testimonials__cite {
+    padding-block-start: 0.625rem;
+    border-block-start: 1px solid var(--color-hairline);
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .testimonials__name {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  a.testimonials__name:hover {
+    color: var(--color-accent);
+  }
+
+  .testimonials__role::before {
+    content: " · ";
+    color: var(--color-text-dimmed);
+  }
+</style>

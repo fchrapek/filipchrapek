@@ -1,20 +1,10 @@
 ---
-import Services from "@/components/Services.astro";
-import PinnedPosts from "@/components/PinnedPosts.astro";
-import PostsList from "@/components/PostsList.astro";
-import NotesList from "@/components/NotesList.astro";
-import Separator from "@/components/Separator.astro";
-import PageLayout from "@/layouts/Base.astro";
-import profileImage from "../../public/filipchrapek-profile.jpg";
+import { getCollection } from "astro:content";
+import Home from "@/layouts/Home.astro";
+import { getAllPosts } from "../data/post";
+
+const posts = await getAllPosts();
+const notes = await getCollection("notatka");
 ---
 
-<PageLayout meta={{ title: "Strona główna" }} profileImage={profileImage}>
-  <Separator size={{ mobile: "2xl", desktop: "2xl" }} border />
-  <Services />
-  <!-- <Separator size={{ mobile: "2xl", desktop: "2xl" }} border /> -->
-  <!-- <PinnedPosts /> -->
-  <Separator size={{ mobile: "2xl", desktop: "2xl" }} border />
-  <PostsList />
-  <Separator size={{ mobile: "2xl", desktop: "2xl" }} border />
-  <NotesList />
-</PageLayout>
+<Home posts={posts} notes={notes} />

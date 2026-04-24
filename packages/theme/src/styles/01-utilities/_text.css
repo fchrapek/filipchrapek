@@ -2,7 +2,6 @@
    TEXT UTILITIES
    ============================================ */
 
-/* Text sizes */
 .text--small {
   font-size: var(--fluid-text-small);
 }
@@ -11,45 +10,78 @@
   font-size: var(--fluid-text-h4);
 }
 
-/* Dimmed text color */
 .text--dimmed {
   color: var(--color-text-dimmed);
 }
 
-/* Section titles */
+.text--mono {
+  font-family: var(--font-mono);
+}
+
+/* Section titles — mono kicker style matching the new chrome */
 .section-title {
-  color: var(--color-accent-2);
-  font-size: var(--fluid-text-h3);
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
   font-weight: var(--font-medium);
-  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-mono-ultra);
+  text-transform: uppercase;
 }
 
 .section-title--large {
-  font-size: var(--fluid-text-h2);
-  line-height: var(--leading-h2);
+  font-family: var(--font-sans);
+  font-size: var(--fluid-text-h1);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-h1);
+  text-transform: none;
 }
 
 .section-title--small {
-  font-size: var(--fluid-text-h4);
-  line-height: var(--leading-h4);
+  font-family: var(--font-sans);
+  font-size: var(--fluid-text-h3);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  text-transform: none;
 }
 
-/* Index section */
+/* Section head row — matches the home's section-head pattern */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block-end: 0.875rem;
+  border-block-end: 1px solid var(--color-hairline);
+}
+
+.section-head__hint {
+  color: var(--color-text-dimmed);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* Year group (used on listing pages) */
 .index-section {
-  margin-block-start: var(--space-lg);
+  margin-block-start: 2.5rem;
 }
 
 .index-section-title {
-  margin-block-end: var(--space-sm);
-  color: var(--color-accent-2);
-  font-size: var(--fluid-text-h4);
+  margin: 0 0 1rem;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
   font-weight: var(--font-medium);
-  line-height: var(--leading-h4);
+  letter-spacing: var(--tracking-mono-ultra);
+  text-transform: uppercase;
 }
 
 /* Post list */
 .post-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
 }

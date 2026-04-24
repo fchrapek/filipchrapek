@@ -4,17 +4,9 @@
 
 html {
   accent-color: var(--color-accent);
-  color-scheme: light dark;
+  color-scheme: light;
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
-
-  &[data-theme="light"] {
-    color-scheme: light;
-  }
-
-  &[data-theme="dark"] {
-    color-scheme: dark;
-  }
 }
 
 body {
@@ -24,11 +16,17 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
-  font-size: var(--fluid-text-base);
+  font-size: var(--text-body);
   font-weight: var(--font-normal);
-  line-height: var(--leading-base);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  color: var(--color-ink);
 }
 
 :target {

@@ -1,12 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "@/components/FormattedDate.astro";
 import { siteConfig } from "@/site.config";
-import { getLang } from "@/utils/i18n";
+import { getLang, isPolish } from "@/utils/i18n";
 
 interface Props {
-  content: CollectionEntry<"post">;
+  content: CollectionEntry<"post"> | CollectionEntry<"artykul">;
   readingTime: string;
 }
 
@@ -16,168 +15,213 @@ const {
 } = Astro.props;
 
 const lang = getLang(siteConfig.lang);
+const pl = isPolish(siteConfig.lang);
 const labels = {
-  en: {
-    draft: "(Draft)",
-    updated: "Updated:",
-    viewMore: "View more blogs with the tag",
-  },
-  pl: {
-    draft: "(Szkic)",
-    updated: "Aktualizacja:",
-    viewMore: "Zobacz więcej artykułów z tagiem",
-  },
+  draft: pl ? "(szkic)" : "(draft)",
+  updated: pl ? "zaktualizowane" : "updated",
+  viewMore: pl ? "Zobacz więcej artykułów z tagiem" : "View more posts tagged",
 };
 
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-  month: "long",
-};
+const date = data.publishDate;
+const dateString = `${date.getFullYear()} · ${String(date.getMonth() + 1).padStart(2, "0")} · ${String(date.getDate()).padStart(2, "0")}`;
+const firstTag = data.tags?.[0];
+const remainingTags = data.tags?.slice(1) ?? [];
+const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
 ---
+
+{/* Meta line */}
+<div class="masthead__meta">
+  <span>{dateString}</span>
+  <span class="masthead__meta-dot" aria-hidden="true"></span>
+  {firstTag && <a class="masthead__tag-primary" href={tagHref(firstTag)}>{firstTag}</a>}
+  <span class="masthead__meta-dot" aria-hidden="true"></span>
+  <span>{readingTime}</span>
+  {data.draft && <span class="masthead__draft">{labels.draft}</span>}
+</div>
+
+{/* Title */}
+<h1 class="masthead__title">{data.title}</h1>
+
+{/* Subtitle */}
+{data.description && <p class="masthead__lede">{data.description}</p>}
+
+{/* Author / tags bar */}
+<div class="masthead__byline">
+  <div class="masthead__author">
+    <span class="masthead__avatar" aria-hidden="true"></span>
+    <div class="masthead__author-text">
+      <span class="masthead__author-name">{siteConfig.author}</span>
+      <span class="masthead__author-role">
+        {pl ? "Warszawa · piszę o nudnych rzeczach" : "Warsaw · writes about the boring parts"}
+      </span>
+    </div>
+  </div>
+
+  {
+    remainingTags.length > 0 && (
+      <div class="masthead__tags" aria-label={labels.viewMore}>
+        {remainingTags.map((tag) => (
+          <a class="masthead__tag" data-pagefind-filter={`tag:${tag}`} href={tagHref(tag)}>
+            <span class="sr-only">{labels.viewMore}&nbsp;</span>#{tag}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</div>
 
 {
   data.coverImage && (
-    <div class="cover">
+    <div class="masthead__cover">
       <Image
         alt={data.coverImage.alt}
+        class="masthead__cover-img"
         layout="constrained"
-        width={748}
-        height={420}
+        width={1040}
+        height={585}
         priority
         src={data.coverImage.src}
       />
     </div>
   )
 }
-{data.draft ? <span class="draft-label">{labels[lang].draft}</span> : null}
-<h1 class="title">
-  {data.title}
-</h1>
-<div class="meta">
-  <p class="date">
-    <FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> /{
-      " "
-    }
-    {readingTime}
-  </p>
-  {
-    data.updatedDate && (
-      <span class="updated">
-        {labels[lang].updated}
-        <FormattedDate
-          class="updated-date"
-          date={data.updatedDate}
-          dateTimeOptions={dateTimeOptions}
-        />
-      </span>
-    )
-  }
-</div>
-{
-  !!data.tags?.length && (
-    <div class="tags">
-      <svg
-        aria-hidden="true"
-        class="tags-icon"
-        fill="none"
-        focusable="false"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1.5"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-        <path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
-        <path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
-        <path d="M6 9h-.01" />
-      </svg>
-      {data.tags.map((tag, i) => (
-        <>
-          {/* prettier-ignore */}
-          <span class="tag">
-						<a class="tag-link" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">{labels[lang].viewMore}&nbsp;</span>{tag}
-						</a>{i < data.tags.length - 1 && ", "}
-					</span>
-        </>
-      ))}
-    </div>
-  )
-}
 
 <style>
-  .cover {
-    aspect-ratio: 16 / 9;
-    margin-block-end: var(--space-sm);
-  }
-
-  .draft-label {
-    color: var(--color-red-500);
-    font-size: var(--text-base);
-  }
-
-  .title {
-    margin-block-end: var(--space-xs);
-    color: var(--color-accent-2);
-    font-size: var(--fluid-text-h1);
-    font-weight: var(--font-medium);
-    line-height: var(--leading-h1);
-    letter-spacing: -0.02em;
-  }
-
-  .meta {
+  .masthead__meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-sm) var(--space-xs);
-  }
-
-  .date {
+    gap: 0.875rem;
     color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem; /* 11px */
+    letter-spacing: var(--tracking-mono-ultra);
+    text-transform: uppercase;
   }
 
-  .updated {
-    padding: var(--space-xs);
-    border-radius: 0.5rem;
-    background-color: color-mix(in srgb, var(--color-quote) 5%, transparent);
-    color: var(--color-quote);
-  }
-
-  :global(.updated-date) {
-    margin-inline-start: var(--space-xs);
-  }
-
-  .tags {
-    margin-block-start: var(--space-xs);
-  }
-
-  .tags-icon {
+  .masthead__meta-dot {
     display: inline-block;
-    inline-size: 1.5rem;
-    block-size: 1.5rem;
-    vertical-align: middle;
+    inline-size: 3px;
+    block-size: 3px;
+    border-radius: 3px;
+    background: currentColor;
   }
 
-  .tag {
-    display: contents;
+  .masthead__tag-primary {
+    color: var(--color-accent);
+    text-decoration: none;
   }
 
-  .tag-link {
-    display: inline-block;
+  .masthead__tag-primary:hover {
     text-decoration: underline;
-    text-decoration-color: transparent;
-    text-underline-offset: 2px;
-    transition:
-      text-decoration-color 0.2s ease,
-      text-decoration-thickness 0.2s ease;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
 
-    &::before {
-      content: "#";
-    }
+  .masthead__draft {
+    color: var(--color-red-500);
+  }
 
-    &:hover {
-      text-decoration-color: var(--color-link);
-      text-decoration-thickness: 2px;
-    }
+  .masthead__title {
+    margin: 1rem 0 0.875rem;
+    color: var(--color-ink);
+    font-size: var(--fluid-text-h1);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+    text-wrap: balance;
+  }
+
+  .masthead__lede {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-text-lead);
+    font-weight: var(--font-normal);
+    line-height: var(--leading-lead);
+    text-wrap: pretty;
+  }
+
+  .masthead__byline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    margin-block: 1.75rem;
+    padding-block-end: 1.5rem;
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .masthead__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .masthead__avatar {
+    flex: none;
+    inline-size: 2.125rem; /* 34px */
+    block-size: 2.125rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-pill);
+    background-image: url("/filipchrapek-profile.jpg");
+    background-repeat: no-repeat;
+    background-position: center 25%;
+    background-size: cover;
+  }
+
+  .masthead__author-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.0625rem;
+  }
+
+  .masthead__author-name {
+    color: var(--color-ink);
+    font-size: 0.84375rem; /* 13.5px */
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .masthead__author-role {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-mono-wide);
+    text-transform: uppercase;
+  }
+
+  .masthead__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-inline-start: auto;
+  }
+
+  .masthead__tag {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-mono-wide);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  .masthead__tag:hover {
+    color: var(--color-accent);
+  }
+
+  .masthead__cover {
+    aspect-ratio: 16 / 9;
+    margin-block: 0 2rem;
+    overflow: hidden;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+  }
+
+  :global(.masthead__cover-img) {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
   }
 </style>

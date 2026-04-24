@@ -5,7 +5,7 @@ import { content } from "@/data/content";
 const { about } = content;
 ---
 
-<PageLayout meta={about.meta}>
+<PageLayout meta={about.meta} breadcrumbs={[{ label: "o mnie" }]}>
   <h1
     class="section-title section-title--large"
     style="margin-block-end: var(--space-md)"

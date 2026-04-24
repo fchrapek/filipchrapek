@@ -2,26 +2,20 @@
 import BaseHead from "@/components/BaseHead.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import StructuredData from "@/components/StructuredData.astro";
-import ThemeProvider from "@/components/ThemeProvider.astro";
-import ThemeSwitcher from "@/components/ThemeSwitcher.astro";
 import Footer from "@/components/layout/Footer.astro";
-import Header from "@/components/layout/Header.astro";
+import Header, { type Crumb } from "@/components/layout/Header.astro";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
-import type { ImageMetadata } from "astro";
-import IndexHero from "@/components/IndexHero.astro";
 
 interface Props {
   meta: SiteMeta;
-  profileImage?: ImageMetadata;
+  breadcrumbs?: Crumb[];
 }
 
 const {
   meta: { articleDate, description = siteConfig.description, ogImage, title },
-  profileImage,
+  breadcrumbs,
 } = Astro.props;
-
-const isIndexPage = Astro.url.pathname === "/";
 ---
 
 <html lang={siteConfig.lang}>
@@ -35,12 +29,10 @@ const isIndexPage = Astro.url.pathname === "/";
     {!articleDate && <StructuredData type="website" />}
   </head>
   <body>
-    <ThemeProvider />
-    <!-- <ThemeSwitcher /> -->
     <SkipLink />
-    <div class="wrapper wrapper--md">
-      {isIndexPage ? <IndexHero profileImage={profileImage} /> : <Header />}
-      <main id="main">
+    <div class="shell">
+      <Header breadcrumbs={breadcrumbs} />
+      <main id="main" class="shell__main">
         <slot />
       </main>
       <Footer />
@@ -49,17 +41,13 @@ const isIndexPage = Astro.url.pathname === "/";
       {
         "prefetch": [
           {
-            "where": {
-              "href_matches": "/*"
-            },
+            "where": { "href_matches": "/*" },
             "eagerness": "immediate"
           }
         ],
         "prerender": [
           {
-            "where": {
-              "href_matches": "/*"
-            },
+            "where": { "href_matches": "/*" },
             "eagerness": "moderate"
           }
         ]
@@ -67,3 +55,15 @@ const isIndexPage = Astro.url.pathname === "/";
     </script>
   </body>
 </html>
+
+<style>
+  .shell__main {
+    padding-block: 2.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .shell__main {
+      padding-block: 3rem;
+    }
+  }
+</style>

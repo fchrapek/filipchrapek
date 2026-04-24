@@ -15,12 +15,22 @@
   padding-inline: var(--space-md);
 }
 
-.wrapper--lg {
-  max-inline-size: rem(1200);
+.wrapper--lg,
+.wrapper--md {
+  max-inline-size: var(--content-max);
 }
 
-.wrapper--md {
-  max-inline-size: rem(800);
+/* Shell — the paper-chrome container used on every non-home view.
+   Uses the same 820px rail as the home layout for visual consistency. */
+.shell {
+  display: flex;
+  flex-direction: column;
+
+  inline-size: 100%;
+  max-inline-size: var(--content-max);
+  min-block-size: 100dvh;
+  margin-inline: auto;
+  padding: var(--content-pad-block) var(--content-pad-inline);
 }
 
 /* Grid container */

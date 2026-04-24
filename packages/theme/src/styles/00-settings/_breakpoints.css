@@ -7,6 +7,18 @@
 	--breakpoint-md: 48rem;    /* 768px */
 	--breakpoint-lg: 64rem;    /* 1024px */
 	--breakpoint-xl: 80rem;    /* 1280px */
+	--breakpoint-2xl: 84rem;   /* 1344px — shows sticky blog-post TOC bleed */
+
+	/* Content rail — shared by every top-level layout */
+	--content-max: 51.25rem;   /* 820px — home + shell width */
+	--content-pad-inline: 1.25rem;
+	--content-pad-block: 3rem;
+}
+
+@media (min-width: 48rem) {
+	:root {
+		--content-pad-inline: 2rem;
+	}
 }
 
 /* Custom media queries for use in CSS */
@@ -14,3 +26,4 @@
 @custom-media --md (min-width: 48rem);
 @custom-media --lg (min-width: 64rem);
 @custom-media --xl (min-width: 80rem);
+@custom-media --2xl (min-width: 84rem);
