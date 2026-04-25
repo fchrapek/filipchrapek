@@ -16,12 +16,13 @@
 /* Default layout: single column. TOC sits above the article via `order`.
    On desktop (≥64rem) the layout becomes a 2-column grid with a sticky TOC
    that bleeds out to the right of the reading shell so paragraphs hold their
-   Medium-like measure. */
+   Medium-like measure. Top padding lives on the shell — keep this 0 so the
+   masthead sits right under the breadcrumb chrome. */
 .blog-post__layout {
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
-  padding-block: 1.5rem 2.5rem;
+  padding-block: 0 2.5rem;
 
   @media (--lg) {
     display: grid;
@@ -31,7 +32,7 @@
     margin-inline-end: calc(
       (var(--post-toc-size) + var(--post-toc-gap)) * -1
     );
-    padding-block: 3.5rem 2.5rem;
+    padding-block: 0 2.5rem;
   }
 }
 
