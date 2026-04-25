@@ -1,0 +1,143 @@
+---
+interface Logo {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  class?: string;
+  label: string;
+  hint?: string;
+  logos?: Logo[];
+}
+
+// Default set lives next to the 12 SVGs we ship in each site's public/logos/
+// folder. Pages can pass their own list via the `logos` prop.
+const defaultLogos: Logo[] = [
+  { src: "/logos/Group-68.svg", alt: "" },
+  { src: "/logos/Group-72.svg", alt: "" },
+  { src: "/logos/Group-73.svg", alt: "" },
+  { src: "/logos/Group-74.svg", alt: "" },
+  { src: "/logos/Group-75.svg", alt: "" },
+  { src: "/logos/Group-76.svg", alt: "" },
+  { src: "/logos/Group-77.svg", alt: "" },
+  { src: "/logos/Group-79.svg", alt: "" },
+  { src: "/logos/logo-fp.svg", alt: "FP" },
+  { src: "/logos/logo-lesnyklub.svg", alt: "Leśny Klub" },
+  { src: "/logos/logo-pum.svg", alt: "PUM" },
+  { src: "/logos/logo-rebell.svg", alt: "Rebell" },
+];
+
+const { class: className, label, hint, logos = defaultLogos } = Astro.props;
+---
+
+<section class:list={["logos", className]} aria-labelledby="logos-label">
+  <header class="logos__head">
+    <h2 id="logos-label" class="logos__label">{label}</h2>
+    {hint && <span class="logos__hint">{hint}</span>}
+  </header>
+  <ul class="logos__grid">
+    {
+      logos.map((logo) => (
+        <li class="logos__item">
+          <img
+            class="logos__img"
+            src={logo.src}
+            alt={logo.alt}
+            loading="lazy"
+            decoding="async"
+          />
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .logos__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-block-end: 0.875rem;
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .logos__label {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-mono-ultra);
+    text-transform: uppercase;
+  }
+
+  .logos__hint {
+    color: var(--color-text-dimmed);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .logos__grid {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    margin: 0;
+    padding: 1.5rem 0 0;
+    list-style: none;
+
+    @media (min-width: 40rem) {
+      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    }
+  }
+
+  .logos__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 16 / 9;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .logos__item:hover {
+    border-color: var(--color-ink-40);
+    background: var(--color-surface-hover);
+  }
+
+  .logos__img {
+    inline-size: auto;
+    max-inline-size: 100%;
+    block-size: auto;
+    max-block-size: 2.25rem;
+    /* Dim + desaturate by default; bring full life on hover. */
+    opacity: 0.55;
+    transition:
+      opacity 0.25s ease,
+      filter 0.25s ease;
+    filter: grayscale(1);
+  }
+
+  .logos__item:hover .logos__img {
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Dark theme — most client logos are dark-on-white, so invert the rendered
+     SVG so it reads as a light mark on the warm near-black surface. */
+  :global(html[data-theme="dark"]) .logos__img {
+    filter: grayscale(1) invert(1) brightness(1.05);
+  }
+
+  :global(html[data-theme="dark"]) .logos__item:hover .logos__img {
+    filter: invert(1) brightness(1.05);
+  }
+</style>

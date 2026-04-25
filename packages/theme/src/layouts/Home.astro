@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import BaseHead from "@/components/BaseHead.astro";
 import CopyEmail from "@/components/CopyEmail.astro";
+import LogosGrid from "@/components/LogosGrid.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Search from "@/components/Search.astro";
 import StructuredData from "@/components/StructuredData.astro";
@@ -51,6 +52,8 @@ const t = pl
       allNotes: "wszystkie notatki →",
       kindWords: "Dobre słowa",
       kindWordsHint: "od klientów",
+      workedWith: "Pracowali ze mną",
+      workedWithHint: "wybrane",
       menu: "Menu",
       nav: [
         { label: "O mnie", href: "/o-mnie/" },
@@ -97,6 +100,8 @@ const t = pl
       allNotes: "all notes →",
       kindWords: "Kind words",
       kindWordsHint: "from clients",
+      workedWith: "Worked with",
+      workedWithHint: "selected",
       menu: "Menu",
       nav: [
         { label: "About", href: "/about/" },
@@ -326,6 +331,13 @@ function noteSlug(n: NoteEntry): string {
             }
           </ol>
         </section>
+
+        {/* Logos — clients / brands shipped with */}
+        <LogosGrid
+          class="home__section"
+          label={t.workedWith}
+          hint={t.workedWithHint}
+        />
 
         {/* Testimonials — sourced from the `testimonial` content collection */}
         <Testimonials
