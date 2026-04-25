@@ -4,22 +4,16 @@ Design tokens and CSS custom properties.
 
 ## Breakpoints
 
-Responsive breakpoints using rem units.
-
-| Token | Value |
-|-------|-------|
-| `--breakpoint-sm` | 40rem (640px) |
-| `--breakpoint-md` | 48rem (768px) |
-| `--breakpoint-lg` | 64rem (1024px) |
-| `--breakpoint-xl` | 80rem (1280px) |
-
-### Custom Media Queries
+Responsive breakpoints, addressed via custom media queries (only available
+in global `.css` files — Astro scoped `<style>` blocks must use the literal
+`@media (min-width: 40rem)` form).
 
 ```css
 @media (--sm) { } /* min-width: 40rem */
 @media (--md) { } /* min-width: 48rem */
 @media (--lg) { } /* min-width: 64rem */
 @media (--xl) { } /* min-width: 80rem */
+@media (--2xl) { } /* min-width: 84rem — sticky blog-post TOC bleed */
 ```
 
 ---
@@ -130,10 +124,6 @@ Values scale fluidly within each range using `clamp()`. Mobile max values equal 
 | `--space-sm` | 8px → 12px | 12px → 16px |
 | `--space-md` | 16px → 24px | 24px → 32px |
 | `--space-lg` | 24px → 36px | 36px → 48px |
-| `--space-xl` | 32px → 48px | 48px → 64px |
-| `--space-2xl` | 48px → 72px | 72px → 96px |
-| `--space-3xl` | 64px → 96px | 96px → 128px |
-| `--space-4xl` | 80px → 120px | 120px → 160px |
 
 ### Usage
 
@@ -147,42 +137,20 @@ Values scale fluidly within each range using `clamp()`. Mobile max values equal 
 
 ---
 
-## Fluid Utilities
+## Fluid Helpers
 
-Additional fluid tokens for one-off sizing needs.
+Shared anchors used by `--text-*` tokens in `_typography.css`. Cap tracks
+`--content-max` so typography stops scaling the moment the content column
+does — bump `--content-max` and every fluid size follows automatically.
 
-### Fluid Space Scale
-
-Named as `--fluid-space-{min}-{max}` where values are in pixels.
-
-Examples:
-- `--fluid-space-8-16` → 8px → 16px
-- `--fluid-space-16-32` → 16px → 32px
-- `--fluid-space-24-48` → 24px → 48px
-- `--fluid-space-32-64` → 32px → 64px
-
-### Fluid Typography Scale
-
-| Token | Range |
+| Token | Value |
 |-------|-------|
-| `--fluid-text-display` | 36px → 54px |
-| `--fluid-text-h1` | 32px → 40px |
-| `--fluid-text-h2` | 24px → 32px |
-| `--fluid-text-h3` | 20px → 24px |
-| `--fluid-text-h4` | 18px → 20px |
-| `--fluid-text-h5` | 16px → 18px |
-| `--fluid-text-base` | 16px → 18px |
-| `--fluid-text-small` | 14px → 16px |
+| `--fluid-floor` | 20rem (320px viewport) |
+| `--fluid-cap` | `var(--content-max)` |
+| `--fluid-range` | `calc(var(--fluid-cap) - var(--fluid-floor))` |
+| `--fluid-t` | `0` at floor, `1` at cap (unitless ratio) |
 
-### Usage
-
-```css
-/* Instead of media queries */
-.element {
-  font-size: var(--fluid-text-h2);
-  padding: var(--fluid-space-16-32);
-}
-```
+For one-off fluid sizing in components, use `clamp(MIN, calc(MIN + INCREMENT * var(--fluid-t)), MAX)` directly.
 
 ---
 
