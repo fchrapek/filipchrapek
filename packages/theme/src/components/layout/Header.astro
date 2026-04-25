@@ -23,10 +23,8 @@ const filteredLinks = menuLinks.filter(
 
 <header class:list={["site-header", className]} id="main-header">
   <div class="site-header__wordmark">
-    <a class="site-header__wordmark-home" href="/">
-      <span>filip</span>
-      <span class="site-header__wordmark-slash">/</span>
-      <span>chrapek</span>
+    <a class="site-header__wordmark-home" href="/" aria-label="Home">
+      <span>~</span>
     </a>
     {
       breadcrumbs.map((crumb, i) => {
