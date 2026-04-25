@@ -10,6 +10,10 @@
 
 	/* Vertical rhythm between major page sections (home + listings) */
 	--space-section: clamp(4rem, 3rem + 3vw, 6rem);  /* 64px → 96px */
+
+	/* Gap between a section header (with its border-block-end) and the
+	   grid/list of items underneath. Same value across every section. */
+	--gap-section-head: 1.75rem;
 }
 
 @media (--md) {

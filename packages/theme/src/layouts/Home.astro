@@ -891,7 +891,7 @@ function noteSlug(n: NoteEntry): string {
   }
 
   .home__list--stacked {
-    padding-block-start: 0.25rem;
+    margin-block-start: var(--gap-section-head);
   }
 
   .home__section-label {
@@ -912,11 +912,12 @@ function noteSlug(n: NoteEntry): string {
     white-space: nowrap;
   }
 
-  /* Grids — minmax(0, 1fr) so columns stay equal even when card content is long */
+  /* Grids — minmax(0, 1fr) so columns stay equal even when card content is long.
+     Top spacing comes from --gap-section-head so every section matches. */
   .home__grid {
     display: grid;
     gap: 1rem;
-    padding-block-start: 1.75rem;
+    margin-block-start: var(--gap-section-head);
   }
 
   /* On mobile the cards stack vertically; on wider viewports the outer grid
@@ -925,13 +926,11 @@ function noteSlug(n: NoteEntry): string {
   .home__grid--three {
     gap: 0.75rem;
     grid-template-columns: 1fr;
-    padding-block: 1rem 0;
 
     @media (min-width: 40rem) {
       gap: 1rem;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       grid-template-rows: auto auto 1fr;
-      padding-block: 1.75rem 0;
     }
   }
 
@@ -946,7 +945,6 @@ function noteSlug(n: NoteEntry): string {
   .home__grid--notes {
     gap: 0.625rem;
     grid-template-columns: 1fr;
-    padding-block-start: 1.125rem;
 
     @media (min-width: 40rem) {
       gap: 1rem;

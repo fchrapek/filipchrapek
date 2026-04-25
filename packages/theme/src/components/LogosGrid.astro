@@ -80,13 +80,15 @@ const { class: className, label, hint, logos = defaultLogos } = Astro.props;
     white-space: nowrap;
   }
 
-  /* 12 logos divide cleanly into 6×2 on mobile and 3×4 on desktop. */
+  /* 12 logos divide cleanly into 6×2 on mobile and 3×4 on desktop. The cells
+     are non-interactive so they keep just a hairline border — no background
+     or hover state. */
   .logos__grid {
     display: grid;
     gap: 0.5rem;
     grid-template-columns: repeat(2, 1fr);
-    margin: 0;
-    padding: 1.5rem 0 0;
+    margin: var(--gap-section-head) 0 0;
+    padding: 0;
     list-style: none;
 
     @media (min-width: 40rem) {
@@ -103,15 +105,6 @@ const { class: className, label, hint, logos = defaultLogos } = Astro.props;
     padding: 0.75rem 1rem;
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-sm);
-    background: var(--color-surface);
-    transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease;
-  }
-
-  .logos__item:hover {
-    border-color: var(--color-ink-40);
-    background: var(--color-surface-hover);
   }
 
   .logos__img {
@@ -119,26 +112,13 @@ const { class: className, label, hint, logos = defaultLogos } = Astro.props;
     max-inline-size: 100%;
     block-size: auto;
     max-block-size: 3rem;
-    /* Dim + desaturate by default; bring full life on hover. */
-    opacity: 0.55;
-    transition:
-      opacity 0.25s ease,
-      filter 0.25s ease;
+    opacity: 0.7;
     filter: grayscale(1);
-  }
-
-  .logos__item:hover .logos__img {
-    opacity: 1;
-    filter: none;
   }
 
   /* Dark theme — most client logos are dark-on-white, so invert the rendered
      SVG so it reads as a light mark on the warm near-black surface. */
   :global(html[data-theme="dark"]) .logos__img {
     filter: grayscale(1) invert(1) brightness(1.05);
-  }
-
-  :global(html[data-theme="dark"]) .logos__item:hover .logos__img {
-    filter: invert(1) brightness(1.05);
   }
 </style>
