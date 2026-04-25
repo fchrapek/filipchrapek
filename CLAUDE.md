@@ -73,6 +73,9 @@ Utility classes available: `.text--dimmed`, `.text--small`, `.text--large`, `.se
 - `DesktopNav.astro` — horizontal nav, hidden on mobile (used in Header + Footer)
 - `MobileNav.astro` — hamburger, hidden on desktop
 - Header uses both; Footer uses DesktopNav only.
+- `blog/TagPill.astro` — the canonical "tag brick" used by `/tags`, `/tagi`, the post listings, and the blog post footer. Props: `tag`, `href`, optional `count`, optional `title`. Lives in theme so all four call sites stay in sync.
+- `LogosGrid.astro` — paper-themed client logos grid used on the home page. Default set ships from each site's `public/logos/<brand>.svg`. 4 columns ≥`--sm`, 2 columns mobile.
+- Section heads (label + hint with a hairline underline) are followed by their grid/list with `margin-block-start: var(--gap-section-head)` (= `1.75rem`) — defined in `_breakpoints.css`. Use this token for any new section, don't reinvent the spacing.
 
 ## Bilingual / i18n patterns
 
@@ -102,7 +105,9 @@ Defined per-site in `src/content.config.ts`. Required frontmatter:
 ## Build pipeline gotchas
 
 - **Pagefind postbuild** runs `pagefind --site dist` after each site's build. It will fail loudly if `dist/` doesn't exist or is empty.
-- **OG image generation** (`packages/site-en/src/pages/og-image/[...slug].png.ts`) uses `satori` + `@resvg/resvg-js` with raw TTF fonts loaded as buffers. Only runs for posts without an explicit `ogImage`. PL site has **no** OG image route — Polish posts fall back to `/social-card.png`.
+- **OG image generation** uses `satori` + `@resvg/resvg-js` with raw TTF fonts loaded as buffers (paper-and-ink design). Two routes:
+  - `pages/social-card.png.ts` — default fallback (both sites). Generated at build time from `siteConfig` — bump the design here, not by checking in a static PNG.
+  - `pages/og-image/[...slug].png.ts` — per-post card. **EN only**; PL posts fall back to the default `/social-card.png`. Filling this gap on PL is tracked in `ROADMAP.md`.
 - **Webmention cache** (`packages/theme/src/utils/webmentions.ts`) reads/writes `.data/webmentions.json`; writes are fire-and-forget (no await) so failures are silent. Requires `WEBMENTION_API_KEY` (server, secret) + optional `WEBMENTION_URL`, `WEBMENTION_PINGBACK`. All three are optional and the build won't fail if missing.
 - `@resvg/resvg-js` is excluded from Vite's `optimizeDeps` — native binding; don't remove the exclusion.
 - `sharp` is pinned to `^0.34.2` via `pnpm.overrides`.
@@ -119,7 +124,7 @@ Defined per-site in `src/content.config.ts`. Required frontmatter:
 - `packages/theme/src/site.config.ts` and `packages/theme/src/content.config.ts` — unused shadows of per-site files. Same deal.
 - Post slug handling uses `post.id.split("/").pop()` — flat slugs only. Nested directories inside `src/content/post/` will collapse incorrectly.
 - `scripts/` folder is empty.
-- PL site has no OG image generation route (see build pipeline section); parity gap tracked in `ROADMAP.md`.
+- PL site has no per-post OG image generation route (see build pipeline section); parity gap tracked in `ROADMAP.md`. The default `/social-card.png` IS generated for PL.
 
 ## Deployment
 
@@ -129,3 +134,8 @@ Coolify builds each site separately:
 **PL** — Build: `pnpm install && pnpm build:pl` • Output: `packages/site-pl/dist` • Domain: `filipchrapek.pl`
 
 Nixpacks configs at repo root: `nixpacks.toml` (EN), `nixpacks-pl.toml` (PL). Domain mapping lives in Coolify, not in code.
+
+**Mikrus / Coolify build constraints** (learned the hard way 2026-04-25):
+- Astro v6 requires Node `>=22.12.0`. The Coolify-pinned nixpkgs only ships `nodejs_22 = 22.11.0`; nixpacks is set to `nodejs_23` to clear the floor. Don't downgrade.
+- Mikrus is OpenVZ — `swapon` returns "Operation not permitted". With ~1–2GB free RAM and other dev containers running, the default parallel `pnpm install` OOM-kills mid-install (exit 255, no stderr). nixpacks `[phases.install]` runs `pnpm install --frozen-lockfile --network-concurrency=2 --child-concurrency=1` to keep peak RSS in check. Slower install, but it finishes.
+- Deploy logs live in the `coolify-db` postgres: `SELECT logs FROM application_deployment_queues WHERE deployment_uuid='...';`. Useful when the helper container is gone.
