@@ -61,7 +61,7 @@ const labels = {
           </div>
         ) : (
           <div class="search-container">
-            <div id="cactus__search" />
+            <div id="site-search" />
           </div>
         )
       }
@@ -120,7 +120,7 @@ const labels = {
           baseUrl: import.meta.env.BASE_URL,
           bundlePath:
             import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
-          element: "#cactus__search",
+          element: "#site-search",
           showImages: false,
           showSubResults: true,
         });
@@ -326,7 +326,7 @@ const labels = {
 
   /* Pagefind theming — uses paper/ink tokens so it matches the rest of the
      site and adapts to light/dark via the existing color variables. */
-  :global(#cactus__search) {
+  :global(#site-search) {
     --pagefind-ui-scale: 0.8;
     --pagefind-ui-primary: var(--color-accent);
     --pagefind-ui-text: var(--color-ink);
@@ -338,11 +338,11 @@ const labels = {
     --pagefind-ui-font: inherit;
   }
 
-  :global(#cactus__search .pagefind-ui__form) {
+  :global(#site-search .pagefind-ui__form) {
     position: relative;
   }
 
-  :global(#cactus__search .pagefind-ui__search-input) {
+  :global(#site-search .pagefind-ui__search-input) {
     border-color: var(--color-hairline);
     background-color: var(--color-surface);
     color: var(--color-ink);
@@ -368,7 +368,7 @@ const labels = {
     }
   }
 
-  :global(#cactus__search .pagefind-ui__search-clear) {
+  :global(#site-search .pagefind-ui__search-clear) {
     inline-size: calc(40px * var(--pagefind-ui-scale));
     padding: 0;
     overflow: hidden;
@@ -398,8 +398,8 @@ const labels = {
     }
   }
 
-  :global(#cactus__search .pagefind-ui__message),
-  :global(#cactus__search .pagefind-ui__results-area > p) {
+  :global(#site-search .pagefind-ui__message),
+  :global(#site-search .pagefind-ui__results-area > p) {
     color: var(--color-text-dimmed);
     font-family: var(--font-mono);
     font-size: var(--text-micro);
@@ -407,17 +407,17 @@ const labels = {
     text-transform: uppercase;
   }
 
-  :global(#cactus__search .pagefind-ui__result) {
+  :global(#site-search .pagefind-ui__result) {
     padding-block: 0.875rem;
     border-block-start: 1px solid var(--color-hairline);
     border-block-end: 0;
   }
 
-  :global(#cactus__search .pagefind-ui__result:first-child) {
+  :global(#site-search .pagefind-ui__result:first-child) {
     border-block-start: 0;
   }
 
-  :global(#cactus__search .pagefind-ui__result-title) {
+  :global(#site-search .pagefind-ui__result-title) {
     color: var(--color-ink);
     font-size: var(--text-h5);
     font-weight: var(--font-medium);
@@ -425,7 +425,7 @@ const labels = {
     letter-spacing: var(--tracking-tight);
   }
 
-  :global(#cactus__search .pagefind-ui__result-link) {
+  :global(#site-search .pagefind-ui__result-link) {
     background: none;
     color: inherit;
     text-decoration: none;
@@ -438,14 +438,14 @@ const labels = {
     }
   }
 
-  :global(#cactus__search .pagefind-ui__result-excerpt) {
+  :global(#site-search .pagefind-ui__result-excerpt) {
     margin-block-start: 0.25rem;
     color: var(--color-text-subtle);
     font-size: var(--text-small);
     line-height: 1.5;
   }
 
-  :global(#cactus__search mark) {
+  :global(#site-search mark) {
     background-color: transparent;
     color: var(--color-accent);
     font-weight: var(--font-medium);

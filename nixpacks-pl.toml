@@ -2,7 +2,7 @@
 nixPkgs = ["nodejs_23", "pnpm"]
 
 [phases.install]
-cmds = ["pnpm install --frozen-lockfile"]
+cmds = ["pnpm install --frozen-lockfile --network-concurrency=2 --child-concurrency=1"]
 
 [phases.build]
 cmds = ["pnpm build:pl"]

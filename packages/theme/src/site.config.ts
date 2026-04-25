@@ -62,7 +62,7 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
   },
   themeCssSelector(theme, { styleVariants }) {
     // If one dark and one light theme are available
-    // generate theme CSS selectors compatible with cactus-theme dark mode switch
+    // generate theme CSS selectors that match the html[data-theme] dark/light switch
     if (styleVariants.length >= 2) {
       const baseTheme = styleVariants[0]?.theme;
       const altTheme = styleVariants.find(
