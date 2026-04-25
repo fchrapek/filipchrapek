@@ -96,6 +96,24 @@ export default defineConfig({
     },
   },
   vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          // Vite/Rollup sometimes derives chunk names containing `..` (e.g.
+          // shared chunks whose source paths resolve up a directory). Cloudflare
+          // (and some other proxies) normalize `..` as a path-traversal segment
+          // and 404 the request, leaving pages unstyled on first load.
+          // Fall back to a static name when the derived one would be unsafe.
+          assetFileNames: (assetInfo) => {
+            const name = assetInfo.names?.[0] ?? "";
+            if (/\.\./.test(name)) {
+              return "_astro/asset.[hash][extname]";
+            }
+            return "_astro/[name].[hash][extname]";
+          },
+        },
+      },
+    },
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
