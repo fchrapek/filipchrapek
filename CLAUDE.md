@@ -139,3 +139,16 @@ Nixpacks configs at repo root: `nixpacks.toml` (EN), `nixpacks-pl.toml` (PL). Do
 - Astro v6 requires Node `>=22.12.0`. The Coolify-pinned nixpkgs only ships `nodejs_22 = 22.11.0`; nixpacks is set to `nodejs_23` to clear the floor. Don't downgrade.
 - Mikrus is OpenVZ — `swapon` returns "Operation not permitted". With ~1–2GB free RAM and other dev containers running, the default parallel `pnpm install` OOM-kills mid-install (exit 255, no stderr). nixpacks `[phases.install]` runs `pnpm install --frozen-lockfile --network-concurrency=2 --child-concurrency=1` to keep peak RSS in check. Slower install, but it finishes.
 - Deploy logs live in the `coolify-db` postgres: `SELECT logs FROM application_deployment_queues WHERE deployment_uuid='...';`. Useful when the helper container is gone.
+
+## PR preview deployments (EN only, set up 2026-04-26)
+
+Vercel-style preview deploys are wired up for `filipchrapek.com`. PR #N → `https://N.filipchrapek.com`. Setup details:
+
+- **Coolify dashboard**: `https://coolify.filipchrapek.com` (was SSH-tunnel-only before).
+- **Source**: GitHub App `fchrapek-coolify` (was Public GitHub polling). Webhook delivery confirmed via App's "Recent Deliveries" tab on github.com.
+- **Wildcard DNS**: `*.filipchrapek.com` AAAA → Mikrus IPv6, proxied via Cloudflare.
+- **Cloudflare SSL mode**: stays **Flexible** zone-wide (Mikrus stack assumes this). Going Full breaks the apex because origin only listens on port 80.
+- **Coolify v4-beta quirk**: webhook arrives on `pull_request.opened` but Coolify does NOT auto-enqueue a deploy. You must hit **Preview Deployments → Load Pull Requests → Deploy** manually (or, when scripted, the equivalent API calls). Closing/merging the PR DOES auto-tear-down the preview correctly.
+- **Traefik patch on Mikrus** (load-bearing — don't lose it): the auto-generated `coolify-http` router in `/data/coolify/proxy/dynamic/coolify.yaml` had a `redirect-to-https` middleware that loops with CF Flexible. Backup file is `coolify.yaml.bak.before-redirect-fix`. If Coolify ever rewrites this file (e.g. on a settings change or major upgrade), the dashboard will start 307-looping again — re-apply the same `sed` (see `resources/coolify-pr-previews-on-mikrus/notes-en.md` for the exact command + reasoning).
+
+**PL site** (`filipchrapek.pl`) is still on Netlify — not yet migrated to Coolify. When it moves, the same recipe applies.
