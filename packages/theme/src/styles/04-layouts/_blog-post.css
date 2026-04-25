@@ -227,6 +227,16 @@
   line-height: var(--leading-base);
 }
 
+/* Post tag list — sits between the article body and the end divider. */
+.blog-post__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
 /* End-of-article divider */
 .blog-post__end {
   display: flex;

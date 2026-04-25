@@ -19,7 +19,6 @@ const pl = isPolish(siteConfig.lang);
 const labels = {
   draft: pl ? "(szkic)" : "(draft)",
   updated: pl ? "zaktualizowane" : "updated",
-  viewMore: pl ? "Zobacz więcej artykułów z tagiem" : "View more posts tagged",
 };
 
 const date = data.publishDate;
@@ -29,7 +28,6 @@ const dateParts = [
   String(date.getDate()).padStart(2, "0"),
 ];
 const firstTag = data.tags?.[0];
-const remainingTags = data.tags?.slice(1) ?? [];
 const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
 ---
 
@@ -60,7 +58,7 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
 {/* Subtitle */}
 {data.description && <p class="masthead__lede">{data.description}</p>}
 
-{/* Author / tags bar */}
+{/* Author bar */}
 <div class="masthead__byline">
   <div class="masthead__author">
     <span class="masthead__avatar" aria-hidden="true"></span>
@@ -71,18 +69,6 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
       </span>
     </div>
   </div>
-
-  {
-    remainingTags.length > 0 && (
-      <div class="masthead__tags" aria-label={labels.viewMore}>
-        {remainingTags.map((tag) => (
-          <a class="masthead__tag" data-pagefind-filter={`tag:${tag}`} href={tagHref(tag)}>
-            <span class="sr-only">{labels.viewMore}&nbsp;</span>#{tag}
-          </a>
-        ))}
-      </div>
-    )
-  }
 </div>
 
 {
@@ -210,27 +196,6 @@ const tagHref = (t: string) => (pl ? `/tagi/${t}/` : `/tags/${t}/`);
     font-size: var(--text-micro);
     letter-spacing: var(--tracking-mono-wide);
     text-transform: uppercase;
-  }
-
-  .masthead__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-inline-start: auto;
-  }
-
-  .masthead__tag {
-    color: var(--color-text-dimmed);
-    font-family: var(--font-mono);
-    font-size: var(--text-micro);
-    letter-spacing: var(--tracking-mono-wide);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s ease;
-  }
-
-  .masthead__tag:hover {
-    color: var(--color-accent);
   }
 
   .masthead__cover {

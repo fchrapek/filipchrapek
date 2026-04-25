@@ -3,6 +3,7 @@ import { type CollectionEntry, render } from "astro:content";
 
 import Masthead from "@/components/blog/Masthead.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
+import TagPill from "@/components/blog/TagPill.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import { siteConfig } from "@/site.config";
@@ -41,6 +42,8 @@ const labels = {
 };
 
 const sectionPath = pl ? "/artykuly/" : "/posts/";
+const tagBasePath = pl ? "/tagi/" : "/tags/";
+const postTags = post.data.tags ?? [];
 
 // TOC — keep h2 only (matches the design's numbered list cadence)
 const tocItems = headings
@@ -103,6 +106,21 @@ const wordCount = remarkPluginFrontmatter.wordCount as number | undefined;
           <slot />
           <WebMentions />
         </div>
+
+        {
+          postTags.length > 0 && (
+            <ul class="blog-post__tags">
+              {postTags.map((tag) => (
+                <li data-pagefind-filter={`tag:${tag}`}>
+                  <TagPill
+                    tag={tag}
+                    href={`${tagBasePath}${tag}/`}
+                  />
+                </li>
+              ))}
+            </ul>
+          )
+        }
 
         <div class="blog-post__end" aria-hidden="true">
           <span class="blog-post__end-line"></span>

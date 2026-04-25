@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import Pagination from "@/components/Paginator.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
+import TagPill from "@/components/blog/TagPill.astro";
 import { getAllPosts, getUniqueTagsWithCount, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
@@ -132,14 +133,12 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
         <ul class="tags-list">
           {uniqueTags.map(([tag, count]) => (
             <li>
-              <a
-                class="tag-pill"
+              <TagPill
+                tag={tag}
                 href={`/tagi/${tag}/`}
+                count={count}
                 title={`${t.viewAllPostsWithTag}: ${tag}`}
-              >
-                <span class="tag-pill__name">#{tag}</span>
-                <span class="tag-pill__count">{count}</span>
-              </a>
+              />
             </li>
           ))}
         </ul>
@@ -197,44 +196,6 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  .tag-pill {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.75rem;
-    padding: 0.625rem 0.875rem;
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-sm);
-    background: var(--color-surface);
-    color: var(--color-ink);
-    font-family: var(--font-mono);
-    font-size: var(--text-micro);
-    letter-spacing: var(--tracking-mono-wide);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      color 0.2s ease;
-  }
-
-  .tag-pill:hover {
-    border-color: var(--color-ink-40);
-    background: var(--color-surface-hover);
-    color: var(--color-accent);
-  }
-
-  .tag-pill__name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .tag-pill__count {
-    flex: none;
-    color: var(--color-text-dimmed);
   }
 
   .view-all {
