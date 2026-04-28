@@ -27,9 +27,8 @@ export const content = {
       title: "About",
       description: "I'm a starter theme for Astro.build",
     },
-    title: "About",
+    title: "Self-taught generalist, perpetually curious freelancer.",
     content: `
-      <p>Self-taught generalist, perpetually curious freelancer.</p>
       <p>For years now, my professional focus is going to web dev, design of all flavors, and productivity without the 'guru' BS.</p>
       <p>Contact me at <a href="mailto:hello@filipchrapek.com" target="_blank">hello@filipchrapek.com</a></p>
     `,
